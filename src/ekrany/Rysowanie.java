@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Rysowanie extends JPanel implements MouseListener, MouseMotionListener
 {
@@ -20,8 +21,8 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final int WIDTH = 1000;
-	private static final int HEIGHT = 800;
+	private static final int WIDTH = CONST.WIDTH;
+	private static final int HEIGHT = CONST.HEIGHT;
 
 	private boolean is_pressed = false;
 	private Point start, koniec;
@@ -49,6 +50,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	public JButton reset;
 	public JButton zapisz;
+	public JTextField kod;
 
 	Obliczenia obliczenia = new Obliczenia();
 
@@ -74,25 +76,29 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	public void dodajKontrolki()
 	{
-		JButton odcinek = new JButton("wybierz odcinek");
-		JButton okrag = new JButton("wybierz okr¹g");
+		JButton odcinek = new JButton("Odcinek");
+		JButton okrag = new JButton("£uk");
 		reset = new JButton("Resetuj");
 		zapisz = new JButton("Zapisz");
+		kod = new JTextField();
 
 		odcinek.setSize(CONST.btn_size);
 		okrag.setSize(CONST.btn_size);
 		reset.setSize(CONST.btn_size);
 		zapisz.setSize(CONST.btn_size);
+		kod.setSize(50,25);
 
 		odcinek.setLocation(0, 0);
-		okrag.setLocation(210, 0);
-		reset.setLocation(420, 0);
-		zapisz.setLocation(630, 0);
+		okrag.setLocation(110, 0);
+		reset.setLocation(220, 0);
+		zapisz.setLocation(WIDTH-100, HEIGHT-25);
+		kod.setLocation(WIDTH-150, HEIGHT-25);
 
 		this.add(odcinek);
 		this.add(okrag);
 		this.add(reset);
 		this.add(zapisz);
+		this.add(kod);
 
 		odcinek.addActionListener(new ActionListener()
 		{
@@ -120,12 +126,13 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-
+				_dlugosci.clear();
+				_katy.clear();
+				_typy_figur.clear();
 				int index_linia = 0;
 				int index_okrag = 0;
 				for (String s : figury_kolejnosc)
 				{
-					System.out.println(s + ": ");
 					switch (s)
 					{
 						case "linia":
@@ -143,11 +150,6 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 					}
 
-				}
-				int size = _dlugosci.size();
-				for (int i = 0; i < size; i++)
-				{
-					System.out.println(_dlugosci.get(i) + "  " + _katy.get(i));
 				}
 				panel_glowny.EkranRysowanieZapiszElement();
 
@@ -211,6 +213,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 			}
 
 			this.aktualny_kat.setText("");
+			this.aktualny_kat.setForeground(Color.GREEN);
 
 		}
 		repaint();
@@ -239,7 +242,6 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		linie_start.add(start);
 		linie_koniec.add(koniec);
 		int size = linie_start.size() - 1;
-		System.out.println();
 		this.last_kat = obliczenia.getKat(linie_start.get(size), linie_koniec.get(size), new Point(linie_koniec.get(size).x, linie_koniec.get(size).y + 90));
 		this.last_figura = "linia";
 	}
@@ -250,6 +252,8 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		int dlugosc = obliczenia.getDlugosc(start, koniec);
 
 		JLabel dlugosc_label = new JLabel(dlugosc + "");
+		dlugosc_label.setForeground(Color.GREEN);
+		
 		dlugosc_label.setLocation((start.x + koniec.x) / 2, (start.y + koniec.y) / 2);
 		dlugosc_label.setSize(25, 25);
 		this.dlugosc_label.add(dlugosc_label);
@@ -260,6 +264,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		{
 			int kat = obliczenia.getKat(linie_start.get(linie_start.size() - 2), start, koniec);
 			JLabel kat_label = new JLabel(kat_teraz + "");
+			kat_label.setForeground(Color.GREEN);
 			kat_label.setLocation(start.x, start.y);
 			kat_label.setSize(25, 25);
 			this.katy_label.add(kat_label);
@@ -323,6 +328,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 			this.aktualna_dlugosc.setText(dlugosc_teraz + "");
 			this.aktualna_dlugosc.setLocation((start.x + e.getX()) / 2, (start.y + e.getY()) / 2);
+			this.aktualna_dlugosc.setForeground(Color.GREEN);
 
 			this.aktualny_kat.setText("k¹t: " + kat_teraz + "");
 			this.aktualny_kat.setLocation((start.x + e.getX()) / 2 + 50, (start.y + e.getY()) / 2 + 50);
@@ -341,9 +347,9 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 	{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.fillRect(0, 0, WIDTH, HEIGHT);
 		g2d.setColor(Color.BLACK);
+		g2d.fillRect(0, 0, WIDTH, HEIGHT);
+		g2d.setColor(Color.YELLOW);
 		rysujLinie(g2d);
 		rysujOkregi(g2d);
 		rysujAktualne(g2d);

@@ -20,6 +20,7 @@ import dodatki.Luk;
 import ekrany.Formularz;
 import ekrany.Rysowanie;
 import ekrany.WyswietlFigure;
+import ekrany.Zamowienie;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
 
@@ -30,17 +31,19 @@ public class PanelGlowny extends JPanel
 	Rysowanie rys;
 	Formularz form;
 	WyswietlFigure wyswietlanie_figur;
+	Zamowienie zamowienie;
 
 	public PanelGlowny()
 	{
 		super(new GridLayout(1, 1));
 
 		panel = new JTabbedPane();
-
-		EkranFormularz();
-		EkranRysowanie();
-		EkranWyswietlFigure();
-
+		//EkranRysowanie();
+		//EkranFormularz();
+		
+		//EkranWyswietlFigure();
+		
+		EkranZamowienie();
 		this.add(panel);
 
 		panel.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -51,7 +54,7 @@ public class PanelGlowny extends JPanel
 		// Create and set up the window.
 		JFrame frame = new JFrame("Projekt Blacha");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.setResizable(false);
 		// Add content to the window.
 		frame.add(new PanelGlowny(), BorderLayout.CENTER);
 
@@ -60,6 +63,19 @@ public class PanelGlowny extends JPanel
 		frame.setVisible(true);
 	}
 
+	private void EkranZamowienie()
+	{
+		zamowienie = new Zamowienie();
+		panel.addTab("Zamówienie", zamowienie);
+		EkranZamowienieEvent();
+		panel.setSelectedComponent(zamowienie);
+	}
+
+	private void EkranZamowienieEvent()
+	{
+		
+	}
+	
 	private void EkranWyswietlFigure()
 	{
 		wyswietlanie_figur = new WyswietlFigure();
@@ -70,23 +86,14 @@ public class PanelGlowny extends JPanel
 	
 	private void EkranWyswietlFigureEvent()
 	{
-		wyswietlanie_figur.odswiez.addActionListener(new ActionListener()
-		{
-			
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				panel.remove(wyswietlanie_figur);
-				EkranWyswietlFigure();
-				
-			}
-		});
+		
 	}
 	
 	private void EkranFormularz()
 	{
 		form = new Formularz();
 		panel.addTab("Formularz", form);
+		panel.setSelectedComponent(form);
 	}
 
 	private void EkranRysowanie()
@@ -94,6 +101,7 @@ public class PanelGlowny extends JPanel
 		rys = new Rysowanie(this);
 		EkranRysowanieEvent();
 		panel.addTab("Rysowanie", rys);
+		panel.setSelectedComponent(rys);
 		
 	}
 
@@ -114,6 +122,7 @@ public class PanelGlowny extends JPanel
 	public void EkranRysowanieZapiszElement()
 	{
 		Figura fig = new Figura();
+		fig.setKod(Integer.parseInt(rys.kod.getText()));
 		int id_figury = fig.insert();
 		int size = rys._dlugosci.size();
 		for (int i = 0; i < size; i++)

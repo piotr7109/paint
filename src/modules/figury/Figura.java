@@ -42,7 +42,10 @@ public class Figura
 	{
 		this.czesci.add(czesc);
 	}
-
+	public String toString()
+	{
+		return Integer.toString(kod);
+	}
 	public int insert()
 	{
 		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();

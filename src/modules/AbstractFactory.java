@@ -33,7 +33,7 @@ abstract public class AbstractFactory
 			stmt = c.createStatement();
 			if(query=="")
 				query = String.format("SELECT * FROM %s where id=%d", tabela, id);
-			
+			System.out.println(query);
 			ResultSet rs = stmt.executeQuery( query );
 			while ( rs.next() ) 
 			{
