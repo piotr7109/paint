@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,6 +18,7 @@ import dane.FiguraZamowienie;
 import dodatki.CONST;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
+import modules.figury.FiguraLista;
 
 public class Zamowienie extends JPanel
 {
@@ -26,6 +31,7 @@ public class Zamowienie extends JPanel
 	{
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		getFigury();
 	}
 
 	protected void paintComponent(Graphics g)
@@ -78,6 +84,47 @@ public class Zamowienie extends JPanel
 		}
 	}
 
+	private JComboBox<Figura> figury_combo = new JComboBox<Figura>();
+
+	private void getFigury()
+	{
+		figury_combo.removeAllItems();
+		ArrayList<Object> ob;
+
+		FiguraLista f_lista = new FiguraLista();
+		ob = f_lista.getList();
+		int size = ob.size();
+
+		for (int i = 0; i < size; i++)
+		{
+			Figura fig = (Figura) ob.get(i);
+			figury_combo.addItem(fig);
+		}
+
+		figury_combo.setBounds(20, 120 + 265, 75, 25);
+		add(figury_combo);
+		JButton dodaj_figure = new JButton("Dodaj");
+		
+		dodaj_figure.setBounds(100, 120+265, 75, 25);
+		add(dodaj_figure);
+		
+		dodaj_figure.addActionListener(new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				FiguraZamowienie fig_zam = new FiguraZamowienie();
+				fig_zam.figura = (Figura)figury_combo.getSelectedItem();
+				figs_zam.add(fig_zam);
+				repaint();
+				
+			}
+		});
+	}
+
+	ArrayList<FiguraZamowienie> figs_zam = new ArrayList<FiguraZamowienie>();
+
 	private void ramkaWymiarMM(Graphics g)
 	{
 		int x = 10;
@@ -93,27 +140,28 @@ public class Zamowienie extends JPanel
 		{
 			JLabel element = new JLabel(_elem);
 			element.setSize(50, 20);
-			element.setLocation(x + 20 + i * 51, y + 20);
+			element.setLocation(x + 5 + i * 51, y + 20);
 			element.setForeground(Color.RED);
 			i++;
 			add(element);
 
 		}
-		ArrayList<FiguraZamowienie> figs_zam = getFigZam();
+		x = 10;
+		y = 120;
 
 		y = y + 40;
-		x += 20;
+		x += 10;
 		int el_width = 30;
 		for (FiguraZamowienie fig_zam : figs_zam)
 		{
-			JTextField pozycja = new JTextField(fig_zam.pozycja+"");
-			JTextField ilosc_sztuk = new JTextField(fig_zam.ilosc_sztuk+"");
-			JTextField srednica = new JTextField(fig_zam.srednica+"");
+			JTextField pozycja = new JTextField(fig_zam.pozycja + "");
+			JTextField ilosc_sztuk = new JTextField(fig_zam.ilosc_sztuk + "");
+			JTextField srednica = new JTextField(fig_zam.srednica + "");
 			JLabel fig = new JLabel(fig_zam.figura.getKod() + "");
-			JTextField kolor = new JTextField(fig_zam.kolor+"");
-			JTextField metrial = new JTextField(fig_zam.material+"");
+			JTextField kolor = new JTextField(fig_zam.kolor + "");
+			JTextField metrial = new JTextField(fig_zam.material + "");
 			// JTextField mat?? = new JTextField(fig_zam.mat??);
-			JTextField sworzen = new JTextField(fig_zam.sworzen+"");
+			JTextField sworzen = new JTextField(fig_zam.sworzen + "");
 
 			pozycja.setBounds(x += 50, y, el_width, 20);
 			ilosc_sztuk.setBounds(x += 50, y, el_width, 20);
@@ -133,7 +181,7 @@ public class Zamowienie extends JPanel
 			metrial.setBackground(Color.BLACK);
 			// mat??.setBackground(Color.BLACK);
 			sworzen.setBackground(Color.BLACK);
-			
+
 			pozycja.setForeground(Color.WHITE);
 			ilosc_sztuk.setForeground(Color.WHITE);
 			srednica.setForeground(Color.WHITE);
@@ -143,7 +191,6 @@ public class Zamowienie extends JPanel
 			// mat??.setForeground(Color.WHITE);
 			sworzen.setForeground(Color.WHITE);
 			
-
 			add(pozycja);
 			add(ilosc_sztuk);
 			add(srednica);
@@ -152,7 +199,7 @@ public class Zamowienie extends JPanel
 			add(metrial);
 			// add(mat??);
 			add(sworzen);
-			x = 30;
+			x = 20;
 			y += 20;
 		}
 

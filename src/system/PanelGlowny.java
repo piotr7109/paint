@@ -38,10 +38,10 @@ public class PanelGlowny extends JPanel
 		super(new GridLayout(1, 1));
 
 		panel = new JTabbedPane();
-		//EkranRysowanie();
-		//EkranFormularz();
+		EkranRysowanie();
+		EkranFormularz();
 		
-		//EkranWyswietlFigure();
+		EkranWyswietlFigure();
 		
 		EkranZamowienie();
 		this.add(panel);
