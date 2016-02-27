@@ -2,12 +2,14 @@ package dane;
 
 import java.util.ArrayList;
 
-import modules.figury.Figura;
 
 public class ZamowienieDane
 {
 	
 	public static ArrayList<FiguraZamowienie> figury = new ArrayList<FiguraZamowienie>();
+	public static ArrayList<FiguraKontrolki> f_kontrolki = new ArrayList<FiguraKontrolki>();
+	
+	public static ArrayList<CzescKontolki> czesc_kontrolki = new ArrayList<CzescKontolki>();
 	
 	//klient - dane
 	public static String kod;

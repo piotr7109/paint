@@ -21,4 +21,11 @@ public class FiguraFactory extends AbstractFactory
 		
 		return fig;
 	}
+	public Figura getFiguraByKod(int kod)
+	{
+		query = String.format("SELECT * FROM %s where kod=%d", tabela, kod);
+		Figura fig = (Figura)getObject();
+		
+		return fig;
+	}
 }

@@ -1,6 +1,9 @@
 package inne;
 import java.sql.ResultSet;
 
+import modules.figury.Figura;
+import modules.figury.FiguraFactory;
+
 
 public class Test {
 
@@ -10,10 +13,9 @@ public class Test {
 	public static void main(String[] args) 
 	{
 		
-		Zaa za = new Zaa();
-		za.setAap(3);
-		za.setObject();
-		System.out.println(za.getNazwa());
+		FiguraFactory f_factory = new FiguraFactory();
+		Figura f = f_factory.getFiguraByKod(9);
+		System.out.println(f.getId());
 		
 
 	}

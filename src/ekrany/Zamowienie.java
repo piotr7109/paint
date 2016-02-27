@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -13,9 +17,15 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import dane.CzescKontolki;
+import dane.FiguraKontrolki;
 import dane.FiguraZamowienie;
+import dane.ZamowienieDane;
 import dodatki.CONST;
+import modules.czesci.Czesc;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 import modules.figury.FiguraLista;
@@ -104,26 +114,198 @@ public class Zamowienie extends JPanel
 		figury_combo.setBounds(20, 120 + 265, 75, 25);
 		add(figury_combo);
 		JButton dodaj_figure = new JButton("Dodaj");
-		
-		dodaj_figure.setBounds(100, 120+265, 75, 25);
+
+		dodaj_figure.setBounds(100, 120 + 265, 75, 25);
 		add(dodaj_figure);
-		
+
 		dodaj_figure.addActionListener(new ActionListener()
 		{
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				FiguraZamowienie fig_zam = new FiguraZamowienie();
-				fig_zam.figura = (Figura)figury_combo.getSelectedItem();
-				figs_zam.add(fig_zam);
+				fig_zam.figura = (Figura) figury_combo.getSelectedItem();
+				ZamowienieDane.figury.add(fig_zam);
+				dodajFigure();
 				repaint();
-				
+
 			}
 		});
 	}
 
-	ArrayList<FiguraZamowienie> figs_zam = new ArrayList<FiguraZamowienie>();
+	private void dodajFigure()
+	{
+		int index = ZamowienieDane.f_kontrolki.size();
+		int x = 20;
+		int y = 160;
+		int el_width = 30;
+
+		JTextField pozycja = new JTextField("");
+		JTextField ilosc_sztuk = new JTextField("");
+		JTextField srednica = new JTextField("");
+		JTextField fig = new JTextField("");
+		JTextField kolor = new JTextField("");
+		JTextField material = new JTextField("");
+		// JTextField mat?? = new JTextField(fig_zam.mat??);
+		JTextField sworzen = new JTextField("");
+
+		pozycja.setBounds(x += 50, y, el_width, 20);
+		ilosc_sztuk.setBounds(x += 50, y, el_width, 20);
+		srednica.setBounds(x += 50, y, el_width, 20);
+		fig.setBounds(x += 50, y, el_width, 20);
+		kolor.setBounds(x += 50, y, el_width, 20);
+		material.setBounds(x += 50, y, el_width, 20);
+		// mat??.setBounds(x += 50, y, el_width, 20);
+		x += 50;
+		sworzen.setBounds(x += 50, y, el_width, 20);
+
+		pozycja.setBackground(Color.BLACK);
+		ilosc_sztuk.setBackground(Color.BLACK);
+		srednica.setBackground(Color.BLACK);
+		fig.setBackground(Color.BLACK);
+		kolor.setBackground(Color.BLACK);
+		material.setBackground(Color.BLACK);
+		// mat??.setBackground(Color.BLACK);
+		sworzen.setBackground(Color.BLACK);
+
+		pozycja.setForeground(Color.WHITE);
+		ilosc_sztuk.setForeground(Color.WHITE);
+		srednica.setForeground(Color.WHITE);
+		fig.setForeground(Color.WHITE);
+		kolor.setForeground(Color.WHITE);
+		material.setForeground(Color.WHITE);
+		// mat??.setForeground(Color.WHITE);
+		sworzen.setForeground(Color.WHITE);
+
+		fig.addFocusListener(this.zmianaFigury(index));
+
+		pozycja.addFocusListener(this.wyborFigury(index));
+		ilosc_sztuk.addFocusListener(this.wyborFigury(index));
+		srednica.addFocusListener(this.wyborFigury(index));
+		fig.addFocusListener(this.wyborFigury(index));
+		kolor.addFocusListener(this.wyborFigury(index));
+		material.addFocusListener(this.wyborFigury(index));
+		// mat??.addFocusListener(this.wyborFigury(index));
+		sworzen.addFocusListener(this.wyborFigury(index));
+
+		add(pozycja);
+		add(ilosc_sztuk);
+		add(srednica);
+		add(fig);
+		add(kolor);
+		add(material);
+		// add(mat??);
+		add(sworzen);
+		x = 20;
+		y += 20;
+
+		FiguraKontrolki f_kontrolki = new FiguraKontrolki();
+
+		f_kontrolki.pozycja = pozycja;
+		f_kontrolki.ilosc_sztuk = ilosc_sztuk;
+		f_kontrolki.srednica = srednica;
+		f_kontrolki.fig = fig;
+		f_kontrolki.kolor = kolor;
+		f_kontrolki.material = material;
+		// f_kontrolki.ma?? = ma??;
+		f_kontrolki.sworzen = sworzen;
+		ZamowienieDane.f_kontrolki.add(f_kontrolki);
+	}
+
+	private FocusListener wyborFigury(final int index)
+	{
+		return new FocusListener()
+		{
+
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+			}
+
+			@Override
+			public void focusGained(FocusEvent e)
+			{
+				figura = ZamowienieDane.figury.get(index).figura;
+				
+				int x_bok = 840;
+				int x_kat = 930;
+				int y = 120;
+				
+				for(CzescKontolki c_kontrolki: ZamowienieDane.czesc_kontrolki )
+				{
+					remove(c_kontrolki.bok);
+					remove(c_kontrolki.kat);
+				}
+				
+				ZamowienieDane.czesc_kontrolki.clear();
+				if (figura != null)
+				{
+					System.out.println("Czesi:"+ figura.getCzesci().size()+" "+figura.getId());
+					for (Czesc czesc : figura.getCzesci())
+					{
+						y += 25;
+						JTextField bok_text = new JTextField(czesc.getDlugosc()+"");
+						JTextField kat_text = new JTextField(czesc.getKat()+"");
+
+						bok_text.setBounds(x_bok, y, 50, 20);
+						kat_text.setBounds(x_kat, y, 50, 20);
+						
+						add(bok_text);
+						add(kat_text);
+						
+						CzescKontolki c_kontrolka = new CzescKontolki();
+						c_kontrolka.bok = bok_text;
+						c_kontrolka.kat = kat_text;
+						
+						ZamowienieDane.czesc_kontrolki.add(c_kontrolka);
+
+					}
+
+				}
+				
+				repaint();
+
+			}
+		};
+	}
+
+	private FocusListener zmianaFigury(final int index)
+	{
+		return new FocusListener()
+		{
+
+			@Override
+			public void focusLost(FocusEvent arg0)
+			{
+				FiguraKontrolki f_kontrolki = ZamowienieDane.f_kontrolki.get(index);
+				FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
+
+				FiguraFactory f_factory = new FiguraFactory();
+				Figura figura = null;
+				if(!f_kontrolki.fig.getText().equals(""))
+				{
+					figura = f_factory.getFiguraByKod(Integer.parseInt(f_kontrolki.fig.getText()));
+				}
+				
+				if (figura != null)
+				{
+					figura.getCzesci();
+					f_zamowienie.figura = figura;
+				}
+				else
+				{
+					// ERROR nie ma w bazie
+				}
+
+			}
+
+			@Override
+			public void focusGained(FocusEvent arg0)
+			{
+			}
+		};
+	}
 
 	private void ramkaWymiarMM(Graphics g)
 	{
@@ -149,59 +331,6 @@ public class Zamowienie extends JPanel
 		x = 10;
 		y = 120;
 
-		y = y + 40;
-		x += 10;
-		int el_width = 30;
-		for (FiguraZamowienie fig_zam : figs_zam)
-		{
-			JTextField pozycja = new JTextField(fig_zam.pozycja + "");
-			JTextField ilosc_sztuk = new JTextField(fig_zam.ilosc_sztuk + "");
-			JTextField srednica = new JTextField(fig_zam.srednica + "");
-			JLabel fig = new JLabel(fig_zam.figura.getKod() + "");
-			JTextField kolor = new JTextField(fig_zam.kolor + "");
-			JTextField metrial = new JTextField(fig_zam.material + "");
-			// JTextField mat?? = new JTextField(fig_zam.mat??);
-			JTextField sworzen = new JTextField(fig_zam.sworzen + "");
-
-			pozycja.setBounds(x += 50, y, el_width, 20);
-			ilosc_sztuk.setBounds(x += 50, y, el_width, 20);
-			srednica.setBounds(x += 50, y, el_width, 20);
-			fig.setBounds(x += 50, y, el_width, 20);
-			kolor.setBounds(x += 50, y, el_width, 20);
-			metrial.setBounds(x += 50, y, el_width, 20);
-			// mat??.setBounds(x += 50, y, el_width, 20);
-			x += 50;
-			sworzen.setBounds(x += 50, y, el_width, 20);
-
-			pozycja.setBackground(Color.BLACK);
-			ilosc_sztuk.setBackground(Color.BLACK);
-			srednica.setBackground(Color.BLACK);
-			fig.setBackground(Color.BLACK);
-			kolor.setBackground(Color.BLACK);
-			metrial.setBackground(Color.BLACK);
-			// mat??.setBackground(Color.BLACK);
-			sworzen.setBackground(Color.BLACK);
-
-			pozycja.setForeground(Color.WHITE);
-			ilosc_sztuk.setForeground(Color.WHITE);
-			srednica.setForeground(Color.WHITE);
-			fig.setForeground(Color.WHITE);
-			kolor.setForeground(Color.WHITE);
-			metrial.setForeground(Color.WHITE);
-			// mat??.setForeground(Color.WHITE);
-			sworzen.setForeground(Color.WHITE);
-			
-			add(pozycja);
-			add(ilosc_sztuk);
-			add(srednica);
-			add(fig);
-			add(kolor);
-			add(metrial);
-			// add(mat??);
-			add(sworzen);
-			x = 20;
-			y += 20;
-		}
 
 	}
 
@@ -265,6 +394,10 @@ public class Zamowienie extends JPanel
 		kat.setForeground(Color.PINK);
 		add(bok);
 		add(kat);
+
+		////
+		
+
 	}
 
 	private void ramkaUwagi(Graphics g)
@@ -312,5 +445,4 @@ public class Zamowienie extends JPanel
 		add(ciezar);
 		add(calk_ciezar);
 	}
-
 }

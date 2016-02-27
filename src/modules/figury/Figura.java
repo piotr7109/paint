@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import dodatki.PostgreSQLJDBC;
 import modules.czesci.Czesc;
+import modules.czesci.CzescLista;
 
 public class Figura
 {
@@ -35,8 +36,20 @@ public class Figura
 	}
 	public ArrayList<Czesc> getCzesci()
 	{
-		
+		setCzesci();
 		return this.czesci;
+	}
+	public void setCzesci()
+	{
+		this.czesci.clear();
+		
+		CzescLista c_lista = new CzescLista();
+		ArrayList<Object> lista_czesci = c_lista.getCzesci(this.id);
+		int size = lista_czesci.size();
+		for(int i =0; i< size ;i++)
+		{
+			this.czesci.add((Czesc)lista_czesci.get(i));
+		}
 	}
 	public void addCzesc(Czesc czesc)
 	{
