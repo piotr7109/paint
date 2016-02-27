@@ -288,8 +288,8 @@ public class WyswietlFigure extends JPanel
 	private void rysujLinie(Graphics g, Czesc c, int poprz_kat)
 	{
 
-		int x = (int) (Math.cos(radians(c.getKat() + poprz_kat)) * c.getDlugosc());
-		int y = (int) (Math.sin(radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+		int x = (int) (Math.cos(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+		int y = (int) (Math.sin(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
 		last_kat = c.getKat() + poprz_kat;
 
 		g.drawLine(_x, _y, x + _x, y + _y);
@@ -298,10 +298,6 @@ public class WyswietlFigure extends JPanel
 		_y += y;
 	}
 
-	private double radians(int kat)
-	{
-
-		return (kat * Math.PI / 180);
-	}
+	
 
 }

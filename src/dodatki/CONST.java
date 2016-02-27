@@ -19,4 +19,9 @@ public class CONST
 		
 		return tytul;
 	}
+	public static double radians(int kat)
+	{
+
+		return (kat * Math.PI / 180);
+	}
 }
