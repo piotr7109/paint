@@ -67,6 +67,8 @@ public class PanelGlowny extends JPanel
 	{
 		zamowienie = new Zamowienie();
 		panel.addTab("Zamówienie", zamowienie);
+		panel.addKeyListener(zamowienie);
+		panel.setFocusable(true);
 		EkranZamowienieEvent();
 		panel.setSelectedComponent(zamowienie);
 	}

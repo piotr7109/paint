@@ -23,6 +23,10 @@ import modules.figury.FiguraLista;
 
 public class WyswietlFigure extends JPanel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int WIDTH = CONST.WIDTH;
 	private static final int HEIGHT = CONST.HEIGHT;
 
@@ -238,7 +242,7 @@ public class WyswietlFigure extends JPanel
 	private void rysujOkregi(Graphics g, Czesc c, int poprz_kat)
 	{
 
-		int rozmiar = c.getDlugosc();// (int)(2*(c.getDlugosc()*180)/(c.getKat()*Math.PI));
+		int rozmiar =  (int)((c.getDlugosc()*360)/(c.getKat()*Math.PI));
 		g.drawOval(_x, _y, 5, 5);
 
 		Point p = new Point(_x, _y);

@@ -4,26 +4,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.geom.AffineTransform;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import dane.CzescKontolki;
-import dane.FiguraKontrolki;
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.CONST;
@@ -35,12 +28,11 @@ import ekrany.zamowienie.RamkaIlosc;
 import ekrany.zamowienie.RamkaUwagi;
 import ekrany.zamowienie.RamkaWymiarCM;
 import ekrany.zamowienie.RamkaWymiarMM;
-import modules.czesci.Czesc;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 import modules.figury.FiguraLista;
 
-public class Zamowienie extends JPanel
+public class Zamowienie extends JPanel implements KeyListener
 {
 	private static final int WIDTH = CONST.WIDTH;
 	private static final int HEIGHT = CONST.HEIGHT;
@@ -54,6 +46,7 @@ public class Zamowienie extends JPanel
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		getFigury();
+		this.addKeyListener(this);
 	}
 
 	protected void paintComponent(Graphics g)
@@ -79,8 +72,6 @@ public class Zamowienie extends JPanel
 		RamkaWymiarCM.ramkaWymiarCM(g, this);
 
 	}
-
-	
 
 	private JComboBox<Figura> figury_combo = new JComboBox<Figura>();
 
@@ -122,10 +113,6 @@ public class Zamowienie extends JPanel
 		});
 	}
 
-	
-
-	
-
 	private ArrayList<FiguraZamowienie> getFigZam()
 	{
 		ArrayList<FiguraZamowienie> figs_zam = new ArrayList<FiguraZamowienie>();
@@ -148,15 +135,62 @@ public class Zamowienie extends JPanel
 		return figs_zam;
 	}
 
-	
+	public int z_x = -1;
+	public int z_y = 0;
 
-	
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		if (z_x >= 0)
+		{
+			switch (e.getKeyCode())
+			{
+				case 40:
+					if (z_x + 1 < ZamowienieDane.f_kontrolki.size())
+					{
+						z_x++;
+						ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+					}
+					break;
+				case 38:
+					if (z_x > 0)
+					{
+						z_x--;
+						ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+					}
+					break;
+				case 39:
+					if (z_y + 1 < 8)
+					{
+						z_y++;
+						ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+					}
+					break;
 
-	
+				case 37:
+					if (z_y > 0)
+					{
+						z_y--;
+						ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+					}
+					break;
+			}
+		}
+		System.out.println(z_x + "  " + ZamowienieDane.f_kontrolki.size());
+	}
 
-	
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		// TODO Auto-generated method stub
 
-	
+	}
 
-	
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
 }

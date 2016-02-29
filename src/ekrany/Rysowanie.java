@@ -142,7 +142,9 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 							index_linia++;
 							break;
 						case "okrag":
-							_dlugosci.add(okregi.get(index_okrag).rozmiar);
+							double rozmiar = (okregi.get(index_okrag).rozmiar*Math.PI*okregi.get(index_okrag).kat2/360);
+							System.out.println(okregi.get(index_okrag).rozmiar+" "+okregi.get(index_okrag).kat2 );
+							_dlugosci.add((int)rozmiar);
 							_katy.add(okregi.get(index_okrag).kat2);
 							_typy_figur.add("okrag");
 							index_okrag++;
