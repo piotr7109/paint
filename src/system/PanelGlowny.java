@@ -40,9 +40,9 @@ public class PanelGlowny extends JPanel
 		panel = new JTabbedPane();
 		EkranRysowanie();
 		EkranFormularz();
-		
+
 		EkranWyswietlFigure();
-		
+
 		EkranZamowienie();
 		this.add(panel);
 
@@ -75,9 +75,9 @@ public class PanelGlowny extends JPanel
 
 	private void EkranZamowienieEvent()
 	{
-		
+
 	}
-	
+
 	private void EkranWyswietlFigure()
 	{
 		wyswietlanie_figur = new WyswietlFigure();
@@ -85,12 +85,12 @@ public class PanelGlowny extends JPanel
 		EkranWyswietlFigureEvent();
 		panel.setSelectedComponent(wyswietlanie_figur);
 	}
-	
+
 	private void EkranWyswietlFigureEvent()
 	{
-		
+
 	}
-	
+
 	private void EkranFormularz()
 	{
 		form = new Formularz();
@@ -104,7 +104,7 @@ public class PanelGlowny extends JPanel
 		EkranRysowanieEvent();
 		panel.addTab("Rysowanie", rys);
 		panel.setSelectedComponent(rys);
-		
+
 	}
 
 	private void EkranRysowanieEvent()
@@ -137,8 +137,8 @@ public class PanelGlowny extends JPanel
 			czesc.insert();
 		}
 
-		//panel.remove(rys);
-		//EkranRysowanie();
+		// panel.remove(rys);
+		// EkranRysowanie();
 	}
 
 	public static void main(String[] args)
