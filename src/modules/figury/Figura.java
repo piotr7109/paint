@@ -36,7 +36,7 @@ public class Figura
 	}
 	public ArrayList<Czesc> getCzesci()
 	{
-		setCzesci();
+		
 		return this.czesci;
 	}
 	public void setCzesci()

@@ -73,84 +73,109 @@ public class Zamowienie extends JPanel implements KeyListener
 
 	}
 
-	//private JComboBox<Figura> figury_combo = new JComboBox<Figura>();
 
 	private void getFigury()
 	{
-		/*
-		 * figury_combo.removeAllItems(); ArrayList<Object> ob;
-		 * 
-		 * FiguraLista f_lista = new FiguraLista(); ob = f_lista.getList(); int
-		 * size = ob.size();
-		 * 
-		 * for (int i = 0; i < size; i++) { Figura fig = (Figura) ob.get(i);
-		 * figury_combo.addItem(fig); }
-		 * 
-		 * figury_combo.setBounds(20, 120 + 265, 75, 25); add(figury_combo);
-		 * JButton dodaj_figure = new JButton("Dodaj");
-		 * 
-		 * dodaj_figure.setBounds(100, 120 + 265, 75, 25); add(dodaj_figure);
-		 * 
-		 * dodaj_figure.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * FiguraZamowienie fig_zam = new FiguraZamowienie(); fig_zam.figura =
-		 * (Figura) figury_combo.getSelectedItem();
-		 * ZamowienieDane.figury.add(fig_zam);
-		 * DodawanieFigur.dodajFigure(zamowienie); repaint();
-		 * 
-		 * } });
-		 */
+
 		DodawanieFigur.dodajFigure(this);
 
 	}
 
 	public int z_x = -1;
 	public int z_y = 1;
+	public int c_x = -1;
+	public int c_y = 0;
+	public String tryb = "figury";
 
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		if (z_x >= 0)
+		if (tryb.equals("figury"))
+		{
+			if (z_x >= 0)
+			{
+				switch (e.getKeyCode())
+				{
+					case 40:
+						if (z_x + 1 < ZamowienieDane.f_kontrolki.size())
+						{
+							z_x++;
+
+						}
+						else
+						{
+							DodawanieFigur.dodajFigure(this);
+						}
+						break;
+					case 38:
+						if (z_x > 0)
+						{
+							z_x--;
+						}
+						break;
+					case 39:
+						if (z_y + 1 < 8)
+						{
+							z_y++;
+						}
+						break;
+
+					case 37:
+						if (z_y > 1)
+						{
+							z_y--;
+						}
+						break;
+				}
+				RamkaWymiarMM.przewinElementy(this, ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y]);
+				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+				if (e.getKeyCode() == 112) // F1
+				{
+					tryb = "czesci";
+					ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
+				}
+
+			}
+		}
+		else if (tryb.equals("czesci"))
 		{
 			switch (e.getKeyCode())
 			{
 				case 40:
-					if (z_x + 1 < ZamowienieDane.f_kontrolki.size())
+					if (c_x + 1 < ZamowienieDane.figury.get(z_x).figura.getCzesci().size())
 					{
-						z_x++;
-						
-					}
-					else
-					{
-						DodawanieFigur.dodajFigure(this);
+						c_x++;
+
 					}
 					break;
 				case 38:
-					if (z_x > 0)
+					if (c_x > 0)
 					{
-						z_x--;
+						c_x--;
 					}
 					break;
 				case 39:
-					if (z_y + 1 < 8)
+					if (c_y + 1 < 2)
 					{
-						z_y++;
+						c_y++;
 					}
 					break;
 
 				case 37:
-					if (z_y > 1)
+					if (c_y > 0)
 					{
-						z_y--;
+						c_y--;
 					}
 					break;
 			}
-			RamkaWymiarMM.przewinElementy(this, ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y]);
-			ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
-			
+			ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
+			if (e.getKeyCode() == 112) // F1
+			{
+				tryb = "figury";
+				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+			}
 		}
-		System.out.println(z_x + "  " + ZamowienieDane.f_kontrolki.size());
+
 	}
 
 	@Override
