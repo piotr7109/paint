@@ -3,7 +3,9 @@ package dodatki;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class CONST
 {
@@ -23,5 +25,17 @@ public class CONST
 	{
 
 		return (kat * Math.PI / 180);
+	}
+	public static void setKoloryAktywny(JTextField text_field)
+	{
+		text_field.setBorder(BorderFactory.createEmptyBorder());
+		text_field.setForeground(Color.RED);
+		text_field.setBackground(Color.YELLOW);
+	}
+	public static void setKoloryNieaktywny(JTextField text_field)
+	{
+		text_field.setBorder(BorderFactory.createEmptyBorder());
+		text_field.setForeground(Color.GREEN);
+		text_field.setBackground(Color.GRAY);
 	}
 }

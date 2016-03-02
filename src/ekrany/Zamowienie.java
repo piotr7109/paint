@@ -4,20 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.CONST;
 import ekrany.zamowienie.DodawanieFigur;
@@ -29,8 +20,6 @@ import ekrany.zamowienie.RamkaUwagi;
 import ekrany.zamowienie.RamkaWymiarCM;
 import ekrany.zamowienie.RamkaWymiarMM;
 import modules.figury.Figura;
-import modules.figury.FiguraFactory;
-import modules.figury.FiguraLista;
 
 public class Zamowienie extends JPanel implements KeyListener
 {
@@ -73,10 +62,9 @@ public class Zamowienie extends JPanel implements KeyListener
 
 	}
 
-
 	private void getFigury()
 	{
-
+		DodawanieFigur.setDefaultFigura();
 		DodawanieFigur.dodajFigure(this);
 
 	}
