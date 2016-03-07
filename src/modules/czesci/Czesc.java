@@ -8,8 +8,20 @@ public class Czesc
 	private int id_figury;
 	private String typ;
 
-	
-	
+	public Czesc()
+	{
+
+	}
+
+	public Czesc(Czesc c)
+	{
+		id = c.getId();
+		dlugosc = c.getDlugosc();
+		kat = c.getKat();
+		id_figury = c.getIdFigury();
+		typ = c.getTyp();
+	}
+
 	public int getId()
 	{
 		return id;
@@ -49,7 +61,6 @@ public class Czesc
 	{
 		this.typ = typ;
 	}
-
 
 	public int getIdFigury()
 	{

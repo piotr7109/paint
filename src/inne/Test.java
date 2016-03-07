@@ -1,6 +1,7 @@
 package inne;
 import java.sql.ResultSet;
 
+import dodatki.FocusListeners;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 

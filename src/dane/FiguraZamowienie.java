@@ -13,17 +13,19 @@ public class FiguraZamowienie
 	public int material;
 	// public int mat??
 	public int sworzen;
+	public double waga;
 
 	public FiguraZamowienie()
 	{
 		figura = null;
 		pozycja = "0";
 		ilosc_sztuk = 0;
-		srednica = 0;
+		srednica = 6;
 		fig = 0;
 		kolor = "0";
 		material = 0;
-		sworzen = 0;
+		sworzen = 32;
+		waga = 0.222;
 	}
 
 }

@@ -34,8 +34,17 @@ public class Zamowienie extends JPanel implements KeyListener
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
 		this.addKeyListener(this);
-		getFigury();
 
+		init();
+
+	}
+
+	private void init()
+	{
+		DodawanieFigur.setDefaultFigura();
+		DodawanieFigur.dodajFigure(this);
+
+		RamkaWymiarCM.init(this);
 	}
 
 	protected void paintComponent(Graphics g)
@@ -62,18 +71,12 @@ public class Zamowienie extends JPanel implements KeyListener
 
 	}
 
-	private void getFigury()
-	{
-		DodawanieFigur.setDefaultFigura();
-		DodawanieFigur.dodajFigure(this);
-
-	}
-
 	public int z_x = -1;
 	public int z_y = 1;
 	public int c_x = -1;
 	public int c_y = 0;
-	public String tryb = "figury";
+	public String tryb = "figury"; // figury/czesci
+	public boolean tryb_rzeczywisty = false; // programowa/rzeczywista
 
 	@Override
 	public void keyPressed(KeyEvent e)
@@ -102,7 +105,7 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						break;
 					case 39:
-						if (z_y + 1 < 8)
+						if (z_y + 1 < 7)
 						{
 							z_y++;
 						}
@@ -162,6 +165,20 @@ public class Zamowienie extends JPanel implements KeyListener
 				tryb = "figury";
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
 			}
+		}
+		switch (e.getKeyCode())
+		{
+			case 113:
+				if (tryb_rzeczywisty)
+				{
+					tryb_rzeczywisty = false;
+				}
+				else
+				{
+					tryb_rzeczywisty = true;
+				}
+				
+				break;
 		}
 
 	}
