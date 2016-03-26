@@ -63,7 +63,7 @@ public class RamkaFigura
 					case "linia":
 						if (index > 0)
 						{
-							rysujLinie(g, czesc, last_kat + 180);
+							rysujLinie(g, czesc, last_kat);
 						}
 						else
 						{

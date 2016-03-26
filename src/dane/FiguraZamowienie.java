@@ -27,5 +27,17 @@ public class FiguraZamowienie
 		sworzen = 32;
 		waga = 0.222;
 	}
+	public FiguraZamowienie(FiguraZamowienie f_zam)
+	{
+		this.figura = f_zam.figura;
+		this.pozycja = f_zam.pozycja;
+		this.ilosc_sztuk = f_zam.ilosc_sztuk;
+		this.srednica = f_zam.srednica;
+		this.fig = f_zam.fig;
+		this.kolor = f_zam.kolor;
+		this.material = f_zam.material;
+		this.sworzen = f_zam.sworzen;
+		this.waga = f_zam.waga;
+	}
 
 }

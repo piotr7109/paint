@@ -4,8 +4,10 @@ import java.awt.Color;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dane.FiguraKontrolki;
@@ -26,7 +28,7 @@ public class DodawanieFigur
 	{
 
 		FiguraFactory fig_factory = new FiguraFactory();
-		default_figura = (Figura) fig_factory.getFiguraByKod(1);
+		default_figura = (Figura) fig_factory.getFiguraByKod(12);
 		default_figura.setCzesci();
 	}
 
@@ -39,23 +41,40 @@ public class DodawanieFigur
 
 	}
 
-	public static void dodajFigure(Zamowienie panel)
+	public static void dodajFigure(Zamowienie panel, boolean default_figura)
 	{
-		ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
+		FiguraKontrolki f_kontrolki = new FiguraKontrolki();
+		f_kontrolki.index = ZamowienieDane.f_kontrolki.size();
 
-		int index = ZamowienieDane.f_kontrolki.size();
+		if (default_figura == true)
+		{
+			ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
+		}
+		int index = f_kontrolki.index;
 		int x = 20;
 		int y;
-
 		JTextField liczba = new JTextField(index + 1 + "");
 		JTextField pozycja = new JTextField("0");
 		JTextField ilosc_sztuk = new JTextField("1");
-		JTextField srednica = new JTextField("0");
+		JTextField srednica = new JTextField("6");
 		JTextField fig = new JTextField(1 + "");
 		JTextField kolor = new JTextField("0");
-		JTextField material = new JTextField(6 + "");
+		JTextField material = new JTextField("6");
 		// JTextField mat?? = new JTextField(fig_zam.mat??);
 		JTextField sworzen = new JTextField(32 + "");
+		if (ZamowienieDane.figury.get(index) != null)
+		{
+			FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
+			pozycja.setText("" + f_zamowienie.pozycja);
+			ilosc_sztuk.setText("" + f_zamowienie.ilosc_sztuk);
+			srednica.setText("" + f_zamowienie.srednica);
+			fig.setText("" + f_zamowienie.fig);
+			kolor.setText("" + f_zamowienie.kolor);
+			material.setText("" + f_zamowienie.material);
+			// ma??.setText(""+f_zamowienie.ma??);
+			sworzen.setText("" + f_zamowienie.sworzen);
+
+		}
 
 		if (index > 0)
 		{
@@ -117,6 +136,7 @@ public class DodawanieFigur
 		sworzen.setEditable(false);
 
 		srednica.addFocusListener(FocusListeners.srednicaFocusListener(index, srednica, sworzen));
+		ilosc_sztuk.addFocusListener(iloscSztukFocusListener(index, panel, ilosc_sztuk));
 
 		panel.add(pozycja);
 		panel.add(ilosc_sztuk);
@@ -130,8 +150,6 @@ public class DodawanieFigur
 
 		x = 20;
 		y += 20;
-
-		FiguraKontrolki f_kontrolki = new FiguraKontrolki();
 
 		f_kontrolki.pozycja = pozycja;
 		f_kontrolki.ilosc_sztuk = ilosc_sztuk;
@@ -166,6 +184,78 @@ public class DodawanieFigur
 
 	}
 
+	private static FocusListener iloscSztukFocusListener(final int index, final Zamowienie panel, final JTextField text_field)
+	{
+		return new FocusListener()
+		{
+
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				if (text_field.getText().equals("") || text_field.getText().equals("0"))
+				{
+					// usunFigure(index, panel);
+				}
+
+			}
+
+			@Override
+			public void focusGained(FocusEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		};
+	}
+
+	public static void dodajFigury(Zamowienie panel)
+	{
+		int ile_figur = ZamowienieDane.figury.size();
+		boolean czy_focus_przejety = false;
+		for (int i = 0; i < ile_figur; i++)
+		{
+			dodajFigure(panel, false);
+			panel.c_x = panel.c_y = 0;
+			panel.z_x--;
+			ArrayList<FiguraKontrolki> f_kontrolki = ZamowienieDane.f_kontrolki;
+			if (f_kontrolki.get(f_kontrolki.size() - 1).index == panel.z_x)
+			{
+				f_kontrolki.get(f_kontrolki.size() - 1).kontrolki[panel.z_y].grabFocus();
+				czy_focus_przejety = true;
+			}
+		}
+		if(!czy_focus_przejety)
+		{
+			panel.z_x--;
+			ArrayList<FiguraKontrolki> f_kontrolki = ZamowienieDane.f_kontrolki;
+			f_kontrolki.get(f_kontrolki.size() - 1).kontrolki[panel.z_y].grabFocus();
+		}
+	}
+
+	public static void usunFigure(int index, Zamowienie panel)
+	{
+
+		for (FiguraKontrolki fig : ZamowienieDane.f_kontrolki)
+		{
+			for (JTextField text_field : fig.kontrolki)
+			{
+				for (FocusListener focus_listener : text_field.getFocusListeners())
+				{
+					text_field.removeFocusListener(focus_listener);
+				}
+				panel.remove(text_field);
+			}
+		}
+		ZamowienieDane.f_kontrolki.clear();
+		ZamowienieDane.figury.remove(index);
+		panel.repaint();
+
+		dodajFigury(panel);
+
+		// ZamowienieDane.czesc_kontrolki.remove(index);
+
+	}
+
 	private static FocusListener wyborFigury(final int index, final Zamowienie panel, final JTextField text_field)
 	{
 		return new FocusListener()
@@ -174,10 +264,12 @@ public class DodawanieFigur
 			@Override
 			public void focusLost(FocusEvent e)
 			{
-				if(text_field.getText().equals(""))
+				panel.poprzedni_text_field = text_field;
+				if (text_field.getText().equals(""))
 				{
-					text_field.setText(0+"");
+					text_field.setText(0 + "");
 				}
+
 				aktualizujDane(index);
 				CONST.setKoloryNieaktywny(text_field);
 			}

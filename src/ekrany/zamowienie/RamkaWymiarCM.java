@@ -64,17 +64,15 @@ public class RamkaWymiarCM
 		if (panel.tryb_rzeczywisty)
 		{
 			dlugosc = obliczDlugoscRzeczywista(index);
-			System.out.println("rzeczywiœcie");
 		}
 		else
 		{
 			dlugosc = obliczDlugosc(index);
-			System.out.println("Programowa");
 		}
 
-		calk_dlugosc.setText(dlugosc + "");
-		ciezar.setText(obliczWage(dlugosc, waga_jedn) + "");
-		calk_ciezar.setText(obliczCalkCiezar(index, panel.tryb_rzeczywisty) + "");
+		calk_dlugosc.setText(CONST.round(dlugosc, 3) + "");
+		ciezar.setText(CONST.round((obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(index).ilosc_sztuk), 3) + "");
+		calk_ciezar.setText(CONST.round(obliczCalkCiezar(index, panel.tryb_rzeczywisty), 3) + "");
 
 	}
 
@@ -87,7 +85,7 @@ public class RamkaWymiarCM
 		int srednica = ZamowienieDane.figury.get(index).srednica;
 
 		ArrayList<Czesc> czesci = cloneCzesci(index);
-
+		System.out.println("size:"+size);
 		for (int i = 0; i < size - 1; i++)
 		{
 			Czesc czesc = czesci.get(i);
@@ -101,9 +99,9 @@ public class RamkaWymiarCM
 			else
 			{
 				int kat = czesc_n.getKat();
-				if (kat > 180)
-					kat = 360 - kat;
-				kat = 180 - kat;
+				kat = 180 - Math.abs(kat);
+				
+				System.out.println("KAT: "+kat);
 				double a = czesc.getDlugosc() - (sworzen + srednica);
 				double b = 2 * Math.PI * (sworzen + srednica) * kat / 360;
 				int c = czesc_n.getDlugosc() - (sworzen + srednica);
@@ -113,7 +111,7 @@ public class RamkaWymiarCM
 			}
 		}
 
-		dlugosc += ZamowienieDane.figury.get(index).figura.getCzesci().get(size - 1).getDlugosc();
+		dlugosc += czesci.get(size - 1).getDlugosc();
 
 		return dlugosc;
 	}
@@ -148,9 +146,9 @@ public class RamkaWymiarCM
 				dlugosc = obliczDlugosc(i);
 			}
 			double waga_jedn = ZamowienieDane.figury.get(i).waga;
-			ciezar += obliczWage(dlugosc, waga_jedn);
+			ciezar += obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(i).ilosc_sztuk;
 		}
-		return CONST.round(ciezar, 3);
+		return ciezar;
 	}
 
 	private static double obliczWage(double dlugosc, double waga)

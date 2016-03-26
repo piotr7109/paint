@@ -9,6 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.CONST;
 import ekrany.zamowienie.DodawanieFigur;
@@ -42,7 +45,7 @@ public class Zamowienie extends JPanel implements KeyListener
 	private void init()
 	{
 		DodawanieFigur.setDefaultFigura();
-		DodawanieFigur.dodajFigure(this);
+		DodawanieFigur.dodajFigure(this, true);
 
 		RamkaWymiarCM.init(this);
 	}
@@ -68,6 +71,16 @@ public class Zamowienie extends JPanel implements KeyListener
 		RamkaCzesci.ramkaCzesci(g, this);
 		RamkaUwagi.ramkaUwagi(g, this);
 		RamkaWymiarCM.ramkaWymiarCM(g, this);
+		
+		if(tryb_rzeczywisty)
+		{
+			g.setColor(Color.GREEN);
+		}
+		else
+		{
+			g.setColor(Color.RED);
+		}
+		g.fillOval(WIDTH-50, 0, 50, 50);
 
 	}
 
@@ -77,6 +90,8 @@ public class Zamowienie extends JPanel implements KeyListener
 	public int c_y = 0;
 	public String tryb = "figury"; // figury/czesci
 	public boolean tryb_rzeczywisty = false; // programowa/rzeczywista
+	public JTextField poprzedni_text_field = null;
+	public FiguraZamowienie f_zamowienie_temp = null;
 
 	@Override
 	public void keyPressed(KeyEvent e)
@@ -95,7 +110,7 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						else
 						{
-							DodawanieFigur.dodajFigure(this);
+							DodawanieFigur.dodajFigure(this, true);
 						}
 						break;
 					case 38:
@@ -136,7 +151,6 @@ public class Zamowienie extends JPanel implements KeyListener
 					if (c_x + 1 < ZamowienieDane.figury.get(z_x).figura.getCzesci().size())
 					{
 						c_x++;
-
 					}
 					break;
 				case 38:
@@ -168,18 +182,45 @@ public class Zamowienie extends JPanel implements KeyListener
 		}
 		switch (e.getKeyCode())
 		{
-			case 113:
+			case 113: // F2
 				if (tryb_rzeczywisty)
 				{
 					tryb_rzeczywisty = false;
+					RamkaWymiarCM.ustawKontrolki(z_x, this);
+					repaint();
 				}
 				else
 				{
 					tryb_rzeczywisty = true;
+					RamkaWymiarCM.ustawKontrolki(z_x, this);
+					repaint();
 				}
+				break;
+
+			case 82: // r
+				DodawanieFigur.usunFigure(z_x, this);
+				break;
+
+			case 117: // F6 - zapisz w pamięci
+				f_zamowienie_temp = ZamowienieDane.figury.get(z_x);
+				break;
+
+			case 118: // F7 - skopiuj
+				ZamowienieDane.figury.set(z_x, new FiguraZamowienie(f_zamowienie_temp));
+				ZamowienieDane.f_kontrolki.get(z_x).updateFromFiguraZamowienie();
 				
 				break;
 		}
+
+		if (jestKodemCyfry(e.getKeyCode()))
+		{
+			if (poprzedni_text_field != ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y])
+			{
+				poprzedni_text_field = ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y];
+				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].setText("");
+			}
+		}
+		System.out.println(e.getKeyCode());
 
 	}
 
@@ -191,6 +232,15 @@ public class Zamowienie extends JPanel implements KeyListener
 	@Override
 	public void keyTyped(KeyEvent e)
 	{
+	}
+
+	private boolean jestKodemCyfry(int kod)
+	{
+		if ((kod >= 96 && kod <= 105) || (kod >= 48 && kod <= 57))
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

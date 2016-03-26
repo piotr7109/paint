@@ -264,7 +264,6 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 		if (linie_start.size() > 1)
 		{
-			int kat = obliczenia.getKat(linie_start.get(linie_start.size() - 2), start, koniec);
 			JLabel kat_label = new JLabel(kat_teraz + "");
 			kat_label.setForeground(Color.GREEN);
 			kat_label.setLocation(start.x, start.y);
@@ -300,11 +299,11 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 					switch (this.last_figura)
 					{
 						case "linia":
-							kat_teraz = obliczenia.getKat(linie_start.get(linie_start.size() - 1), start, e.getPoint());
+							kat_teraz = obliczenia.getKat(linie_start.get(linie_start.size() - 1), start, e.getPoint())-180;
 							break;
 						case "okrag":
 
-							kat_teraz = obliczenia.getKat(po, start, e.getPoint());
+							kat_teraz = obliczenia.getKat(po, start, e.getPoint()) -180;
 							break;
 					}
 
