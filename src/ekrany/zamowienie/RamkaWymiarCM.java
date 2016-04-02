@@ -2,11 +2,14 @@ package ekrany.zamowienie;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import dane.CzescKontolki;
 import dane.ZamowienieDane;
 import dodatki.CONST;
 import ekrany.Zamowienie;
@@ -21,7 +24,7 @@ public class RamkaWymiarCM
 	public static JLabel ciezar;
 	public static JLabel calk_ciezar;
 
-	public static void ramkaWymiarCM(Graphics g, JPanel panel)
+	public static void ramkaWymiarCM(Graphics g, Zamowienie panel)
 	{
 		// ramak wymiar cm
 		int x = 780;
@@ -36,6 +39,8 @@ public class RamkaWymiarCM
 		panel.add(CONST.getTytul(x, y + 45, "Ca³k. d³ugoœæ:", Color.PINK));
 		panel.add(CONST.getTytul(x, y + 60, "Ciê¿ar:", Color.PINK));
 		panel.add(CONST.getTytul(x, y + 75, "Ca³k. ciê¿ar:", Color.PINK));
+		
+		obliczEkstrema(panel);
 
 	}
 
@@ -85,7 +90,7 @@ public class RamkaWymiarCM
 		int srednica = ZamowienieDane.figury.get(index).srednica;
 
 		ArrayList<Czesc> czesci = cloneCzesci(index);
-		System.out.println("size:"+size);
+		System.out.println("size:" + size);
 		for (int i = 0; i < size - 1; i++)
 		{
 			Czesc czesc = czesci.get(i);
@@ -99,14 +104,14 @@ public class RamkaWymiarCM
 			else
 			{
 				int kat = czesc_n.getKat();
-				kat = 180 - Math.abs(kat);
-				
-				System.out.println("KAT: "+kat);
-				double a = czesc.getDlugosc() - (sworzen + srednica);
-				double b = 2 * Math.PI * (sworzen + srednica) * kat / 360;
-				int c = czesc_n.getDlugosc() - (sworzen + srednica);
-				czesc_n.setDlugosc(c);
-				dlugosc += (a + b);
+				kat = Math.abs(kat);
+
+				System.out.println("KAT: " + kat);
+				double a = czesc.getDlugosc();
+				System.out.println("Wymiary: "+sworzen+" "+srednica);
+				double b = 2 * Math.PI * ((sworzen + srednica)/10) * kat / 360/2;
+				//int c = czesc_n.getDlugosc();
+				dlugosc += (a - b);
 
 			}
 		}
@@ -166,5 +171,150 @@ public class RamkaWymiarCM
 		}
 
 		return dlugosc;
+	}
+
+	private static int last_kat;
+	private static int _x;
+	private static int _y;
+
+	private static Point eks_x = new Point(); // ekstrema w poziomie - szerokoœæ
+												// - x(max), y(min)
+	private static Point eks_y = new Point(); // ekstrema w pionie - wysokoœæ -
+												// x(max), y(min)
+
+	private static void obliczEkstrema(Zamowienie panel)
+	{
+		last_kat = 0;
+		_x = 520 + 25;
+		_y = 120 + 150;
+		eks_x.x = _x;
+		eks_x.y = _x;
+		eks_y.x = _y;
+		eks_y.y = _y;
+
+		if (panel.figura != null)
+		{
+			int index = 0;
+			for (CzescKontolki czesc_text : ZamowienieDane.czesc_kontrolki)
+			{
+				Czesc czesc = new Czesc();
+				czesc.setDlugosc(Integer.parseInt(czesc_text.bok.getText()));
+				czesc.setKat(Integer.parseInt(czesc_text.kat.getText()));
+				czesc.setTyp(czesc_text.typ.getText());
+
+				switch (czesc.getTyp())
+				{
+					case "linia":
+
+						rysujLinie(czesc, last_kat);
+
+						break;
+
+					case "okrag":
+						if (index > 0)
+						{
+							rysujOkregi(czesc, -(90 + last_kat));
+						}
+						else
+						{
+							rysujOkregi(czesc, last_kat);
+						}
+						break;
+				}
+
+				index++;
+
+			}
+			max_dlugosc.setText(""+(eks_x.x - eks_x.y));
+			max_wysokosc.setText(""+(eks_y.x - eks_y.y));
+		}
+	}
+
+	private static void rysujOkregi(Czesc c, int poprz_kat)
+	{
+
+		int rozmiar = (int) (((c.getDlugosc() * 360) / (c.getKat() * Math.PI)));// (int)(2*(c.getDlugosc()*180)/(c.getKat()*Math.PI));
+
+		if (_x + rozmiar > eks_x.x)
+		{
+			eks_x.x = _x;
+		}
+		if (_x + rozmiar < eks_x.y)
+		{
+			eks_x.y = _x;
+		}
+		if (_y + rozmiar > eks_y.x)
+		{
+			eks_y.x = _y;
+		}
+		if (_y + rozmiar < eks_y.y)
+		{
+			eks_y.y = _y;
+		}
+		Point p = new Point(_x, _y);
+
+		int x2 = p.x + rozmiar / 2;
+		int y2 = p.y + rozmiar / 2;
+		double[] pt = { x2, p.y };
+		AffineTransform.getRotateInstance(Math.toRadians((90 - poprz_kat) * 1), x2, y2).transform(pt, 0, pt, 0, 1);
+
+		Double newX = pt[0];
+		Double newY = pt[1];
+
+		pt[0] = p.x; // pocz¹tkowa pozycja X
+		pt[1] = p.y; // pocz¹tkowa pozycja Y
+
+		p.x = p.x - Math.abs(newX.intValue() - p.x);
+		p.y = p.y - Math.abs(newY.intValue() - p.y);
+
+		x2 = p.x + rozmiar / 2; // œrodek ³uku
+		y2 = p.y + rozmiar / 2; // œrodek ³uku
+
+		// liczenie pozycji k¹ta koñcowego
+		AffineTransform.getRotateInstance(Math.toRadians(-c.getKat() * 1), x2, y2).transform(pt, 0, pt, 0, 1);
+		int x_koniec = (int) pt[0];
+		int y_koniec = (int) pt[1];
+
+		if (last_kat < 0)
+		{
+			while (last_kat < -360)
+				last_kat += 360;
+		}
+		else
+		{
+			while (last_kat > 360)
+				last_kat -= 360;
+		}
+		last_kat = -(poprz_kat + c.getKat() + 90);
+
+		_x = x_koniec;
+		_y = y_koniec;
+
+	}
+
+	private static void rysujLinie(Czesc c, int poprz_kat)
+	{
+
+		int x = (int) (Math.cos(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+		int y = (int) (Math.sin(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+		last_kat = c.getKat() + poprz_kat;
+		_x += x;
+		_y += y;
+		if (_x > eks_x.x)
+		{
+			eks_x.x = _x;
+		}
+		if (_x < eks_x.y)
+		{
+			eks_x.y = _x;
+		}
+		if (_y > eks_y.x)
+		{
+			eks_y.x = _y;
+		}
+		if (_y < eks_y.y)
+		{
+			eks_y.y = _y;
+		}
 	}
 }

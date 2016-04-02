@@ -16,6 +16,7 @@ public class FiguraKontrolki
 	public JTextField material;
 	// public JTextField mat??;
 	public JTextField sworzen;
+	
 
 	public void setKontrolki()
 	{

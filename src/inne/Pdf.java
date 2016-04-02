@@ -39,13 +39,13 @@ public class Pdf
 	 */
 	public static void main(String[] args) throws Exception
 	{
-
-		String yourXhtmlContentAsString = getHtmlSkroty();
+		Pdf pdf = new Pdf();
+		String yourXhtmlContentAsString ="";// pdf.getHtmlSkroty();
+		System.out.println(yourXhtmlContentAsString);
 		Document document = XMLResource.load(new ByteArrayInputStream(yourXhtmlContentAsString.getBytes())).getDocument();
-
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.setDocument(document, null);
-		renderer.getFontResolver().addFont("arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
+		renderer.getFontResolver().addFont("font/arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
 		renderer.layout();
 		FileOutputStream fos = new FileOutputStream(RESULT);
 		renderer.createPDF(fos);
@@ -54,7 +54,7 @@ public class Pdf
 
 	}
 
-	private static String getHtmlSkroty()
+	/*private String getHtmlSkroty()
 	{
 		String katalog = "skroty/";
 
@@ -94,68 +94,9 @@ public class Pdf
 
 		return html;
 
-	}
+	}*/
 
-	private static String getHtmlBezSkrotow()
-	{
-		String katalog = "bez_skrotow/";
+	
 
-		String html = "";
-		String header = "";
-		String content = "";
-		header += String.format(getHtmlFile(katalog, "header.html"), 1, 1, 1, 1, 1, 1);
-
-		String cells = "";
-		String cell = getHtmlFile(katalog, "cell.html");
-		int size = 600;
-		for (int i = 0; i < size; i++)
-		{
-			if (i % 22 == 0 && i != 0)
-			{
-				cells += "</table>";
-				cells += header;
-				cells += "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>";
-			}
-
-			if (i % 2 == 0)
-			{
-				cells += "<tr>" + String.format(cell, i);
-			}
-			else
-			{
-				cells += String.format(cell, i) + "</tr>";
-			}
-
-		}
-		if (size % 2 == 1)
-		{
-			cells += "</tr>";
-		}
-		content += String.format(getHtmlFile(katalog, "content.html"), cells);
-		html += String.format(getHtmlFile(katalog, "template.html"), header, content);
-
-		return html;
-
-	}
-
-	public static String getHtmlFile(String katalog, String url)
-	{
-
-		StringBuilder contentBuilder = new StringBuilder();
-		try
-		{
-			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("pdf_html/" + katalog + url), "UTF-8"));
-			String str;
-			while ((str = in.readLine()) != null)
-			{
-				contentBuilder.append(str);
-			}
-			in.close();
-		}
-		catch (IOException e)
-		{
-		}
-		String content = contentBuilder.toString();
-		return content;
-	}
+	
 }

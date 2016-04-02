@@ -26,6 +26,10 @@ import modules.figury.Figura;
 
 public class Zamowienie extends JPanel implements KeyListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1651641468298004106L;
 	private static final int WIDTH = CONST.WIDTH;
 	private static final int HEIGHT = CONST.HEIGHT;
 
@@ -48,6 +52,8 @@ public class Zamowienie extends JPanel implements KeyListener
 		DodawanieFigur.dodajFigure(this, true);
 
 		RamkaWymiarCM.init(this);
+
+		RamkaUwagi ramka_uwagi = new RamkaUwagi(this);
 	}
 
 	protected void paintComponent(Graphics g)
@@ -71,8 +77,8 @@ public class Zamowienie extends JPanel implements KeyListener
 		RamkaCzesci.ramkaCzesci(g, this);
 		RamkaUwagi.ramkaUwagi(g, this);
 		RamkaWymiarCM.ramkaWymiarCM(g, this);
-		
-		if(tryb_rzeczywisty)
+
+		if (tryb_rzeczywisty)
 		{
 			g.setColor(Color.GREEN);
 		}
@@ -80,15 +86,16 @@ public class Zamowienie extends JPanel implements KeyListener
 		{
 			g.setColor(Color.RED);
 		}
-		g.fillOval(WIDTH-50, 0, 50, 50);
+		g.fillOval(WIDTH - 50, 0, 50, 50);
 
 	}
 
-	public int z_x = -1;
+	public int z_x = -1; // RamkaWymiarMM - pozycje
 	public int z_y = 1;
-	public int c_x = -1;
+	public int c_x = -1; // RamkaCzesci - części
 	public int c_y = 0;
-	public String tryb = "figury"; // figury/czesci
+	public int f_x = 0; // RamkaFigura - części
+	public String tryb = "figury"; // figury/czesci/czesci_figury/uwagi
 	public boolean tryb_rzeczywisty = false; // programowa/rzeczywista
 	public JTextField poprzedni_text_field = null;
 	public FiguraZamowienie f_zamowienie_temp = null;
@@ -120,7 +127,7 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						break;
 					case 39:
-						if (z_y + 1 < 7)
+						if (z_y + 1 < 8)
 						{
 							z_y++;
 						}
@@ -137,8 +144,9 @@ public class Zamowienie extends JPanel implements KeyListener
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
 				if (e.getKeyCode() == 112) // F1
 				{
-					tryb = "czesci";
-					ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
+					tryb = "czesci_figury";
+					ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
+
 				}
 
 			}
@@ -180,47 +188,108 @@ public class Zamowienie extends JPanel implements KeyListener
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
 			}
 		}
-		switch (e.getKeyCode())
+		else if (tryb.equals("czesci_figury"))
 		{
-			case 113: // F2
-				if (tryb_rzeczywisty)
-				{
-					tryb_rzeczywisty = false;
-					RamkaWymiarCM.ustawKontrolki(z_x, this);
-					repaint();
-				}
-				else
-				{
-					tryb_rzeczywisty = true;
-					RamkaWymiarCM.ustawKontrolki(z_x, this);
-					repaint();
-				}
-				break;
-
-			case 82: // r
-				DodawanieFigur.usunFigure(z_x, this);
-				break;
-
-			case 117: // F6 - zapisz w pamięci
-				f_zamowienie_temp = ZamowienieDane.figury.get(z_x);
-				break;
-
-			case 118: // F7 - skopiuj
-				ZamowienieDane.figury.set(z_x, new FiguraZamowienie(f_zamowienie_temp));
-				ZamowienieDane.f_kontrolki.get(z_x).updateFromFiguraZamowienie();
-				
-				break;
-		}
-
-		if (jestKodemCyfry(e.getKeyCode()))
-		{
-			if (poprzedni_text_field != ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y])
+			switch (e.getKeyCode())
 			{
-				poprzedni_text_field = ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y];
-				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].setText("");
+				case 10:
+				case 40:
+					if (f_x + 1 < ZamowienieDane.figury.get(z_x).figura.getCzesci().size())
+					{
+						f_x++;
+					}
+					else
+					{
+						tryb = "figury";
+						ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+					}
+					break;
+				case 38:
+					if (f_x > 0)
+					{
+						f_x--;
+					}
+
+					break;
+			}
+			ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
+			if (e.getKeyCode() == 112) // F1
+			{
+				tryb = "czesci";
+				ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
+
 			}
 		}
-		System.out.println(e.getKeyCode());
+		if (tryb.equals("uwagi"))
+		{
+			if (e.getKeyCode() == 120) // F9
+			{
+				tryb = "figury";
+				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
+			}
+		}
+		else
+		{
+
+			switch (e.getKeyCode())
+			{
+				case 113: // F2
+					if (tryb_rzeczywisty)
+					{
+						tryb_rzeczywisty = false;
+						RamkaWymiarCM.ustawKontrolki(z_x, this);
+						repaint();
+					}
+					else
+					{
+						tryb_rzeczywisty = true;
+						RamkaWymiarCM.ustawKontrolki(z_x, this);
+						repaint();
+					}
+					break;
+
+				case 82: // r
+					DodawanieFigur.usunFigure(z_x, this);
+					break;
+
+				case 117: // F6 - zapisz w pamięci
+					f_zamowienie_temp = ZamowienieDane.figury.get(z_x);
+					break;
+
+				case 118: // F7 - skopiuj
+					ZamowienieDane.figury.set(z_x, new FiguraZamowienie(f_zamowienie_temp));
+					ZamowienieDane.f_kontrolki.get(z_x).updateFromFiguraZamowienie();
+
+					break;
+				case 120: // F9
+					tryb = "uwagi";
+					RamkaUwagi.uwagi.grabFocus();
+					break;
+			}
+
+			if (jestKodemCyfry(e.getKeyCode()))
+			{
+				switch (tryb)
+				{
+					case "figury":
+						if (poprzedni_text_field != ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y])
+						{
+							poprzedni_text_field = ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y];
+							ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].setText("");
+						}
+						break;
+					case "czesci_figury":
+						if (poprzedni_text_field != ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok)
+						{
+							poprzedni_text_field = ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok;
+							ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.setText("");
+						}
+						break;
+				}
+
+			}
+		}
+		System.out.println("KEY: " + e.getKeyCode());
 
 	}
 

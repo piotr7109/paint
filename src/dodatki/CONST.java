@@ -1,11 +1,13 @@
 package dodatki;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 public class CONST
 {
@@ -39,17 +41,30 @@ public class CONST
 		return (double) tmp / factor;
 	}
 
-	public static void setKoloryAktywny(JTextField text_field)
+	public static void setKoloryAktywny(JTextComponent text_field)
 	{
 		text_field.setBorder(BorderFactory.createEmptyBorder());
 		text_field.setForeground(Color.RED);
 		text_field.setBackground(Color.YELLOW);
 	}
 
-	public static void setKoloryNieaktywny(JTextField text_field)
+	public static void setKoloryNieaktywny(JTextComponent text_field)
 	{
 		text_field.setBorder(BorderFactory.createEmptyBorder());
 		text_field.setForeground(Color.GREEN);
 		text_field.setBackground(Color.GRAY);
+	}
+	
+	public static void setKoloryAktywny2(JTextComponent text_field)
+	{
+		text_field.setBorder(BorderFactory.createEmptyBorder());
+		text_field.setForeground(Color.RED);
+		text_field.setOpaque(false);
+	}
+	public static void setKoloryNieaktywny2(JTextComponent text_field)
+	{
+		text_field.setBorder(BorderFactory.createEmptyBorder());
+		text_field.setForeground(Color.YELLOW);
+		text_field.setOpaque(false);
 	}
 }

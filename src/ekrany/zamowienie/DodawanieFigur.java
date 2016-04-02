@@ -7,7 +7,6 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dane.FiguraKontrolki;
@@ -45,11 +44,20 @@ public class DodawanieFigur
 	{
 		FiguraKontrolki f_kontrolki = new FiguraKontrolki();
 		f_kontrolki.index = ZamowienieDane.f_kontrolki.size();
-
 		if (default_figura == true)
 		{
-			ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
+			if (f_kontrolki.index > 0)
+			{
+				FiguraZamowienie f_zamowienie = new FiguraZamowienie(ZamowienieDane.figury.get(f_kontrolki.index - 1));
+
+				ZamowienieDane.figury.add(f_zamowienie);
+			}
+			else
+			{
+				ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
+			}
 		}
+
 		int index = f_kontrolki.index;
 		int x = 20;
 		int y;
@@ -62,6 +70,7 @@ public class DodawanieFigur
 		JTextField material = new JTextField("6");
 		// JTextField mat?? = new JTextField(fig_zam.mat??);
 		JTextField sworzen = new JTextField(32 + "");
+
 		if (ZamowienieDane.figury.get(index) != null)
 		{
 			FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
@@ -133,7 +142,7 @@ public class DodawanieFigur
 
 		// nieedytowalne
 		liczba.setEditable(false);
-		sworzen.setEditable(false);
+		//sworzen.setEditable(false);
 
 		srednica.addFocusListener(FocusListeners.srednicaFocusListener(index, srednica, sworzen));
 		ilosc_sztuk.addFocusListener(iloscSztukFocusListener(index, panel, ilosc_sztuk));
@@ -165,10 +174,11 @@ public class DodawanieFigur
 
 		ZamowienieDane.f_kontrolki.add(f_kontrolki);
 		ZamowienieDane.f_kontrolki.get(index).setKontrolki();
+		RamkaWymiarMM.przewinElementy(panel, liczba);
 
 	}
 
-	private static void aktualizujDane(final int index)
+	public static void aktualizujDane(final int index, final Zamowienie panel)
 	{
 		FiguraKontrolki f_kontrolki = ZamowienieDane.f_kontrolki.get(index);
 
@@ -181,6 +191,7 @@ public class DodawanieFigur
 		f_zam.pozycja = f_kontrolki.pozycja.getText();
 		f_zam.srednica = Integer.parseInt(f_kontrolki.srednica.getText());
 		f_zam.sworzen = Integer.parseInt(f_kontrolki.sworzen.getText());
+		RamkaUwagi.ramkaUwagiUpdate(panel);
 
 	}
 
@@ -224,7 +235,7 @@ public class DodawanieFigur
 				czy_focus_przejety = true;
 			}
 		}
-		if(!czy_focus_przejety)
+		if (!czy_focus_przejety)
 		{
 			panel.z_x--;
 			ArrayList<FiguraKontrolki> f_kontrolki = ZamowienieDane.f_kontrolki;
@@ -234,24 +245,26 @@ public class DodawanieFigur
 
 	public static void usunFigure(int index, Zamowienie panel)
 	{
-
-		for (FiguraKontrolki fig : ZamowienieDane.f_kontrolki)
+		if (ZamowienieDane.figury.size() > 1)
 		{
-			for (JTextField text_field : fig.kontrolki)
+			for (FiguraKontrolki fig : ZamowienieDane.f_kontrolki)
 			{
-				for (FocusListener focus_listener : text_field.getFocusListeners())
+				for (JTextField text_field : fig.kontrolki)
 				{
-					text_field.removeFocusListener(focus_listener);
+					for (FocusListener focus_listener : text_field.getFocusListeners())
+					{
+						text_field.removeFocusListener(focus_listener);
+					}
+					panel.remove(text_field);
 				}
-				panel.remove(text_field);
 			}
+			ZamowienieDane.f_kontrolki.clear();
+			ZamowienieDane.figury.remove(index);
+			panel.repaint();
+
+			dodajFigury(panel);
 		}
-		ZamowienieDane.f_kontrolki.clear();
-		ZamowienieDane.figury.remove(index);
-		panel.repaint();
-
-		dodajFigury(panel);
-
+		System.out.println(ZamowienieDane.czesc_kontrolki.size());
 		// ZamowienieDane.czesc_kontrolki.remove(index);
 
 	}
@@ -270,7 +283,7 @@ public class DodawanieFigur
 					text_field.setText(0 + "");
 				}
 
-				aktualizujDane(index);
+				aktualizujDane(index, panel);
 				CONST.setKoloryNieaktywny(text_field);
 			}
 
@@ -281,6 +294,7 @@ public class DodawanieFigur
 				panel.figura = ZamowienieDane.figury.get(index).figura;
 
 				RamkaCzesci.rysujKontrolki(panel, index);
+				RamkaFigura.rysujKontrolki(panel, index);
 				RamkaWymiarCM.ustawKontrolki(index, panel);
 
 			}

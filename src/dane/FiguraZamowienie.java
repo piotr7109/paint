@@ -15,6 +15,8 @@ public class FiguraZamowienie
 	public int sworzen;
 	public double waga;
 
+	public String uwagi;
+
 	public FiguraZamowienie()
 	{
 		figura = null;
@@ -26,7 +28,9 @@ public class FiguraZamowienie
 		material = 0;
 		sworzen = 32;
 		waga = 0.222;
+		uwagi = "";
 	}
+
 	public FiguraZamowienie(FiguraZamowienie f_zam)
 	{
 		this.figura = f_zam.figura;
@@ -38,6 +42,7 @@ public class FiguraZamowienie
 		this.material = f_zam.material;
 		this.sworzen = f_zam.sworzen;
 		this.waga = f_zam.waga;
+		this.uwagi = f_zam.uwagi;
 	}
 
 }
