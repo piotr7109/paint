@@ -1,22 +1,16 @@
 package system;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import dodatki.Luk;
 import ekrany.Formularz;
 import ekrany.Rysowanie;
 import ekrany.WyswietlFigure;
@@ -43,25 +37,14 @@ public class PanelGlowny extends JPanel
 
 		EkranWyswietlFigure();
 
-		EkranZamowienie();
+		//EkranZamowienie();
+		panel.setSelectedComponent(form);
 		this.add(panel);
 
 		panel.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
 
-	private static void createAndShowGUI()
-	{
-		// Create and set up the window.
-		JFrame frame = new JFrame("Projekt Blacha");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		// Add content to the window.
-		frame.add(new PanelGlowny(), BorderLayout.CENTER);
-
-		// Display the window.
-		frame.pack();
-		frame.setVisible(true);
-	}
+	
 
 	private void EkranZamowienie()
 	{
@@ -70,7 +53,6 @@ public class PanelGlowny extends JPanel
 		panel.addKeyListener(zamowienie);
 		panel.setFocusable(true);
 		EkranZamowienieEvent();
-		panel.setSelectedComponent(zamowienie);
 	}
 
 	private void EkranZamowienieEvent()
@@ -83,7 +65,7 @@ public class PanelGlowny extends JPanel
 		wyswietlanie_figur = new WyswietlFigure();
 		panel.addTab("Wyœwietlanie figur", wyswietlanie_figur);
 		EkranWyswietlFigureEvent();
-		panel.setSelectedComponent(wyswietlanie_figur);
+		
 	}
 
 	private void EkranWyswietlFigureEvent()
@@ -95,7 +77,6 @@ public class PanelGlowny extends JPanel
 	{
 		form = new Formularz();
 		panel.addTab("Formularz", form);
-		panel.setSelectedComponent(form);
 	}
 
 	private void EkranRysowanie()
@@ -103,7 +84,6 @@ public class PanelGlowny extends JPanel
 		rys = new Rysowanie(this);
 		EkranRysowanieEvent();
 		panel.addTab("Rysowanie", rys);
-		panel.setSelectedComponent(rys);
 
 	}
 
@@ -153,5 +133,18 @@ public class PanelGlowny extends JPanel
 				createAndShowGUI();
 			}
 		});
+	}
+	private static void createAndShowGUI()
+	{
+		// Create and set up the window.
+		JFrame frame = new JFrame("Projekt Blacha");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		// Add content to the window.
+		frame.add(new PanelGlowny(), BorderLayout.CENTER);
+
+		// Display the window.
+		frame.pack();
+		frame.setVisible(true);
 	}
 }

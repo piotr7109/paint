@@ -29,7 +29,6 @@ abstract public class AbstractLista
 			stmt = c.createStatement();
 			if (query == "")
 				query = String.format("SELECT * FROM %s", table);
-
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next())
 			{

@@ -7,10 +7,13 @@ import java.awt.Graphics2D;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dane.CzescKontolki;
+import dane.FiguraKontrolki;
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.CONST;
@@ -30,8 +33,8 @@ public class Zamowienie extends JPanel implements KeyListener
 	 * 
 	 */
 	private static final long serialVersionUID = 1651641468298004106L;
-	private static final int WIDTH = CONST.WIDTH;
-	private static final int HEIGHT = CONST.HEIGHT;
+	private final int WIDTH = CONST.WIDTH;
+	private final int HEIGHT = CONST.HEIGHT;
 
 	public Figura figura;
 
@@ -48,12 +51,22 @@ public class Zamowienie extends JPanel implements KeyListener
 
 	private void init()
 	{
+		resetDefaults();
 		DodawanieFigur.setDefaultFigura();
 		DodawanieFigur.dodajFigure(this, true);
 
 		RamkaWymiarCM.init(this);
 
 		RamkaUwagi ramka_uwagi = new RamkaUwagi(this);
+	}
+
+	protected void resetDefaults()
+	{
+		ZamowienieDane.czesc_kontrolki = new ArrayList<CzescKontolki>();
+		ZamowienieDane.czesc_kontrolki_figura = new ArrayList<CzescKontolki>();
+		ZamowienieDane.f_kontrolki = new ArrayList<FiguraKontrolki>();
+		ZamowienieDane.figury = new ArrayList<FiguraZamowienie>();
+
 	}
 
 	protected void paintComponent(Graphics g)

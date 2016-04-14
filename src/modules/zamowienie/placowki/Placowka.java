@@ -7,6 +7,6 @@ public class Placowka extends ZamowienieCore
 	
 	public Placowka()
 	{
-		table ="t_zamowienia_miejscowosci";
+		table ="t_zamowienia_placowki";
 	}
 }

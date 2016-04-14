@@ -156,7 +156,7 @@ public class WyswietlFigure extends JPanel
 		{
 			JLabel dl = new JLabel(czesc.getDlugosc() + "");
 			JLabel kat = new JLabel(czesc.getKat() + "");
-			
+
 			dl.setForeground(Color.GREEN);
 			kat.setForeground(Color.GREEN);
 
@@ -242,7 +242,7 @@ public class WyswietlFigure extends JPanel
 	private void rysujOkregi(Graphics g, Czesc c, int poprz_kat)
 	{
 
-		int rozmiar =  (int)((c.getDlugosc()*360)/(c.getKat()*Math.PI));
+		int rozmiar = (int) ((c.getDlugosc() * 360) / (c.getKat() * Math.PI));
 		g.drawOval(_x, _y, 5, 5);
 
 		Point p = new Point(_x, _y);
@@ -301,7 +301,5 @@ public class WyswietlFigure extends JPanel
 		_x += x;
 		_y += y;
 	}
-
-	
 
 }

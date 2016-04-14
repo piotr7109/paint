@@ -21,7 +21,7 @@ public class Obiekt extends ZamowienieCore
 	public void insert()
 	{
 		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
-		String query = String.format("INSERT INTO %s (kod, nazwa, uwagi) VALUES (%d, '%s', '%s')", table, kod, nazwa, uwagi);
+		String query = String.format("INSERT INTO %s (kod, nazwa,id_parent, uwagi) VALUES (%d, '%s',%d, '%s')", table, kod, nazwa, id_parent,"");
 		pgsq.queryOpertaion(query);
 	}
 }

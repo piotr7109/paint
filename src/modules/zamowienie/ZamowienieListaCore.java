@@ -9,7 +9,7 @@ import modules.AbstractLista;
 public class ZamowienieListaCore extends AbstractLista
 {
 
-	public ZamowienieListaCore(int id_parent)
+	public ZamowienieListaCore(int id_parent, String table)
 	{
 		if (id_parent != 0)
 		{

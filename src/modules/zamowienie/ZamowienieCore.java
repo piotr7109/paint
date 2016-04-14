@@ -52,7 +52,8 @@ public class ZamowienieCore
 	public void insert()
 	{
 		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
-		String query = String.format("INSERT INTO %s (kod, nazwa) VALUES (%d, '%s')", table, kod, nazwa);
+		String query = String.format("INSERT INTO %s (kod, nazwa, id_parent) VALUES (%d, '%s', %d)", table, kod, nazwa, id_parent);
+		
 		pgsq.queryOpertaion(query);
 	}
 
@@ -61,6 +62,10 @@ public class ZamowienieCore
 		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
 		String query = String.format("DELETE FROM %s WHERE kod = %d", table, kod);
 		pgsq.queryOpertaion(query);
+	}
+	public String toString()
+	{
+		return this.nazwa;
 	}
 
 }
