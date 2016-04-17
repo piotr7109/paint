@@ -36,7 +36,7 @@ public class Zamowienie extends JPanel implements KeyListener
 	/**
 	 * 
 	 */
-	public static double scale = 2;
+	public static double scale = 1.3;
 	private static final long serialVersionUID = 1651641468298004106L;
 	private final int WIDTH = (int)(CONST.WIDTH*scale);
 	private final int HEIGHT = (int)(CONST.HEIGHT*scale);
