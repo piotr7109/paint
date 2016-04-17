@@ -1,23 +1,18 @@
 package inne;
-import java.sql.ResultSet;
 
-import dodatki.FocusListeners;
-import modules.figury.Figura;
-import modules.figury.FiguraFactory;
+import pdf.WydrukBezSkrotowPdf;
 
-
-public class Test {
+public class Test
+{
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) 
+	public static void main(String[] args) throws Exception
 	{
-		
-		FiguraFactory f_factory = new FiguraFactory();
-		Figura f = f_factory.getFiguraByKod(9);
-		System.out.println(f.getId());
-		
+
+		WydrukBezSkrotowPdf pdf = new WydrukBezSkrotowPdf();
+		pdf.drukuj();
 
 	}
 

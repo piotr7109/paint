@@ -18,7 +18,7 @@ abstract public class PdfCreator implements PdfCreatorInterface
 	protected String FILENAME;
 	protected String HTML_SOURCE;
 
-	protected void drukuj()
+	public void drukuj()
 	{
 		String yourXhtmlContentAsString = getHtml();
 		Document document = XMLResource.load(new ByteArrayInputStream(yourXhtmlContentAsString.getBytes())).getDocument();
@@ -26,7 +26,7 @@ abstract public class PdfCreator implements PdfCreatorInterface
 		renderer.setDocument(document, null);
 		try
 		{
-			renderer.getFontResolver().addFont("font/arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
+			renderer.getFontResolver().addFont("files/font/arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
 			renderer.layout();
 			FileOutputStream fos = new FileOutputStream(RESULT_DIRECTORY + FILENAME);
 			renderer.createPDF(fos);

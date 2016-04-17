@@ -1,12 +1,11 @@
 package dodatki;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 public class CONST
@@ -15,13 +14,18 @@ public class CONST
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 800;
 
-	public static JLabel getTytul(int x, int y, String tekst, Color c)
+	public static JLabel getTytul(int x, int y, String tekst, Color c, double scale)
 	{
 		JLabel tytul = new JLabel(tekst);
 		tytul.setBounds(x + 5, y + 5, 200, 20);
 		tytul.setForeground(c);
+		tytul.setFont(new Font("",0, rescale(12,scale)));
 
 		return tytul;
+	}
+	private static int rescale(int number, double scale)
+	{
+		return (int)(number*scale);
 	}
 
 	public static double radians(int kat)

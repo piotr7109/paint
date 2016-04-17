@@ -56,7 +56,13 @@ public class ZamowienieCore
 		
 		pgsq.queryOpertaion(query);
 	}
-
+	public void update()
+	{
+		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		String query = String.format("UPDATE %s SET nazwa='%s' WHERE id=%d", table,nazwa, id);
+		
+		pgsq.queryOpertaion(query);
+	}
 	protected void delete()
 	{
 		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();

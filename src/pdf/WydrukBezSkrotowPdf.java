@@ -26,14 +26,13 @@ public class WydrukBezSkrotowPdf extends PdfCreator
 				cells += header;
 				cells += "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>";
 			}
-
 			if (i % 2 == 0)
 			{
-				cells += "<tr>" + String.format(cell, i);
+				cells += "<tr>" + String.format(cell, i+"",1+"",2+"",3+"",4+"");
 			}
 			else
 			{
-				cells += String.format(cell, i) + "</tr>";
+				cells += String.format(cell, i, i+"",1+"",2+"",3+"",4+"") + "</tr>";
 			}
 
 		}

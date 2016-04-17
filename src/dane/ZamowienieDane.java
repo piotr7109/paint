@@ -2,6 +2,11 @@ package dane;
 
 import java.util.ArrayList;
 
+import modules.zamowienie.budowy.Budowa;
+import modules.zamowienie.elementy.Element;
+import modules.zamowienie.obiekty.Obiekt;
+import modules.zamowienie.odbiorcy.Odbiorca;
+
 
 public class ZamowienieDane
 {
@@ -14,10 +19,10 @@ public class ZamowienieDane
 	
 	//klient - dane
 	public static String kod;
-	public static String odbiorca;
-	public static String budowa;
-	public static String obiekt;
-	public static String element;
+	public static Odbiorca odbiorca;
+	public static Budowa budowa;
+	public static Obiekt obiekt;
+	public static Element element;
 	public static String termin_dostawy;
 	public static String rysunek_nr;
 	public static String ksiegowanie;

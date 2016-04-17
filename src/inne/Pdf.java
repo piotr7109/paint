@@ -40,12 +40,12 @@ public class Pdf
 	public static void main(String[] args) throws Exception
 	{
 		Pdf pdf = new Pdf();
-		String yourXhtmlContentAsString ="";// pdf.getHtmlSkroty();
+		String yourXhtmlContentAsString =pdf.getHtmlSkroty();
 		System.out.println(yourXhtmlContentAsString);
 		Document document = XMLResource.load(new ByteArrayInputStream(yourXhtmlContentAsString.getBytes())).getDocument();
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.setDocument(document, null);
-		renderer.getFontResolver().addFont("font/arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
+		renderer.getFontResolver().addFont("files/font/arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
 		renderer.layout();
 		FileOutputStream fos = new FileOutputStream(RESULT);
 		renderer.createPDF(fos);
@@ -54,9 +54,9 @@ public class Pdf
 
 	}
 
-	/*private String getHtmlSkroty()
+	private String getHtmlSkroty()
 	{
-		String katalog = "skroty/";
+		String katalog = "bez_skrotow/";
 
 		String html = "";
 		String header = "";
@@ -77,11 +77,11 @@ public class Pdf
 
 			if (i % 2 == 0)
 			{
-				cells += "<tr>" + String.format(cell, i);
+				cells += "<tr>" + String.format(cell, i,i+"",1+"",2+"",3+"",4+"");
 			}
 			else
 			{
-				cells += String.format(cell, i) + "</tr>";
+				cells += String.format(cell, i,i+"",1+"",2+"",3+"",4+"") + "</tr>";
 			}
 
 		}
@@ -94,7 +94,27 @@ public class Pdf
 
 		return html;
 
-	}*/
+	}
+	protected String getHtmlFile(String katalog, String url)
+	{
+
+		StringBuilder contentBuilder = new StringBuilder();
+		try
+		{
+			BufferedReader in = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/" + katalog + url)));
+			String str;
+			while ((str = in.readLine()) != null)
+			{
+				contentBuilder.append(str);
+			}
+			in.close();
+		}
+		catch (IOException e)
+		{
+		}
+		String content = contentBuilder.toString();
+		return content;
+	}
 
 	
 
