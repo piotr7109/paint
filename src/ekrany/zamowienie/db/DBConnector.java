@@ -16,8 +16,9 @@ public class DBConnector
 	{
 		int id_elementu = ZamowienieDane.element.getId();
 
+		ZamowienieDane.element.update();
+		
 		FiguraFactory.usunWszystkie(id_elementu);
-
 		int fig_size = ZamowienieDane.figury.size();
 		for (int i = 0; i < fig_size; i++)
 		{

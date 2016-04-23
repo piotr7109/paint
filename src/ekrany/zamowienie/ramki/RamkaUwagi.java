@@ -17,7 +17,6 @@ import ekrany.Zamowienie;
 
 public class RamkaUwagi
 {
-	private static double scale = Zamowienie.scale;
 	public static int x = 780;
 	public static int y = 580;
 
@@ -25,6 +24,12 @@ public class RamkaUwagi
 
 	public RamkaUwagi(Zamowienie panel)
 	{
+		initKontrolki(panel);
+	}
+	
+	protected void initKontrolki(Zamowienie panel)
+	{
+		panel.add(CONST.getTytul(rescale(x), rescale(y), "Uwagi", Color.RED, CONST.scale));
 		uwagi = new JTextArea("");
 		uwagi.setBounds(x + 5, y + 25, 200, 70);
 		CONST.setKoloryAktywny2(uwagi);
@@ -32,7 +37,7 @@ public class RamkaUwagi
 		uwagi.addKeyListener(panel);
 		uwagi.setLineWrap(true);
 		panel.add(uwagi);
-		rescale(scale);
+		rescale();
 	}
 
 	public static void ramkaUwagi(Graphics g, JPanel panel)
@@ -41,7 +46,6 @@ public class RamkaUwagi
 		g.setColor(Color.PINK);
 		g.drawRect(rescale(x), rescale(y), rescale(210), rescale(100));
 
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Uwagi", Color.RED, scale));
 	}
 
 	public static void ramkaUwagiUpdate(Zamowienie panel)
@@ -73,9 +77,9 @@ public class RamkaUwagi
 	}
 	private static int rescale(int number)
 	{
-		return (int)(number*scale);
+		return (int)(number*CONST.scale);
 	}
-	public static void rescale(double scale)
+	public static void rescale()
 	{
 		uwagi.setFont(new Font("",0, rescale(12)));
 		uwagi.setBounds(rescale(uwagi.getX()), rescale(uwagi.getY()), rescale(uwagi.getWidth()), rescale(uwagi.getHeight()));

@@ -1,6 +1,6 @@
 package inne;
 
-import pdf.WydrukBezSkrotowPdf;
+import pdf.ListaWysylkowaPdf;
 
 public class Test
 {
@@ -11,7 +11,7 @@ public class Test
 	public static void main(String[] args) throws Exception
 	{
 
-		WydrukBezSkrotowPdf pdf = new WydrukBezSkrotowPdf();
+		ListaWysylkowaPdf pdf = new ListaWysylkowaPdf("aa");
 		pdf.drukuj();
 
 	}

@@ -10,10 +10,10 @@ import dane.ZamowienieDane;
 
 public class FocusListeners
 {
-	private static HashMap<Integer, Integer> sred_sworzen = new HashMap<Integer, Integer>();
-	private static HashMap<Integer, Double> sred_waga = new HashMap<Integer, Double>();
+	public static HashMap<Integer, Integer> sred_sworzen = new HashMap<Integer, Integer>();
+	public static HashMap<Integer, Double> sred_waga = new HashMap<Integer, Double>();
 
-	private static void setSredSworzen()
+	public static void setSredSworzen()
 	{
 		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 
@@ -44,6 +44,7 @@ public class FocusListeners
 		map2.put(25, 3.85);
 		map2.put(28, 4.83);
 		map2.put(32, 6.31);
+		
 
 		sred_sworzen = map;
 		sred_waga = map2;

@@ -1,6 +1,7 @@
 package ekrany;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -36,20 +38,20 @@ public class Zamowienie extends JPanel implements KeyListener
 	/**
 	 * 
 	 */
-	public static double scale = 1.3;
 	private static final long serialVersionUID = 1651641468298004106L;
-	private final int WIDTH = (int)(CONST.WIDTH*scale);
-	private final int HEIGHT = (int)(CONST.HEIGHT*scale);
-	
+	private int WIDTH = (int) (CONST.WIDTH * CONST.scale);
+	private int HEIGHT = (int) (CONST.HEIGHT * CONST.scale);
 
 	public Figura figura;
 	public JButton zapisz_dane = new JButton("Zapisz dane");
 
 	public Zamowienie()
 	{
-		
+
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		WIDTH = (int) (CONST.WIDTH * CONST.scale);
+		HEIGHT = (int) (CONST.HEIGHT * CONST.scale);
 
 		this.addKeyListener(this);
 		init();
@@ -67,6 +69,10 @@ public class Zamowienie extends JPanel implements KeyListener
 
 		RamkaUwagi ramka_uwagi = new RamkaUwagi(this);
 		RamkaDaneKlienta ramka_dane_klienta = new RamkaDaneKlienta(this);
+		RamkaCzesci ramka_czesci = new RamkaCzesci(this);
+		RamkaWymiarMM ramka_wymiar_mm = new RamkaWymiarMM(this);
+		RamkaWymiarCM ramka_wymiar_cm = new RamkaWymiarCM(this);	
+		RamkaFigura ramka_figura = new RamkaFigura(this);
 	}
 
 	protected void initZapiszButton()
@@ -113,6 +119,8 @@ public class Zamowienie extends JPanel implements KeyListener
 
 	}
 
+	int i;
+
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -121,16 +129,33 @@ public class Zamowienie extends JPanel implements KeyListener
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, WIDTH, HEIGHT);
 		g2d.setColor(Color.YELLOW);
+		policzIloscKomponentow();
 		rysujRamki(g);
+	}
+
+	private void policzIloscKomponentow()
+	{
+		int label = 0;
+		int button = 0;
+		int text_field = 0;
+		for (Component c : this.getComponents())
+		{
+			if (c instanceof JButton) button++;
+			if (c instanceof JLabel)  label++;
+			if(c instanceof JTextField) text_field++;
+		}
+		System.out.println("Label:"+ label);
+		System.out.println("Buttin:"+ button);
+		System.out.println("TextField:"+ text_field);
 	}
 
 	private void rysujRamki(Graphics g)
 	{
 
 		RamkaDaneKlienta.ramkaDaneKlienta(g, this);
-		RamkaWymiarMM.ramkaWymiarMM(g, this);
+		RamkaWymiarMM.ramkaWymiarMM(g);
 		RamkaIlosc.ramkaIlosc(g, this);
-		RamkaCzesci.ramkaCzesci(g, this);
+		RamkaCzesci.ramkaCzesci(g);
 		RamkaFigura.ramkaFigura(g, this);
 
 		RamkaUwagi.ramkaUwagi(g, this);
@@ -145,9 +170,8 @@ public class Zamowienie extends JPanel implements KeyListener
 			g.setColor(Color.RED);
 		}
 		g.fillOval(WIDTH - 50, 0, 50, 50);
-		
-		RamkaWymiarMM.rescale(scale);
-		
+
+		RamkaWymiarMM.rescale();
 
 	}
 
@@ -180,12 +204,14 @@ public class Zamowienie extends JPanel implements KeyListener
 						{
 							DodawanieFigur.dodajFigure(this, true);
 						}
+						RamkaFigura.skalaReset();
 						break;
 					case 38: // GÓRA
 						if (z_x > 0)
 						{
 							z_x--;
 						}
+						RamkaFigura.skalaReset();
 						break;
 					case 39: // PRAWO
 					case 10: // ENTER
@@ -390,10 +416,10 @@ public class Zamowienie extends JPanel implements KeyListener
 		}
 		return false;
 	}
-	
+
 	public static int rescale(double number)
 	{
-		return (int)(scale*number);
+		return (int) (CONST.scale * number);
 	}
 
 }

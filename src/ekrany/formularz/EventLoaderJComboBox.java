@@ -3,6 +3,7 @@ package ekrany.formularz;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import dane.ZamowienieDane;
 import ekrany.Formularz;
 import modules.zamowienie.budowy.Budowa;
 import modules.zamowienie.elementy.Element;
@@ -37,6 +38,7 @@ public class EventLoaderJComboBox
 					Odbiorca item = (Odbiorca) form.odbiorcy_combo.getSelectedItem();
 					form.odbiorcy_kod.setText(item.getKod() + "");
 					wczytajBudowy(item.getId(), form);
+					ZamowienieDane.odbiorca = (Odbiorca)form.odbiorcy_combo.getSelectedItem();
 				}
 
 			}
@@ -68,6 +70,7 @@ public class EventLoaderJComboBox
 					Budowa item = (Budowa) form.budowy_combo.getSelectedItem();
 					form.budowy_kod.setText(item.getKod() + "");
 					wczytajObiekty(item.getId(), form);
+					ZamowienieDane.budowa = (Budowa)form.budowy_combo.getSelectedItem();
 				}
 			}
 		};
@@ -98,6 +101,7 @@ public class EventLoaderJComboBox
 					Obiekt item = (Obiekt) form.obiekty_combo.getSelectedItem();
 					form.obiekty_kod.setText(item.getKod() + "");
 					wczytajElementy(item.getId(), form);
+					ZamowienieDane.obiekt = (Obiekt)form.obiekty_combo.getSelectedItem();
 				}
 			}
 		};
@@ -128,6 +132,7 @@ public class EventLoaderJComboBox
 				{
 					Element item = (Element) form.elementy_combo.getSelectedItem();
 					form.elementy_kod.setText(item.getKod() + "");
+					ZamowienieDane.element = (Element)form.elementy_combo.getSelectedItem();
 				}
 			}
 		};

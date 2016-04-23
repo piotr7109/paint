@@ -23,9 +23,7 @@ public class ZamowienieDane
 	public static Budowa budowa;
 	public static Obiekt obiekt;
 	public static Element element;
-	public static String termin_dostawy;
-	public static String rysunek_nr;
-	public static String ksiegowanie;
+	
 	
 	
 	

@@ -18,17 +18,13 @@ import modules.czesci.Czesc;
 
 public class RamkaCzesci
 {
-	private static double scale = Zamowienie.scale;
-	public static void ramkaCzesci(Graphics g, JPanel panel)
+	
+	public RamkaCzesci(JPanel panel)
 	{
-		// ramka czêœci
 		int x = 780;
 		int y = 120;
-		g.setColor(Color.WHITE);
-		g.drawRect(rescale(x), rescale(y), rescale(210), rescale(450));
-
 		JLabel bok = new JLabel("Bok");
-		JLabel kat = new JLabel("K¹t");
+		JLabel kat = new JLabel("KÄ…t");
 
 		int x_bok = x + 60;
 		int x_kat = x + 150;
@@ -40,6 +36,16 @@ public class RamkaCzesci
 		kat.setFont(new Font("",0, rescale(12)));
 		panel.add(bok);
 		panel.add(kat);
+	}
+	public static void ramkaCzesci(Graphics g)
+	{
+		// ramka czï¿½ci
+		int x = 780;
+		int y = 120;
+		g.setColor(Color.WHITE);
+		g.drawRect(rescale(x), rescale(y), rescale(210), rescale(450));
+
+		
 
 		////
 
@@ -98,7 +104,7 @@ public class RamkaCzesci
 			}
 
 		}
-		rescale(scale);
+		rescale();
 		panel.repaint();
 	}
 
@@ -118,6 +124,7 @@ public class RamkaCzesci
 				Czesc czesc = ZamowienieDane.figury.get(index).figura.getCzesci().get(index_czesc);
 				czesc.setDlugosc(Integer.parseInt(ZamowienieDane.czesc_kontrolki.get(index_czesc).bok.getText()));
 				czesc.setKat(Integer.parseInt(ZamowienieDane.czesc_kontrolki.get(index_czesc).kat.getText()));
+				RamkaFigura.skalaReset();
 				panel.repaint();
 			}
 
@@ -153,9 +160,9 @@ public class RamkaCzesci
 	}
 	private static int rescale(int number)
 	{
-		return (int)(number*scale);
+		return (int)(number*CONST.scale);
 	}
-	public static void rescale(double scale)
+	public static void rescale()
 	{
 		for(CzescKontolki c_kontrolki: ZamowienieDane.czesc_kontrolki)
 		{

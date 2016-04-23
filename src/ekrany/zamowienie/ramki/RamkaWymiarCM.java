@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 import dane.CzescKontolki;
 import dane.ZamowienieDane;
 import dodatki.CONST;
+import dodatki.Obliczenia;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
 
 public class RamkaWymiarCM
 {
-	private static double scale = Zamowienie.scale;
 	public static JLabel max_wysokosc;
 	public static JLabel max_dlugosc;
 	public static JLabel calk_dlugosc;
@@ -25,6 +25,20 @@ public class RamkaWymiarCM
 	public static JLabel calk_ciezar;
 	private static ArrayList<JLabel> kontrolki = new ArrayList<JLabel>();
 
+	
+	public RamkaWymiarCM(Zamowienie panel)
+	{
+		int x = 780;
+		int y = 690;
+		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(cm) / CiÄ™Å¼ar(kg)", Color.RED, CONST.scale));
+
+		panel.add(CONST.getTytul(rescale(x), rescale(y + 15), "Max wysokoÅ›Ä‡:", Color.PINK, CONST.scale));
+		panel.add(CONST.getTytul(rescale(x), rescale(y + 30), "Max dÅ‚ugoÅ›Ä‡:", Color.PINK, CONST.scale));
+		panel.add(CONST.getTytul(rescale(x), rescale(y + 45), "CaÅ‚k. dÅ‚ugoÅ›Ä‡:", Color.PINK, CONST.scale));
+		panel.add(CONST.getTytul(rescale(x), rescale(y + 60), "CiÄ™ar:", Color.PINK, CONST.scale));
+		panel.add(CONST.getTytul(rescale(x), rescale(y + 75), "CaÅ‚k. ciÄ™ar:", Color.PINK, CONST.scale));
+	}
+	
 	public static void ramkaWymiarCM(Graphics g, Zamowienie panel)
 	{
 		// ramak wymiar cm
@@ -32,14 +46,6 @@ public class RamkaWymiarCM
 		int y = 690;
 		g.setColor(Color.BLUE);
 		g.drawRect(rescale(x), rescale(y), rescale(210), rescale(100));
-
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(cm) / Ciê¿ar(kg)", Color.RED, scale));
-
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 15), "Max wysokoœæ:", Color.PINK, scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 30), "Max d³ugoœæ:", Color.PINK, scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 45), "Ca³k. d³ugoœæ:", Color.PINK, scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 60), "Ciê¿ar:", Color.PINK, scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 75), "Ca³k. ciê¿ar:", Color.PINK, scale));
 
 		obliczEkstrema(panel);
 
@@ -49,11 +55,11 @@ public class RamkaWymiarCM
 	{
 		int x = 900;
 		int y = 690;
-		max_wysokosc = CONST.getTytul(x, y + 15, ".", Color.YELLOW, scale);
-		max_dlugosc = CONST.getTytul(x, y + 30, ".", Color.YELLOW, scale);
-		calk_dlugosc = CONST.getTytul(x, y + 45, ".", Color.YELLOW, scale);
-		ciezar = CONST.getTytul(x, y + 60, ".", Color.YELLOW, scale);
-		calk_ciezar = CONST.getTytul(x, y + 75, ".", Color.YELLOW, scale);
+		max_wysokosc = CONST.getTytul(x, y + 15, ".", Color.YELLOW, CONST.scale);
+		max_dlugosc = CONST.getTytul(x, y + 30, ".", Color.YELLOW, CONST.scale);
+		calk_dlugosc = CONST.getTytul(x, y + 45, ".", Color.YELLOW, CONST.scale);
+		ciezar = CONST.getTytul(x, y + 60, ".", Color.YELLOW, CONST.scale);
+		calk_ciezar = CONST.getTytul(x, y + 75, ".", Color.YELLOW, CONST.scale);
 
 		panel.add(max_wysokosc);
 		panel.add(max_dlugosc);
@@ -67,7 +73,7 @@ public class RamkaWymiarCM
 		kontrolki.add(ciezar);
 		kontrolki.add(calk_ciezar);
 
-		rescale(scale);
+		rescale();
 
 	}
 
@@ -81,7 +87,7 @@ public class RamkaWymiarCM
 		}
 		else
 		{
-			dlugosc = obliczDlugosc(index);
+			dlugosc = Obliczenia.obliczDlugosc(ZamowienieDane.figury.get(index).figura);
 		}
 		int round = 0;
 		calk_dlugosc.setText(CONST.round(dlugosc, round) + "");
@@ -154,7 +160,7 @@ public class RamkaWymiarCM
 			else
 			{
 
-				dlugosc = obliczDlugosc(i);
+				dlugosc = Obliczenia.obliczDlugosc(ZamowienieDane.figury.get(i).figura);
 			}
 			double waga_jedn = ZamowienieDane.figury.get(i).waga;
 			ciezar += obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(i).ilosc_sztuk;
@@ -167,25 +173,15 @@ public class RamkaWymiarCM
 		return (dlugosc * waga);
 	}
 
-	private static int obliczDlugosc(int index)
-	{
-		int dlugosc = 0;
-
-		for (Czesc czesc : ZamowienieDane.figury.get(index).figura.getCzesci())
-		{
-			dlugosc += czesc.getDlugosc();
-		}
-
-		return dlugosc;
-	}
+	
 
 	private static int last_kat;
 	private static int _x;
 	private static int _y;
 
-	private static Point eks_x = new Point(); // ekstrema w poziomie - szerokoœæ
+	private static Point eks_x = new Point(); // ekstrema w poziomie - szerokoï¿½ï¿½
 												// - x(max), y(min)
-	private static Point eks_y = new Point(); // ekstrema w pionie - wysokoœæ -
+	private static Point eks_y = new Point(); // ekstrema w pionie - wysokoï¿½ï¿½ -
 												// x(max), y(min)
 
 	private static void obliczEkstrema(Zamowienie panel)
@@ -267,16 +263,16 @@ public class RamkaWymiarCM
 		Double newX = pt[0];
 		Double newY = pt[1];
 
-		pt[0] = p.x; // pocz¹tkowa pozycja X
-		pt[1] = p.y; // pocz¹tkowa pozycja Y
+		pt[0] = p.x; // poczï¿½tkowa pozycja X
+		pt[1] = p.y; // poczï¿½tkowa pozycja Y
 
 		p.x = p.x - Math.abs(newX.intValue() - p.x);
 		p.y = p.y - Math.abs(newY.intValue() - p.y);
 
-		x2 = p.x + rozmiar / 2; // œrodek ³uku
-		y2 = p.y + rozmiar / 2; // œrodek ³uku
+		x2 = p.x + rozmiar / 2; // ï¿½rodek ï¿½uku
+		y2 = p.y + rozmiar / 2; // ï¿½rodek ï¿½uku
 
-		// liczenie pozycji k¹ta koñcowego
+		// liczenie pozycji kï¿½ta koï¿½cowego
 		AffineTransform.getRotateInstance(Math.toRadians(-c.getKat() * 1), x2, y2).transform(pt, 0, pt, 0, 1);
 		int x_koniec = (int) pt[0];
 		int y_koniec = (int) pt[1];
@@ -326,10 +322,10 @@ public class RamkaWymiarCM
 
 	private static int rescale(int number)
 	{
-		return (int) (number * scale);
+		return (int) (number * CONST.scale);
 	}
 
-	public static void rescale(double scale)
+	public static void rescale()
 	{
 		for (JLabel label : kontrolki)
 		{

@@ -1,6 +1,10 @@
 package dodatki;
 import java.awt.Point;
 
+import dane.ZamowienieDane;
+import modules.czesci.Czesc;
+import modules.figury.Figura;
+
 
 public class Obliczenia 
 {
@@ -12,11 +16,11 @@ public class Obliczenia
     	return (int)dl;
     }
 	/**
-	 * Funnkcja liczy k¹t pomiêdzy punktami a i c wyko¿ystuj¹c punkt œrodkowy b
+	 * Funnkcja liczy kï¿½t pomiï¿½dzy punktami a i c wykoï¿½ystujï¿½c punkt ï¿½rodkowy b
 	 * @param a - punkt start
-	 * @param b - punkt wspólny
+	 * @param b - punkt wspï¿½lny
 	 * @param c - punkt koniec
-	 * @return k¹t
+	 * @return kï¿½t
 	 */
 	public int getKat(Point a, Point b, Point c)
     {
@@ -29,4 +33,15 @@ public class Obliczenia
     		kat = kat+360;
 		return (int)(kat);
     }
+	public static int obliczDlugosc(Figura fig)
+	{
+		int dlugosc = 0;
+
+		for (Czesc czesc : fig.getCzesci())
+		{
+			dlugosc += czesc.getDlugosc();
+		}
+
+		return dlugosc;
+	}
 }

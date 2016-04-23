@@ -29,7 +29,6 @@ import modules.figury.FiguraFactory;
 public class DodawanieFigur
 {
 	private static Figura default_figura;
-	private static double scale = Zamowienie.scale;
 
 	public static void setDefaultFigura()
 	{
@@ -286,7 +285,7 @@ public class DodawanieFigur
 				{
 					text_field.setText(0 + "");
 				}
-
+				
 				aktualizujDane(index, panel);
 				CONST.setKoloryNieaktywny(text_field);
 			}
@@ -330,13 +329,14 @@ public class DodawanieFigur
 				FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
 				if (Integer.parseInt(kod) != f_zamowienie.figura.getKod())
 				{
-
+					
 					FiguraFactory f_factory = new FiguraFactory();
 					Figura figura = null;
 					if (!kod.equals(""))
 					{
-
+						RamkaFigura.skalaReset();
 						figura = f_factory.getFiguraByKod(Integer.parseInt(kod));
+						
 					}
 
 					if (figura != null)
@@ -355,7 +355,6 @@ public class DodawanieFigur
 				}
 				RamkaFigura.rysujKontrolki(panel, index);
 				RamkaCzesci.rysujKontrolki(panel, index);
-
 			}
 
 			@Override
@@ -367,10 +366,10 @@ public class DodawanieFigur
 
 	private static int rescale(int number)
 	{
-		return (int) (number * scale);
+		return (int) (number * CONST.scale);
 	}
 
-	public static void rescale(double scale)
+	public static void rescale()
 	{
 		for (FiguraKontrolki f_kontrolki : ZamowienieDane.f_kontrolki)
 		{

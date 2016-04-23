@@ -1,18 +1,25 @@
 package ekrany;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dane.ZamowienieDane;
+import dodatki.CONST;
 import ekrany.formularz.*;
 import modules.zamowienie.odbiorcy.Odbiorca;
 import modules.zamowienie.budowy.Budowa;
@@ -21,15 +28,12 @@ import modules.zamowienie.obiekty.Obiekt;
 
 public class Formularz extends JPanel
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7097849808157570212L;
 	private static final int WIDTH = 150;
 	private static final int HEIGHT = 20;
 	private static final int WIDTH_LABEL = 100;
 
-	private ArrayList<JLabel> kontrolki_label = new ArrayList<JLabel>();
+	private ArrayList<JTextField> kontrolki_label = new ArrayList<JTextField>();
 	private String nazwy_label[] = { "Odbiorca", "Budowa", "Obiekt", "Element" };
 
 	private JButton button_potwierdz;
@@ -59,37 +63,46 @@ public class Formularz extends JPanel
 	private JButton obiekt_edytuj = new JButton("Edytuj");
 	private JButton element_edytuj = new JButton("Edytuj");
 
+	private JButton lista_produkcyjna = new JButton("Lista produkcyjna");
+	private JButton lista_wysylkowa = new JButton("Lista wysyłkowa");
+	private JButton metki = new JButton("Metki");
+	private JButton wagi = new JButton("Wagi");
+	private JButton optymalizacja = new JButton("Optymalizacja");
+
 	public Formularz()
 	{
-
+		this.setPreferredSize(new Dimension((int) (CONST.scale * CONST.WIDTH), (int) (CONST.scale * CONST.HEIGHT)));
 		this.setLayout(null);
 
-		this.stworzEtykiety();
-		this.stworzKontrolki();
-		this.ustawKontrolkiKodow();
-		this.konfigurujKontrolki();
+		this.konfigurujEtykiety();
+		this.konfigurujKontrolkiCombo();
+		this.konfigurujKontrolkiKodow();
 		this.konfigurujKontrolkiNowe();
 		this.konfigurujKontrolkiEdytuj();
+		konfigurujKontrolkiWydruki();
 
 		EventLoaderJComboBox.wczytajOdbiorcow(this);
 
 	}
 
-	private void stworzKontrolki()
+	private void konfigurujKontrolkiWydruki()
 	{
-		int x = 120;
-		int y = -20;
-		Dimension combo_size = new Dimension(300, 25);
 
-		odbiorcy_combo.setSize(combo_size);
-		budowy_combo.setSize(combo_size);
-		obiekty_combo.setSize(combo_size);
-		elementy_combo.setSize(combo_size);
+		lista_produkcyjna.addActionListener(EventLoaderWydruki.drukujListeProdukcyjna());
+		lista_wysylkowa.addActionListener(EventLoaderWydruki.drukujListeWysylkowa());
+		metki.addActionListener(EventLoaderWydruki.drukujMetki());
+		wagi.addActionListener(EventLoaderWydruki.drukujWagi());
+		optymalizacja.addActionListener(EventLoaderWydruki.drukujOptymalizacje());
+		
+		add(lista_produkcyjna);
+		add(lista_wysylkowa);
+		add(metki);
+		add(wagi);
+		add(optymalizacja);
+	}
 
-		odbiorcy_combo.setLocation(x, y += HEIGHT + 10);
-		budowy_combo.setLocation(x, y += HEIGHT + 10);
-		obiekty_combo.setLocation(x, y += HEIGHT + 10);
-		elementy_combo.setLocation(x, y += HEIGHT + 10);
+	private void konfigurujKontrolkiCombo()
+	{
 
 		odbiorcy_combo.addActionListener(EventLoaderJComboBox.odbiorcyEvent(this));
 		budowy_combo.addActionListener(EventLoaderJComboBox.budowyEvent(this));
@@ -103,15 +116,29 @@ public class Formularz extends JPanel
 
 	}
 
-	private void ustawKontrolkiKodow()
+	private void konfigurujEtykiety()
 	{
-		int x = 440;
-		int y = -20;
-		Dimension text_size = new Dimension(35, 25);
-		odbiorcy_kod.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		budowy_kod.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		obiekty_kod.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		elementy_kod.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
+		int ile_kontrolek = nazwy_label.length;
+		for (int i = 0; i < ile_kontrolek; i++)
+		{
+			JTextField k_label = new JTextField(nazwy_label[i]);
+			k_label.setBorder(BorderFactory.createEmptyBorder());
+			k_label.setBackground(Color.WHITE);
+			k_label.setEditable(false);
+			kontrolki_label.add(k_label);
+
+			this.add(k_label);
+		}
+
+		button_potwierdz = new JButton("Potwierdź");
+
+		button_potwierdz.addActionListener(buttonPotwierdz());
+
+		add(button_potwierdz);
+	}
+
+	private void konfigurujKontrolkiKodow()
+	{
 
 		odbiorcy_kod.addFocusListener(EventLoaderJTextfield.odbiorcaEvent(this));
 		budowy_kod.addFocusListener(EventLoaderJTextfield.budowaEvent(this));
@@ -124,23 +151,32 @@ public class Formularz extends JPanel
 		add(elementy_kod);
 	}
 
-	private void stworzEtykiety()
+	private void konfigurujKontrolkiNowe()
 	{
-		int ile_kontrolek = nazwy_label.length;
-		for (int i = 0; i < ile_kontrolek; i++)
-		{
-			JLabel k_label = new JLabel(nazwy_label[i]);
-			k_label.setSize(new Dimension(WIDTH_LABEL, HEIGHT));
 
-			kontrolki_label.add(k_label);
+		odbiorca_nowy.addActionListener(EventLoaderNowe.odbiorcaEvent(this));
+		budowa_nowy.addActionListener(EventLoaderNowe.budowaEvent(this));
+		obiekt_nowy.addActionListener(EventLoaderNowe.obiektEvent(this));
+		element_nowy.addActionListener(EventLoaderNowe.elementEvent(this));
 
-			this.add(k_label);
-		}
+		add(odbiorca_nowy);
+		add(budowa_nowy);
+		add(obiekt_nowy);
+		add(element_nowy);
+	}
 
-		button_potwierdz = new JButton("Potwierd�");
-		button_potwierdz.setSize(WIDTH, HEIGHT);
-		button_potwierdz.addActionListener(buttonPotwierdz());
-		this.add(button_potwierdz);
+	private void konfigurujKontrolkiEdytuj()
+	{
+
+		odbiorca_edytuj.addActionListener(EventLoaderEdytuj.odbiorcaEvent(this));
+		budowa_edytuj.addActionListener(EventLoaderEdytuj.budowaEvent(this));
+		obiekt_edytuj.addActionListener(EventLoaderEdytuj.obiektEvent(this));
+		element_edytuj.addActionListener(EventLoaderEdytuj.elementEvent(this));
+
+		add(odbiorca_edytuj);
+		add(budowa_edytuj);
+		add(obiekt_edytuj);
+		add(element_edytuj);
 	}
 
 	protected ActionListener buttonPotwierdz()
@@ -162,7 +198,7 @@ public class Formularz extends JPanel
 					ZamowienieDane.budowa = (Budowa) budowy_combo.getSelectedItem();
 					ZamowienieDane.obiekt = (Obiekt) obiekty_combo.getSelectedItem();
 					ZamowienieDane.element = (Element) elementy_combo.getSelectedItem();
-					frame.add(getNewZamowienie());
+					frame.add(new Zamowienie());
 				}
 				else
 				{
@@ -180,56 +216,68 @@ public class Formularz extends JPanel
 		return new Komunikat("Brak obiektu", frame);
 	}
 
-	protected Zamowienie getNewZamowienie()
+	///////////////////////////////////////// RESIZE
+	@Override
+	public void paintComponent(Graphics g)
 	{
-		return new Zamowienie();
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		float scale = ((float) (this.getWidth()) / 1000);
+		CONST.scale = scale;
+		resize();
 	}
 
-	private void konfigurujKontrolkiNowe()
+	protected void resize()
+	{
+		resizeCombo();
+		resizeTextField();
+		resizeLabel();
+		resizeButton();
+		resizeWydruki();
+		System.out.println("REPAINT");
+		for (Component comp : this.getComponents())
+		{
+			((JComponent) comp).setFont(new Font("", 0, CONST.rescale(12)));
+		}
+		System.out.println("REPAINT END");
+
+	}
+
+	private void resizeWydruki()
+	{
+		Dimension size = new Dimension(CONST.rescale(150), CONST.rescale(50));
+		int y = -size.height;
+		int x = this.getWidth() - size.width;
+		
+
+		lista_produkcyjna.setBounds(x, y += size.height, size.width, size.height);
+		lista_wysylkowa.setBounds(x, y += size.height, size.width, size.height);
+		metki.setBounds(x, y += size.height, size.width, size.height);
+		wagi.setBounds(x, y += size.height, size.width, size.height);
+		optymalizacja.setBounds(x, y += size.height, size.width, size.height);
+	}
+
+	private void resizeButton()
 	{
 		int y = -20;
-		int x = 480;
-		Dimension text_size = new Dimension(75, 25);
+		int x = CONST.rescale(480);
+		Dimension text_size = new Dimension(CONST.rescale(85), CONST.rescale(25));
 
-		odbiorca_nowy.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		budowa_nowy.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		obiekt_nowy.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		element_nowy.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
+		odbiorca_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowa_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekt_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		element_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 
-		odbiorca_nowy.addActionListener(EventLoaderNowe.odbiorcaEvent(this));
-		budowa_nowy.addActionListener(EventLoaderNowe.budowaEvent(this));
-		obiekt_nowy.addActionListener(EventLoaderNowe.obiektEvent(this));
-		element_nowy.addActionListener(EventLoaderNowe.elementEvent(this));
+		x = CONST.rescale(580);
+		y = -20;
 
-		add(odbiorca_nowy);
-		add(budowa_nowy);
-		add(obiekt_nowy);
-		add(element_nowy);
+		odbiorca_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowa_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekt_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		element_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 	}
 
-	private void konfigurujKontrolkiEdytuj()
-	{
-		int y = -20;
-		int x = 580;
-		Dimension text_size = new Dimension(75, 25);
-
-		odbiorca_edytuj.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		budowa_edytuj.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		obiekt_edytuj.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-		element_edytuj.setBounds(x, y += HEIGHT + 10, text_size.width, text_size.height);
-
-		odbiorca_edytuj.addActionListener(EventLoaderEdytuj.odbiorcaEvent(this));
-		budowa_edytuj.addActionListener(EventLoaderEdytuj.budowaEvent(this));
-		obiekt_edytuj.addActionListener(EventLoaderEdytuj.obiektEvent(this));
-		element_edytuj.addActionListener(EventLoaderEdytuj.elementEvent(this));
-
-		add(odbiorca_edytuj);
-		add(budowa_edytuj);
-		add(obiekt_edytuj);
-		add(element_edytuj);
-	}
-
-	private void konfigurujKontrolki()
+	private void resizeLabel()
 	{
 		int y = -20;
 		int x = 20;
@@ -238,10 +286,38 @@ public class Formularz extends JPanel
 		for (int i = 0; i < ile_kontrolek; i++)
 		{
 			y += HEIGHT + 10;
-			kontrolki_label.get(i).setLocation(x, y);
-
+			kontrolki_label.get(i).setLocation(CONST.rescale(x), CONST.rescale(y));
+			kontrolki_label.get(i).setSize(new Dimension(CONST.rescale(WIDTH_LABEL), CONST.rescale(HEIGHT)));
 		}
 
-		button_potwierdz.setLocation(x + WIDTH_LABEL, y + HEIGHT * 2);
+		button_potwierdz.setLocation(CONST.rescale(x + WIDTH_LABEL), CONST.rescale(y + HEIGHT * 2));
+		button_potwierdz.setSize(CONST.rescale(WIDTH), (CONST.rescale(HEIGHT)));
+	}
+
+	private void resizeTextField()
+	{
+		int x = CONST.rescale(440);
+		int y = -20;
+		Dimension text_size = new Dimension(CONST.rescale(35), CONST.rescale(25));
+		odbiorcy_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowy_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekty_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		elementy_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+	}
+
+	private void resizeCombo()
+	{
+		int x = CONST.rescale(120);
+		int y = -20;
+		Dimension combo_size = new Dimension((int) (300 * CONST.scale), (int) (25 * CONST.scale));
+		odbiorcy_combo.setSize(combo_size);
+		budowy_combo.setSize(combo_size);
+		obiekty_combo.setSize(combo_size);
+		elementy_combo.setSize(combo_size);
+
+		odbiorcy_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
+		budowy_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
+		obiekty_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
+		elementy_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
 	}
 }

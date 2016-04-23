@@ -18,19 +18,28 @@ import modules.czesci.Czesc;
 
 public class RamkaFigura
 {
-	private static double scale = Zamowienie.scale;
+	private static int width = rescale(250);
+	private static int height = rescale(350);
+	private static int x, y;
+
+	public RamkaFigura(Zamowienie panel)
+	{
+		x = 520;
+		y = 120;
+		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(cm)", Color.WHITE, CONST.scale));
+	}
 
 	public static void ramkaFigura(Graphics g, Zamowienie panel)
 	{
 		// ramka figura
-		int x = 520;
-		int y = 120;
+		width = rescale(250);
+		height = rescale(350);
+		x = 520;
+		y = 120;
 		g.setColor(Color.BLUE);
-		g.drawRect(rescale(x), rescale(y), rescale(250), rescale(350));
+		g.drawRect(rescale(x), rescale(y), width, height);
 
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(cm)", Color.WHITE, scale));
-
-		_x = x + 25;
+		_x = x + 50;
 		_y = y + 150;
 		last_kat = 0;
 
@@ -77,7 +86,7 @@ public class RamkaFigura
 			}
 
 		}
-		rescale(scale);
+		rescale(CONST.scale);
 		panel.repaint();
 	}
 
@@ -110,16 +119,20 @@ public class RamkaFigura
 	}
 
 	private static int last_kat;
-	private static int _x;
-	private static int _y;
-	private static double skala = 3;
+	private static int _x, _y;
+	private static double skala = 1;
+
+	public static void skalaReset()
+	{
+		skala = 1;
+	}
 
 	private static void rysujFigury(Graphics g, Zamowienie panel)
 	{
-
 		if (panel.figura != null)
 		{
 			int index = 0;
+			boolean error = false;
 			for (CzescKontolki czesc_text : ZamowienieDane.czesc_kontrolki)
 			{
 				Czesc czesc = new Czesc();
@@ -138,6 +151,7 @@ public class RamkaFigura
 				}
 				int start_x = _x;
 				int start_y = _y;
+
 				switch (czesc.getTyp())
 				{
 					case "linia":
@@ -157,10 +171,22 @@ public class RamkaFigura
 						}
 						break;
 				}
+				if (rescale(_x) > width + rescale(x) || rescale(_y) > height + rescale(y) || rescale(_x) < rescale(x) || rescale(_y) < rescale(y))
+				{
+					error = true;
+					break;
+				}
+				else
+				{
+					ZamowienieDane.czesc_kontrolki_figura.get(index).bok.setLocation(rescale((start_x + _x) / 2), rescale((start_y + _y) / 2));
+					index++;
+				}
 
-				ZamowienieDane.czesc_kontrolki_figura.get(index).bok.setLocation(rescale((start_x + _x) / 2), rescale((start_y + _y) / 2));
-				index++;
-
+			}
+			if (error)
+			{
+				skala += 0.4;
+				panel.repaint();
 			}
 		}
 	}
@@ -222,18 +248,19 @@ public class RamkaFigura
 		g.drawLine(rescale(_x), rescale(_y), rescale(x + _x), rescale(y + _y));
 		_x += x;
 		_y += y;
+
 	}
 
 	private static int rescale(int number)
 	{
-		return (int) (number * scale);
+		return (int) (number * CONST.scale);
 	}
 
 	public static void rescale(double scale)
 	{
 		for (CzescKontolki czesc : ZamowienieDane.czesc_kontrolki_figura)
 		{
-			czesc.bok.setFont(new Font("",0,rescale(12)));
+			czesc.bok.setFont(new Font("", 0, rescale(12)));
 		}
 	}
 }

@@ -32,10 +32,10 @@ public class PanelGlowny extends JPanel
 		super(new GridLayout(1, 1));
 
 		panel = new JTabbedPane();
-		EkranRysowanie();
+		//EkranRysowanie();
 		EkranFormularz();
 
-		EkranWyswietlFigure();
+		//EkranWyswietlFigure();
 
 		//EkranZamowienie();
 		panel.setSelectedComponent(form);
@@ -46,6 +46,7 @@ public class PanelGlowny extends JPanel
 
 	
 
+	
 	private void EkranZamowienie()
 	{
 		zamowienie = new Zamowienie();
@@ -139,7 +140,7 @@ public class PanelGlowny extends JPanel
 		// Create and set up the window.
 		JFrame frame = new JFrame("Projekt Blacha");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		// Add content to the window.
 		frame.add(new PanelGlowny(), BorderLayout.CENTER);
 

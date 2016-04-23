@@ -3,11 +3,11 @@ package ekrany.zamowienie.ramki;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import dodatki.CONST;
 import ekrany.Zamowienie;
 
 public class RamkaIlosc
 {
-	public static double scale = Zamowienie.scale;
 	public static void ramkaIlosc(Graphics g, Zamowienie panel)
 	{
 		int x = 10;
@@ -18,7 +18,7 @@ public class RamkaIlosc
 	
 	private static int rescale(int number)
 	{
-		return (int)(number*scale);
+		return (int)(number*CONST.scale);
 	}
 	public static void rescale(double scale)
 	{

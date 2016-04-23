@@ -8,24 +8,27 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.text.JTextComponent;
 
+import dane.ZamowienieDane;
+
 public class CONST
 {
 	public static final Dimension btn_size = new Dimension(100, 25);
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 800;
+	public static float scale = 1.0f;
 
 	public static JLabel getTytul(int x, int y, String tekst, Color c, double scale)
 	{
 		JLabel tytul = new JLabel(tekst);
 		tytul.setBounds(x + 5, y + 5, 200, 20);
 		tytul.setForeground(c);
-		tytul.setFont(new Font("",0, rescale(12,scale)));
+		tytul.setFont(new Font("",0, rescale(12)));
 
 		return tytul;
 	}
-	private static int rescale(int number, double scale)
+	public static int rescale(int number)
 	{
-		return (int)(number*scale);
+		return (int)(number*CONST.scale);
 	}
 
 	public static double radians(int kat)
@@ -43,6 +46,12 @@ public class CONST
 		value = value * factor;
 		long tmp = Math.round(value);
 		return (double) tmp / factor;
+	}
+	public static String nullStringToEmpty( String str)
+	{
+		if(str.equals("null"))
+			return "";
+		return str;
 	}
 
 	public static void setKoloryAktywny(JTextComponent text_field)
@@ -70,5 +79,40 @@ public class CONST
 		text_field.setBorder(BorderFactory.createEmptyBorder());
 		text_field.setForeground(Color.YELLOW);
 		text_field.setOpaque(false);
+	}
+	public static String transformToZeroNumber(int liczba)
+	{
+		String kod = "";
+
+		if (liczba < 10)
+		{
+			kod += "00";
+		}
+		else if (liczba < 100)
+		{
+			kod += "0";
+		}
+		else
+		{
+			kod += ".";
+		}
+		kod += liczba;
+		return kod;
+	}
+	public static String getKodZamowienia()
+	{
+		String kod = "";
+
+		kod += transformToZeroNumber(ZamowienieDane.odbiorca.getKod());
+		kod += transformToZeroNumber(ZamowienieDane.budowa.getKod());
+		if (ZamowienieDane.obiekt.getKod() < 10)
+		{
+			kod += "0";
+		}
+		kod += ZamowienieDane.obiekt.getKod();
+
+		kod += "." + transformToZeroNumber(ZamowienieDane.element.getKod());
+
+		return kod;
 	}
 }

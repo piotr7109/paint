@@ -14,18 +14,20 @@ import ekrany.Zamowienie;
 
 public class RamkaWymiarMM
 {
-	public static double scale = Zamowienie.scale;
 
-	public static void ramkaWymiarMM(Graphics g, Zamowienie panel)
+	public RamkaWymiarMM(Zamowienie panel)
+	{
+		initKontrolki(panel);
+	}
+	
+	protected void initKontrolki(Zamowienie panel)
 	{
 		int x = 10;
 		int y = 120;
-		g.setColor(Color.BLUE);
-		g.drawRect(rescale(x), rescale(y), rescale(500), rescale(300));
+		
+		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(mm)", Color.PINK, CONST.scale));
 
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(mm)", Color.PINK, scale));
-
-		String elem[] = { "Lp", "Pozcja", "Sztuk", "Œrednica", "Figura", "Il. pac.", "Maszyna", "Ma??", "Sworzeñ" };
+		String elem[] = { "Lp", "Pozcja", "Sztuk", "Åšrednica", "Figura", "Il. pac.", "Maszyna", "Ma??", "SworzeÅ„" };
 		int i = 0;
 		for (String _elem : elem)
 		{
@@ -38,8 +40,16 @@ public class RamkaWymiarMM
 			panel.add(element);
 
 		}
-		x = 10;
-		y = 120;
+	}
+	
+	public static void ramkaWymiarMM(Graphics g)
+	{
+		int x = 10;
+		int y = 120;
+		g.setColor(Color.BLUE);
+		g.drawRect(rescale(x), rescale(y), rescale(500), rescale(300));
+
+		
 
 	}
 
@@ -91,10 +101,10 @@ public class RamkaWymiarMM
 
 	private static int rescale(int number)
 	{
-		return (int) (number * scale);
+		return (int) (number * CONST.scale);
 	}
 
-	public static void rescale(double scale)
+	public static void rescale()
 	{
 		for (FiguraKontrolki fig_k : ZamowienieDane.f_kontrolki)
 		{
