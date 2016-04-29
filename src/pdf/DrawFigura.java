@@ -2,6 +2,7 @@ package pdf;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -19,8 +20,9 @@ import modules.figury.Figura;
 public class DrawFigura
 {
 	public static final String RESULT = System.getProperty("user.home") + "/Desktop/java_pdf/png/";
-	private static int width = 300;
+	private static int width = 450;
 	private static int height = 150;
+
 	public static String rysuj(Figura figura)
 	{
 		String filename = "rbs" + (int) (Math.random() * 100000);
@@ -29,36 +31,36 @@ public class DrawFigura
 
 			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			Graphics2D ig2 = bi.createGraphics();
-			ig2.setStroke(new BasicStroke(2.5f));
+			ig2.setStroke(new BasicStroke(3f));
+			ig2.setFont(new Font("", 0, 20));
 			skala = 0.5;
-			_x = 100;
-			_y = 50;
+			_x = 50;
+			_y = 70;
 			last_kat = 0;
 
 			while (rysujFigury(ig2, figura))
 			{
 				last_kat = 0;
-				_x = 100;
+				_x = 50;
 				_y = 70;
 				ig2.setColor(Color.white);
 				ig2.fillRect(0, 0, width, height);
 				ig2.setColor(Color.black);
 				skala += 0.01;
 			}
-			
-			ImageIO.write(bi, "PNG", new File("temp_img/"+filename + ".PNG"));
+
+			ImageIO.write(bi, "PNG", new File("temp_img/" + filename + ".PNG"));
 		}
 		catch (IOException ie)
 		{
 			ie.printStackTrace();
 		}
-		return "temp_img/"+filename + ".PNG";
+		return "temp_img/" + filename + ".PNG";
 	}
 
 	private static int last_kat;
 	private static int _x, _y;
 	private static double skala = 0.5;
-	
 
 	private static int rescale(int number)
 	{
@@ -134,7 +136,6 @@ public class DrawFigura
 		int y_koniec = (int) pt[1];
 
 		g.drawArc(rescale(p.x), rescale(p.y), rescale(rozmiar), rescale(rozmiar), (poprz_kat), (c.getKat()));
-
 		if (last_kat < 0)
 		{
 			while (last_kat < -360)
@@ -159,6 +160,11 @@ public class DrawFigura
 		last_kat = c.getKat() + poprz_kat;
 
 		g.drawLine(_x, _y, x + _x, y + _y);
+		g.setColor(Color.WHITE);
+		g.fillRect((x + 2 * _x) / 2 , (y + 2 * _y) / 2 - 12 , 30, 13 );
+		g.setColor(Color.BLACK);
+		g.drawString(c.getDlugosc() + "", (x + 2 * _x) / 2 , (y + 2 * _y) / 2 );
+		
 		_x += x;
 		_y += y;
 

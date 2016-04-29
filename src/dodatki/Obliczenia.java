@@ -1,5 +1,6 @@
 package dodatki;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import dane.ZamowienieDane;
 import modules.czesci.Czesc;
@@ -43,5 +44,54 @@ public class Obliczenia
 		}
 
 		return dlugosc;
+	}
+	public static double obliczDlugoscRzeczywista(int index)
+	{
+		double dlugosc = 0;
+
+		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();
+		int sworzen = ZamowienieDane.figury.get(index).sworzen / 2;
+		int srednica = ZamowienieDane.figury.get(index).srednica;
+
+		ArrayList<Czesc> czesci = cloneCzesci(index);
+		for (int i = 0; i < size - 1; i++)
+		{
+			Czesc czesc = czesci.get(i);
+			Czesc czesc_n = czesci.get(i + 1);
+
+			if (czesc.getTyp().equals("okrag") || czesc_n.getTyp().equals("okrag"))
+			{
+				dlugosc += czesc.getDlugosc();
+
+			}
+			else
+			{
+				int kat = czesc_n.getKat();
+				kat = Math.abs(kat);
+
+				double a = czesc.getDlugosc();
+				double b = 2 * Math.PI * ((sworzen + srednica) / 10) * kat / 360 / 2;
+				// int c = czesc_n.getDlugosc();
+				dlugosc += (a - b);
+
+			}
+		}
+
+		dlugosc += czesci.get(size - 1).getDlugosc();
+
+		return dlugosc;
+	}
+	private static ArrayList<Czesc> cloneCzesci(int index)
+	{
+		ArrayList<Czesc> czesci = new ArrayList<Czesc>();
+		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();
+
+		for (int i = 0; i < size; i++)
+		{
+			Czesc c = new Czesc(ZamowienieDane.figury.get(index).figura.getCzesci().get(i));
+			czesci.add(c);
+		}
+
+		return czesci;
 	}
 }

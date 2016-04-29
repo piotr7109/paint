@@ -22,6 +22,7 @@ abstract public class PdfCreator implements PdfCreatorInterface
 	{
 		String yourXhtmlContentAsString = getHtml();
 		Document document = XMLResource.load(new ByteArrayInputStream(yourXhtmlContentAsString.getBytes())).getDocument();
+		System.out.println(yourXhtmlContentAsString);
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.setDocument(document, null);
 		try
@@ -34,7 +35,7 @@ abstract public class PdfCreator implements PdfCreatorInterface
 		}
 		catch (Exception e)
 		{
-			System.err.println(e.getStackTrace());
+			System.err.println(e);
 		}
 	}
 

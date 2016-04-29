@@ -8,6 +8,7 @@ import dane.ZamowienieDane;
 import dodatki.CONST;
 import dodatki.FocusListeners;
 import ekrany.zamowienie.db.DBConnector;
+import pdf.ListaProdukcyjnaPdf;
 import pdf.ListaWysylkowaPdf;
 
 public class EventLoaderWydruki
@@ -27,7 +28,13 @@ public class EventLoaderWydruki
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
+				if (ZamowienieDane.element != null)
+				{
+					initDane();
+					String kod = CONST.getKodZamowienia();
+					ListaProdukcyjnaPdf pdf = new ListaProdukcyjnaPdf(kod);
+					pdf.drukuj();
+				}
 			}
 		};
 	}
