@@ -26,7 +26,7 @@ public class CzescLista extends AbstractLista
 	}
 	public ArrayList<Object> getCzesci(int id_figury)
 	{
-		query = String.format("select * FROM t_element_figura_czesci where id_figury =  %d", id_figury);
+		query = String.format("select * FROM t_element_figura_czesci where id_figury =  %d ORDER by id", id_figury);
 		ArrayList<Object> czesci = (ArrayList<Object>) getList();
 		return czesci;
 	}

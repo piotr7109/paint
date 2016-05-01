@@ -1,7 +1,5 @@
 package pdf;
 
-import java.util.HashMap;
-
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.FocusListeners;
@@ -44,7 +42,7 @@ public class ListaProdukcyjnaPdf extends PdfCreator
 						cells += header;
 						cells += "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>";
 					}
-					if(cells.equals("") && index ==0)
+					if (cells.equals("") && index == 0)
 					{
 						cells += header;
 						cells += "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>";
@@ -56,10 +54,11 @@ public class ListaProdukcyjnaPdf extends PdfCreator
 					cells += "<tr>" + cell_html + "</tr>";
 					index++;
 				}
+
 			}
 
 		}
-		content += cells+"</table>";
+		content += cells + "</table>";
 		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), content);
 
 		return html;
