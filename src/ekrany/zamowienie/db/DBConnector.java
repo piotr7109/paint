@@ -59,6 +59,7 @@ public class DBConnector
 
 	public static void odczytajDane()
 	{
+		ZamowienieDane.figury.clear();
 		FiguraLista figury_lista = new FiguraLista(ZamowienieDane.element.getId());
 
 		ArrayList<Object> objects_figury = figury_lista.getList();
@@ -72,7 +73,6 @@ public class DBConnector
 			modules.figury.Figura fig = new modules.figury.Figura();
 
 			fig.setKod(fig_temp.getKod());
-			System.out.println("KOD:" + fig_temp.getKod());
 			int czesc_size = fig_temp.getCzesci().size();
 
 			for (int j = 0; j < czesc_size; j++)

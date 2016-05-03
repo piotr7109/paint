@@ -1,12 +1,10 @@
 package pdf;
 
-import java.awt.event.FocusListener;
 
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.FocusListeners;
 import dodatki.Obliczenia;
-import modules.figury.Figura;
 
 public class ListaWysylkowaPdf extends PdfCreator
 {
@@ -55,7 +53,6 @@ public class ListaWysylkowaPdf extends PdfCreator
 					fig.ilosc_sztuk,
 					fig.srednica,
 					obrazek);
-			System.out.println(obrazek);
 			if (i % 2 == 0)
 			{
 				cells += "<tr>" + cell_html;

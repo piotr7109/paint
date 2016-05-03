@@ -1,5 +1,6 @@
 package inne;
 
+import pdf.ListaWagiPdf;
 import pdf.ListaWysylkowaPdf;
 
 public class Test
@@ -11,7 +12,7 @@ public class Test
 	public static void main(String[] args) throws Exception
 	{
 
-		ListaWysylkowaPdf pdf = new ListaWysylkowaPdf("aa");
+		ListaWagiPdf pdf = new ListaWagiPdf("aa");
 		pdf.drukuj();
 
 	}
