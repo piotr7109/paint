@@ -3,7 +3,7 @@ package modules.zamowienie.elementy.figury;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 import modules.AbstractFactory;
 
 public class FiguraFactory extends AbstractFactory
@@ -43,11 +43,11 @@ public class FiguraFactory extends AbstractFactory
 	}
 	public static void usunWszystkie(int id_elementu)
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query_czesci = String.format("DELETE FROM t_element_figura_czesci WHERE id_figury in (SELECT id from t_element_figury  where id_elementu = %d)", id_elementu);
 		pgsq.queryOpertaion(query_czesci);
 		
-		pgsq = new PostgreSQLJDBC();
+		pgsq = new MySQLJDBC();
 		String query_figura = String.format("DELETE FROM t_element_figury where id_elementu=%d", id_elementu);
 		pgsq.queryOpertaion(query_figura);
 	}

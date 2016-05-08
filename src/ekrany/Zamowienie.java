@@ -129,7 +129,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, WIDTH, HEIGHT);
 		g2d.setColor(Color.YELLOW);
-		policzIloscKomponentow();
+		//policzIloscKomponentow();
 		rysujRamki(g);
 	}
 
@@ -383,7 +383,7 @@ public class Zamowienie extends JPanel implements KeyListener
 
 			// czyszczenie pól jak Excelu - wchodząc w pole i wpisując kasujesz
 			// poprzednią zawartość
-			if (jestKodemCyfry(e.getKeyCode()))
+			if (CONST.jestKodemCyfry(e.getKeyCode()))
 			{
 				JTextField current_text_field = (JTextField) KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 				if (poprzedni_text_field != current_text_field)
@@ -408,14 +408,7 @@ public class Zamowienie extends JPanel implements KeyListener
 	{
 	}
 
-	private boolean jestKodemCyfry(int kod)
-	{
-		if ((kod >= 96 && kod <= 105) || (kod >= 48 && kod <= 57))
-		{
-			return true;
-		}
-		return false;
-	}
+	
 
 	public static int rescale(double number)
 	{

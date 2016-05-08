@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 
 abstract public class AbstractFactory
 {
@@ -25,7 +25,7 @@ abstract public class AbstractFactory
 	public Object getObject()
 	{
 		Object object = null;
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		Statement stmt;
 		Connection c = pgsq.getC(); 
 		try

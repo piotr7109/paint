@@ -18,6 +18,8 @@ public class FiguraLista extends AbstractLista
 		
 		fig.setId(rs.getInt("id"));
 		fig.setKod(rs.getInt("kod"));
+		fig.start_x = rs.getInt("start_x");
+		fig.start_y = rs.getInt("start_y");
 		return fig;
 	}
 }

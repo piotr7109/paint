@@ -1,6 +1,6 @@
 package modules.zamowienie.elementy;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 import modules.zamowienie.ZamowienieCore;
 
 public class Element extends ZamowienieCore
@@ -45,7 +45,7 @@ public class Element extends ZamowienieCore
 
 	public void insert()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("INSERT INTO %s (kod, nazwa,id_parent, uwagi, termin_dostawy, rysunek) VALUES (%d, '%s',%d, '%s', '%s', '%s')", table, kod, nazwa, id_parent, "", termin_dostawy,
 				rysunek);
 		pgsq.queryOpertaion(query);
@@ -53,7 +53,7 @@ public class Element extends ZamowienieCore
 
 	public void update()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("UPDATE %s SET nazwa = '%s',termin_dostawy = '%s', rysunek='%s' WHERE id = %d", table, nazwa, termin_dostawy, rysunek, id);
 		pgsq.queryOpertaion(query);
 	}

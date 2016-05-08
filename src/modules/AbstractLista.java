@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 
 abstract public class AbstractLista
 {
@@ -21,7 +21,7 @@ abstract public class AbstractLista
 	public ArrayList<Object> getList()
 	{
 		ArrayList<Object> objects = new ArrayList<Object>();
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		Statement stmt;
 		Connection c = pgsq.getC();
 		try

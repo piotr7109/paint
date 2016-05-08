@@ -115,4 +115,12 @@ public class CONST
 
 		return kod;
 	}
+	public static boolean jestKodemCyfry(int kod)
+	{
+		if ((kod >= 96 && kod <= 105) || (kod >= 48 && kod <= 57))
+		{
+			return true;
+		}
+		return false;
+	}
 }

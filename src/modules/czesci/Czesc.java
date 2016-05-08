@@ -1,6 +1,6 @@
 package modules.czesci;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 
 public class Czesc
 {
@@ -74,8 +74,14 @@ public class Czesc
 
 	public void insert()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("INSERT INTO t_czesci(id_figury, dlugosc, kat, typ) VALUES(%d, %d, %d, '%s')", id_figury, dlugosc, kat, typ);
+		pgsq.queryOpertaion(query);
+	}
+	public void insertAtrapa()
+	{
+		MySQLJDBC pgsq = new MySQLJDBC();
+		String query = String.format("INSERT INTO t_czesci_atrapy(id_figury, dlugosc, kat, typ) VALUES(%d, %d, %d, '%s')", id_figury, dlugosc, kat, typ);
 		pgsq.queryOpertaion(query);
 	}
 

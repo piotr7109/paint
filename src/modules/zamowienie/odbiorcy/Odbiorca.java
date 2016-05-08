@@ -1,6 +1,6 @@
 package modules.zamowienie.odbiorcy;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 import modules.zamowienie.ZamowienieCore;
 
 public class Odbiorca extends ZamowienieCore
@@ -25,7 +25,7 @@ public class Odbiorca extends ZamowienieCore
 	@Override
 	public void insert()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("INSERT INTO %s (kod, nazwa) VALUES (%d, '%s')", table, kod, nazwa);
 		pgsq.queryOpertaion(query);
 	}

@@ -69,6 +69,8 @@ public class Formularz extends JPanel
 	private JButton wagi = new JButton("Wagi");
 	private JButton optymalizacja = new JButton("Optymalizacja");
 
+	private JButton rysowanie = new JButton("Dodaj Figurę");
+
 	public Formularz()
 	{
 		this.setPreferredSize(new Dimension((int) (CONST.scale * CONST.WIDTH), (int) (CONST.scale * CONST.HEIGHT)));
@@ -79,10 +81,18 @@ public class Formularz extends JPanel
 		this.konfigurujKontrolkiKodow();
 		this.konfigurujKontrolkiNowe();
 		this.konfigurujKontrolkiEdytuj();
+		this.konfigurujDodatkoweButtony();
 		konfigurujKontrolkiWydruki();
 
 		EventLoaderJComboBox.wczytajOdbiorcow(this);
 
+	}
+
+	private void konfigurujDodatkoweButtony()
+	{
+		rysowanie.addActionListener(EventLoaderDodatkoweButtony.rysujButton());
+
+		add(rysowanie);
 	}
 
 	private void konfigurujKontrolkiWydruki()
@@ -93,7 +103,7 @@ public class Formularz extends JPanel
 		metki.addActionListener(EventLoaderWydruki.drukujMetki());
 		wagi.addActionListener(EventLoaderWydruki.drukujWagi());
 		optymalizacja.addActionListener(EventLoaderWydruki.drukujOptymalizacje());
-		
+
 		add(lista_produkcyjna);
 		add(lista_wysylkowa);
 		add(metki);
@@ -234,7 +244,7 @@ public class Formularz extends JPanel
 		resizeLabel();
 		resizeButton();
 		resizeWydruki();
-		System.out.println("REPAINT");
+		resizeDodatkoweButtony();
 		for (Component comp : this.getComponents())
 		{
 			((JComponent) comp).setFont(new Font("", 0, CONST.rescale(12)));
@@ -243,12 +253,20 @@ public class Formularz extends JPanel
 
 	}
 
+	private void resizeDodatkoweButtony()
+	{
+		Dimension size = new Dimension(CONST.rescale(150), CONST.rescale(50));
+		int y = this.getHeight() - size.height;
+		int x = this.getWidth() - size.width;
+
+		rysowanie.setBounds(x, y, size.width, size.height);
+	}
+
 	private void resizeWydruki()
 	{
 		Dimension size = new Dimension(CONST.rescale(150), CONST.rescale(50));
 		int y = -size.height;
 		int x = this.getWidth() - size.width;
-		
 
 		lista_produkcyjna.setBounds(x, y += size.height, size.width, size.height);
 		lista_wysylkowa.setBounds(x, y += size.height, size.width, size.height);

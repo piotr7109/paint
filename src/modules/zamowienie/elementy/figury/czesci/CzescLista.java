@@ -30,4 +30,10 @@ public class CzescLista extends AbstractLista
 		ArrayList<Object> czesci = (ArrayList<Object>) getList();
 		return czesci;
 	}
+	public ArrayList<Object> getCzesciAtrapy(int id_figury)
+	{
+		query = String.format("select * FROM t_czesci_atrapy where id_figury =  %d order by id", id_figury);
+		ArrayList<Object> czesci = (ArrayList<Object>) getList();
+		return czesci;
+	}
 }

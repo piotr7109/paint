@@ -10,7 +10,7 @@ import modules.figury.Figura;
 public class Obliczenia 
 {
 	
-	public int getDlugosc(Point a, Point b)
+	public static int getDlugosc(Point a, Point b)
     {
     	double dl = 0.0;
     	dl = Math.sqrt(Math.pow(a.getX()-b.getX(),2) + Math.pow(a.getY()-b.getY(),2) );
@@ -23,7 +23,7 @@ public class Obliczenia
 	 * @param c - punkt koniec
 	 * @return k�t
 	 */
-	public int getKat(Point a, Point b, Point c)
+	public static int getKat(Point a, Point b, Point c)
     {
 		double kat1 = Math.atan2(c.getY()- b.getY(), c.getX()- b.getX());
     	double kat2 = Math.atan2(a.getY()- b.getY(), a.getX()- b.getX());

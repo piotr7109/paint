@@ -34,7 +34,7 @@ public class DodawanieFigur
 	{
 
 		FiguraFactory fig_factory = new FiguraFactory();
-		default_figura = (Figura) fig_factory.getFiguraByKod(12);
+		default_figura = (Figura) fig_factory.getFiguraByKod(1);
 		default_figura.setCzesci();
 	}
 

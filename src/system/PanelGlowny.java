@@ -22,7 +22,6 @@ public class PanelGlowny extends JPanel
 {
 
 	private JTabbedPane panel;
-	Rysowanie rys;
 	Formularz form;
 	WyswietlFigure wyswietlanie_figur;
 	Zamowienie zamowienie;
@@ -50,7 +49,7 @@ public class PanelGlowny extends JPanel
 	private void EkranZamowienie()
 	{
 		zamowienie = new Zamowienie();
-		panel.addTab("Zamówienie", zamowienie);
+		panel.addTab("Zamï¿½wienie", zamowienie);
 		panel.addKeyListener(zamowienie);
 		panel.setFocusable(true);
 		EkranZamowienieEvent();
@@ -64,7 +63,7 @@ public class PanelGlowny extends JPanel
 	private void EkranWyswietlFigure()
 	{
 		wyswietlanie_figur = new WyswietlFigure();
-		panel.addTab("Wyœwietlanie figur", wyswietlanie_figur);
+		panel.addTab("Wyï¿½wietlanie figur", wyswietlanie_figur);
 		EkranWyswietlFigureEvent();
 		
 	}
@@ -80,47 +79,7 @@ public class PanelGlowny extends JPanel
 		panel.addTab("Formularz", form);
 	}
 
-	private void EkranRysowanie()
-	{
-		rys = new Rysowanie(this);
-		EkranRysowanieEvent();
-		panel.addTab("Rysowanie", rys);
 
-	}
-
-	private void EkranRysowanieEvent()
-	{
-		rys.reset.addActionListener(new ActionListener()
-		{
-
-			public void actionPerformed(ActionEvent evt)
-			{
-				panel.remove(rys);
-				EkranRysowanie();
-			}
-		});
-
-	}
-
-	public void EkranRysowanieZapiszElement()
-	{
-		Figura fig = new Figura();
-		fig.setKod(Integer.parseInt(rys.kod.getText()));
-		int id_figury = fig.insert();
-		int size = rys._dlugosci.size();
-		for (int i = 0; i < size; i++)
-		{
-			Czesc czesc = new Czesc();
-			czesc.setDlugosc(rys._dlugosci.get(i));
-			czesc.setKat(rys._katy.get(i));
-			czesc.setIdFigury(id_figury);
-			czesc.setTyp(rys._typy_figur.get(i));
-			czesc.insert();
-		}
-
-		// panel.remove(rys);
-		// EkranRysowanie();
-	}
 
 	public static void main(String[] args)
 	{

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 import modules.zamowienie.elementy.figury.czesci.Czesc;
 import modules.zamowienie.elementy.figury.czesci.CzescLista;
 
@@ -19,6 +19,7 @@ public class Figura
 	private int ilosc_skokow;
 	private int poziom_skoku;
 	private ArrayList<Czesc> czesci = new ArrayList<Czesc>();
+	private ArrayList<Czesc> czesci_atrapy = new ArrayList<Czesc>();
 
 	public int getId()
 	{
@@ -158,7 +159,23 @@ public class Figura
 			this.czesci.add((Czesc) lista_czesci.get(i));
 		}
 	}
-
+	
+	public ArrayList<Czesc> getCzesciAtrapy()
+	{
+		return this.czesci_atrapy;
+	}
+	public void setCzesciAtrapy()
+	{
+		this.czesci_atrapy.clear();
+		
+		CzescLista c_lista = new CzescLista();
+		ArrayList<Object> lista_czesci = c_lista.getCzesciAtrapy(this.id);
+		int size = lista_czesci.size();
+		for(int i =0; i< size ;i++)
+		{
+			this.czesci_atrapy.add((Czesc)lista_czesci.get(i));
+		}
+	}
 	public void addCzesc(Czesc czesc)
 	{
 		this.czesci.add(czesc);
@@ -171,7 +188,7 @@ public class Figura
 
 	public int insert()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("INSERT INTO t_element_figury(" 
 		+ "id_elementu, kod, pozycja, sztuk, srednica, ilosc_paczek, maszyna, sworzen, uwagi, ilosc_skokow, poziom_skoku)"
 		+ " VALUES(%d, %d, '%s', %d, %d, %d, %d, %d, '%s', %d, %d)", 
@@ -183,7 +200,7 @@ public class Figura
 	public int getLastId()
 	{
 		int id = 0;
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("SELECT id FROM t_element_figury order by id desc limit 1");
 		try
 		{

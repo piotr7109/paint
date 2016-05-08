@@ -13,6 +13,7 @@ public class FocusListeners
 	public static HashMap<Integer, Integer> sred_sworzen = new HashMap<Integer, Integer>();
 	public static HashMap<Integer, Double> sred_waga = new HashMap<Integer, Double>();
 	public static HashMap<Integer, String> maszyny = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> maszyny_kodowo = new HashMap<Integer, String>();
 	
 	public static void setSredSworzen()
 	{
@@ -56,10 +57,21 @@ public class FocusListeners
 		map3.put(7, "Format16");
 		map3.put(8, "CS40");
 		
+		HashMap<Integer, String> map4 = new HashMap<Integer, String>();
+		map4.put(1, "Magazyn");
+		map4.put(2, "Norzyce ręczne");
+		map4.put(3, "Giętarka ręczna");
+		map4.put(4, "SuperFlex");
+		map4.put(5, "Format12");
+		map4.put(6, "MiniSyntax");
+		map4.put(7, "Format16");
+		map4.put(8, "CS40");
+		
 
 		sred_sworzen = map;
 		sred_waga = map2;
 		maszyny = map3;
+		maszyny_kodowo = map4;
 	}
 
 	public static FocusListener srednicaFocusListener(final int index, final JTextField srednica_text, final JTextField sworzen_text)

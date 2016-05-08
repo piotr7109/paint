@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class PostgreSQLJDBC
+public class MySQLJDBC
 {
-	private String host = "localhost:5432";
-	private String database = "stal";
-	private String user = "postgres";
-	private String password = "Admin123$";
+	private String host = "localhost:3306";
+	private String database = "rbs_stal";
+	private String user = "user";
+	private String password = "123";
 
 	private Connection c = null;
 
@@ -19,12 +19,12 @@ public class PostgreSQLJDBC
 		return c;
 	}
 
-	public PostgreSQLJDBC()
+	public MySQLJDBC()
 	{
 		try
 		{
-			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://" + host + "/" + database, user, password);
+			Class.forName("com.mysql.jdbc.Driver");
+			c = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database, user, password);
 			// System.out.println("Opened database successfully");
 
 		}

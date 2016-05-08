@@ -3,7 +3,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 
 
 public class Zaa {
@@ -30,7 +30,7 @@ public class Zaa {
 	
 	public void setObject()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		Statement stmt;
 		Connection c = pgsq.getC(); 
 		try

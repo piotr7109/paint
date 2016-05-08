@@ -1,6 +1,6 @@
 package modules.zamowienie;
 
-import dodatki.PostgreSQLJDBC;
+import dodatki.MySQLJDBC;
 
 public class ZamowienieCore
 {
@@ -51,21 +51,21 @@ public class ZamowienieCore
 
 	public void insert()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("INSERT INTO %s (kod, nazwa, id_parent) VALUES (%d, '%s', %d)", table, kod, nazwa, id_parent);
 		
 		pgsq.queryOpertaion(query);
 	}
 	public void update()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("UPDATE %s SET nazwa='%s' WHERE id=%d", table,nazwa, id);
 		
 		pgsq.queryOpertaion(query);
 	}
 	protected void delete()
 	{
-		PostgreSQLJDBC pgsq = new PostgreSQLJDBC();
+		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("DELETE FROM %s WHERE kod = %d", table, kod);
 		pgsq.queryOpertaion(query);
 	}

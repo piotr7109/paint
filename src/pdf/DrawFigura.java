@@ -16,16 +16,20 @@ import javax.imageio.ImageIO;
 import dodatki.CONST;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
+import modules.figury.FiguraFactory;
 
 public class DrawFigura
 {
 	public static final String RESULT = System.getProperty("user.home") + "/Desktop/java_pdf/png/";
-	private static int width = 450;
-	private static int height = 150;
+	private static int width = 300;
+	private static int height = 100;
 
 	public static String rysuj(Figura figura)
 	{
 		String filename = "rbs" + (int) (Math.random() * 100000);
+		FiguraFactory f_factory = new FiguraFactory();
+		Figura figura_atrapa = f_factory.getFiguraByKod(figura.getKod());
+		figura_atrapa.setCzesciAtrapy();
 		try
 		{
 
@@ -33,21 +37,14 @@ public class DrawFigura
 			Graphics2D ig2 = bi.createGraphics();
 			ig2.setStroke(new BasicStroke(3f));
 			ig2.setFont(new Font("", 0, 20));
-			skala = 0.5;
-			_x = 50;
-			_y = 70;
+			ig2.setColor(Color.WHITE);
+			ig2.fillRect(0, 0, width, height);
+			ig2.setColor(Color.BLACK);
+			_x = (int) (figura_atrapa.start_x/skala);
+			_y = (int) (figura_atrapa.start_y/skala);
 			last_kat = 0;
 
-			while (rysujFigury(ig2, figura))
-			{
-				last_kat = 0;
-				_x = 50;
-				_y = 70;
-				ig2.setColor(Color.white);
-				ig2.fillRect(0, 0, width, height);
-				ig2.setColor(Color.black);
-				skala += 0.01;
-			}
+			rysujFigury(ig2, figura,figura_atrapa);
 
 			ImageIO.write(bi, "PNG", new File("temp_img/" + filename + ".PNG"));
 		}
@@ -67,46 +64,41 @@ public class DrawFigura
 		return (int) (number * CONST.scale);
 	}
 
-	private static boolean rysujFigury(Graphics g, Figura fig)
+	private static void rysujFigury(Graphics g, Figura fig, Figura figura_atrapa)
 	{
 
-		boolean error = false;
 		int index = 0;
-
-		for (Czesc czesc : fig.getCzesci())
+		
+		
+		int fig_atr_size = figura_atrapa.getCzesciAtrapy().size();
+		for (int i =0; i< fig_atr_size; i++)
 		{
-
+			Czesc czesc = fig.getCzesci().get(i);
+			Czesc czesc_atrapa = figura_atrapa.getCzesciAtrapy().get(i);
 			switch (czesc.getTyp())
 			{
 				case "linia":
 
-					rysujLinie(g, czesc, last_kat);
+					rysujLinie(g, czesc_atrapa, last_kat, czesc);
 
 					break;
 
 				case "okrag":
 					if (index > 0)
 					{
-						rysujOkregi(g, czesc, -(90 + last_kat));
+						rysujOkregi(g, czesc_atrapa, -(90 + last_kat), czesc);
 					}
 					else
 					{
-						rysujOkregi(g, czesc, last_kat);
+						rysujOkregi(g, czesc_atrapa, last_kat, czesc);
 					}
 					break;
 			}
-			if (_x >= width || _y >= height || _x <= 0 || _y <= 0)
-			{
-				error = true;
-				break;
-			}
 
 		}
-
-		return error;
 	}
 
-	private static void rysujOkregi(Graphics g, Czesc c, int poprz_kat)
+	private static void rysujOkregi(Graphics g, Czesc c, int poprz_kat, Czesc c_opis)
 	{
 
 		int rozmiar = (int) (((c.getDlugosc() * 360) / (c.getKat() * Math.PI)) / skala);// (int)(2*(c.getDlugosc()*180)/(c.getKat()*Math.PI));
@@ -153,7 +145,7 @@ public class DrawFigura
 
 	}
 
-	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat)
+	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat, Czesc c_opis)
 	{
 		int x = (int) (Math.cos(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
 		int y = (int) (Math.sin(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
@@ -161,10 +153,10 @@ public class DrawFigura
 
 		g.drawLine(_x, _y, x + _x, y + _y);
 		g.setColor(Color.WHITE);
-		g.fillRect((x + 2 * _x) / 2 , (y + 2 * _y) / 2 - 12 , 30, 13 );
+		g.fillRect((x + 2 * _x) / 2, (y + 2 * _y) / 2 - 12, 30, 13);
 		g.setColor(Color.BLACK);
-		g.drawString(c.getDlugosc() + "", (x + 2 * _x) / 2 , (y + 2 * _y) / 2 );
-		
+		g.drawString(c_opis.getDlugosc() + "", (x + 2 * _x) / 2, (y + 2 * _y) / 2);
+
 		_x += x;
 		_y += y;
 
