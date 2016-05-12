@@ -9,7 +9,6 @@ import dodatki.MySQLJDBC;
 import modules.zamowienie.elementy.figury.czesci.Czesc;
 import modules.zamowienie.elementy.figury.czesci.CzescLista;
 
-
 public class Figura
 {
 	private int id, id_elementu, kod;
@@ -159,23 +158,25 @@ public class Figura
 			this.czesci.add((Czesc) lista_czesci.get(i));
 		}
 	}
-	
+
 	public ArrayList<Czesc> getCzesciAtrapy()
 	{
 		return this.czesci_atrapy;
 	}
+
 	public void setCzesciAtrapy()
 	{
 		this.czesci_atrapy.clear();
-		
+
 		CzescLista c_lista = new CzescLista();
 		ArrayList<Object> lista_czesci = c_lista.getCzesciAtrapy(this.id);
 		int size = lista_czesci.size();
-		for(int i =0; i< size ;i++)
+		for (int i = 0; i < size; i++)
 		{
-			this.czesci_atrapy.add((Czesc)lista_czesci.get(i));
+			this.czesci_atrapy.add((Czesc) lista_czesci.get(i));
 		}
 	}
+
 	public void addCzesc(Czesc czesc)
 	{
 		this.czesci.add(czesc);
@@ -189,12 +190,34 @@ public class Figura
 	public int insert()
 	{
 		MySQLJDBC pgsq = new MySQLJDBC();
-		String query = String.format("INSERT INTO t_element_figury(" 
-		+ "id_elementu, kod, pozycja, sztuk, srednica, ilosc_paczek, maszyna, sworzen, uwagi, ilosc_skokow, poziom_skoku)"
-		+ " VALUES(%d, %d, '%s', %d, %d, %d, %d, %d, '%s', %d, %d)", 
-		id_elementu, kod, pozycja, sztuk, srednica, ilosc_paczek, maszyna, sworzen, uwagi, ilosc_skokow, poziom_skoku);
+		String query = String.format("INSERT INTO t_element_figury(" + "id_elementu, kod, pozycja, sztuk, srednica, ilosc_paczek, maszyna, sworzen, uwagi, ilosc_skokow, poziom_skoku)"
+				+ " VALUES(%d, %d, '%s', %d, %d, %d, %d, %d, '%s', %d, %d)", id_elementu, kod, pozycja, sztuk, srednica, ilosc_paczek, maszyna, sworzen, uwagi, ilosc_skokow, poziom_skoku);
 		pgsq.queryOpertaion(query);
 		return this.getLastId();
+	}
+
+	public void insertCzesci(modules.figury.Figura fig)
+	{
+		MySQLJDBC pgsq = new MySQLJDBC();
+		String query ="";
+		int czesc_size = fig.getCzesci().size();
+		int fig_id = getLastId();
+		if(czesc_size>0)
+		{
+			query = "INSERT INTO t_element_figura_czesci(id_figury, dlugosc, kat, typ) VALUES";
+		}
+		for (int j = 0; j < czesc_size; j++)
+		{
+			modules.czesci.Czesc czesc_temp = fig.getCzesci().get(j);
+			query +=String.format("(%d, %d, %d, '%s')", fig_id, czesc_temp.getDlugosc(), czesc_temp.getKat(), czesc_temp.getTyp());
+			if(j!= czesc_size-1)
+			{
+				query +=",";
+			}
+			
+		}
+		if(czesc_size>0)
+			pgsq.queryOpertaion(query);
 	}
 
 	public int getLastId()

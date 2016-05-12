@@ -24,7 +24,7 @@ public class MySQLJDBC
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			c = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database, user, password);
+			c = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database+"?characterEncoding=utf8", user, password);
 			// System.out.println("Opened database successfully");
 
 		}
@@ -43,6 +43,7 @@ public class MySQLJDBC
 		try
 		{
 			stmt = c.createStatement();
+			
 			stmt.executeUpdate(query);
 			stmt.close();
 			c.close();

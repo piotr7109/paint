@@ -8,6 +8,7 @@ import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.FocusListeners;
 import dodatki.Obliczenia;
+import ekrany.Zamowienie;
 import pdf.wagi.MaszynaHelper;
 import pdf.wagi.MaterialHelper;
 
@@ -30,13 +31,42 @@ public class ListaWagiPdf extends PdfCreator
 		String maszyna = "";
 		String material = "";
 
-		header = String.format(getHtmlFile(HTML_SOURCE, "header.html"));
+		header = getHeaderHtml();
+		
+		maszyna = String.format(getHtmlFile(HTML_SOURCE, "maszyna.html"), kod,"OGÓŁEM", getMaszynaHtml());
 
-		maszyna = String.format(getHtmlFile(HTML_SOURCE, "maszyna.html"), kod, getMaszynaHtml());
+		material = String.format(getHtmlFile(HTML_SOURCE, "material.html"), kod,"OGÓŁEM", getMaterialHtml());
+		
+		int proste = 0;
+		int giete = 0;
+		for(FiguraZamowienie fig_zam: ZamowienieDane.figury)
+		{
+			if(fig_zam.figura.getKod() == 1)
+			{
+				proste++;
+			}
+			else
+			{
+				giete++;
+			}
+		}
 
-		material = String.format(getHtmlFile(HTML_SOURCE, "material.html"), kod, getMaterialHtml());
+		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), header, maszyna, material, "Proste", proste,"Gięte", giete);
+		return html;
+	}
+	
+	protected String getHeaderHtml()
+	{
+		String html ="";
+		
+		html += String.format(getHtmlFile(HTML_SOURCE, "header.html"),
+				ZamowienieDane.odbiorca.getNazwa(),
+				ZamowienieDane.budowa.getNazwa(),
+				ZamowienieDane.obiekt.getNazwa(),
+				ZamowienieDane.element.getNazwa(),
+				ZamowienieDane.element.getTerminDostawy());
 
-		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), header, maszyna, material);
+		
 		return html;
 	}
 

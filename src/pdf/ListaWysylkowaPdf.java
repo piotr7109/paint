@@ -21,14 +21,7 @@ public class ListaWysylkowaPdf extends PdfCreator
 		String html = "";
 		String header = "";
 		String content = "";
-		header += String.format(getHtmlFile(HTML_SOURCE, "header.html"),
-				ZamowienieDane.element.getTerminDostawy(), 
-				ZamowienieDane.obiekt.getNazwa(),
-				ZamowienieDane.odbiorca.getNazwa(),
-				ZamowienieDane.budowa.getNazwa(),
-				ZamowienieDane.element.getNazwa(),
-				ZamowienieDane.element.getTerminDostawy(),
-				kod);
+		header += getHeaderHtml();
 
 		String cells = "";
 		String cell = getHtmlFile(HTML_SOURCE, "cell.html");
@@ -72,5 +65,17 @@ public class ListaWysylkowaPdf extends PdfCreator
 
 		return html;
 
+	}
+	protected String getHeaderHtml()
+	{
+		return String.format(getHtmlFile(HTML_SOURCE, "header.html"),
+				"30-969 Kraków, ul. Łowińskiego 9",
+				ZamowienieDane.element.getTerminDostawy(), 
+				ZamowienieDane.obiekt.getNazwa(),
+				ZamowienieDane.odbiorca.getNazwa(),
+				ZamowienieDane.budowa.getNazwa(),
+				ZamowienieDane.element.getNazwa(),
+				ZamowienieDane.element.getTerminDostawy(),
+				kod);
 	}
 }

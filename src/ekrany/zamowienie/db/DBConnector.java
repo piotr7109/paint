@@ -39,20 +39,7 @@ public class DBConnector
 			// fig.setPoziomSkoku(...);
 			// fig.setIloscSkokow(...);
 			fig.insert();
-
-			int fig_id = fig.getLastId();
-			int czesc_size = fig_temp.getCzesci().size();
-			for (int j = 0; j < czesc_size; j++)
-			{
-				modules.czesci.Czesc czesc_temp = fig_temp.getCzesci().get(j);
-				Czesc czesc = new Czesc();
-				czesc.setIdFigury(fig_id);
-				czesc.setDlugosc(czesc_temp.getDlugosc());
-				czesc.setKat(czesc_temp.getKat());
-				czesc.setTyp(czesc_temp.getTyp());
-				czesc.insert();
-
-			}
+			fig.insertCzesci(fig_temp);
 
 		}
 	}

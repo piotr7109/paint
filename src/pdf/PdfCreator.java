@@ -2,10 +2,13 @@ package pdf;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.XMLResource;
@@ -20,9 +23,17 @@ abstract public class PdfCreator implements PdfCreatorInterface
 
 	public void drukuj()
 	{
-		String yourXhtmlContentAsString = getHtml();
-		Document document = XMLResource.load(new ByteArrayInputStream(yourXhtmlContentAsString.getBytes())).getDocument();
-		System.out.println(yourXhtmlContentAsString);
+		String contentHtml = getHtml();
+		byte[] byteContentHtml = null;
+		try
+		{
+			byteContentHtml = contentHtml.getBytes("UTF-8");
+		}
+		catch (UnsupportedEncodingException e1)
+		{
+			e1.printStackTrace();
+		}
+		Document document = XMLResource.load(new ByteArrayInputStream(byteContentHtml)).getDocument();
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.setDocument(document, null);
 		try
@@ -36,6 +47,17 @@ abstract public class PdfCreator implements PdfCreatorInterface
 		catch (Exception e)
 		{
 			System.err.println(e);
+		}
+		finally
+		{
+			try
+			{
+				FileUtils.cleanDirectory(new File("temp_img/"));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}; 
 		}
 	}
 
