@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="iText-2.0.8.jar"/>
 	<classpathentry kind="lib" path="mysql-connector.jar"/>
 	<classpathentry kind="lib" path="commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="apache-commons-lang.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

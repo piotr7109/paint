@@ -3,6 +3,8 @@ package dodatki;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -10,25 +12,44 @@ import javax.swing.text.JTextComponent;
 
 import dane.ZamowienieDane;
 
-public class CONST
+public class Tools
 {
 	public static final Dimension btn_size = new Dimension(100, 25);
+	public static final int MAX_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+	public static final int MAX_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 800;
 	public static float scale = 1.0f;
+
+	public static void makeDir(String directory)
+	{
+		File dir = new File(directory);
+		if (!dir.exists())
+		{
+			try
+			{
+				dir.mkdir();
+			}
+			catch (SecurityException se)
+			{
+				System.err.println(se.getMessage());
+			}
+		}
+	}
 
 	public static JLabel getTytul(int x, int y, String tekst, Color c, double scale)
 	{
 		JLabel tytul = new JLabel(tekst);
 		tytul.setBounds(x + 5, y + 5, 200, 20);
 		tytul.setForeground(c);
-		tytul.setFont(new Font("",0, rescale(12)));
+		tytul.setFont(new Font("", 0, rescale(12)));
 
 		return tytul;
 	}
+
 	public static int rescale(int number)
 	{
-		return (int)(number*CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	public static double radians(int kat)
@@ -47,9 +68,10 @@ public class CONST
 		long tmp = Math.round(value);
 		return (double) tmp / factor;
 	}
-	public static String nullStringToEmpty( String str)
+
+	public static String nullStringToEmpty(String str)
 	{
-		if(str.equals("null"))
+		if (str.equals("null"))
 			return "";
 		return str;
 	}
@@ -67,19 +89,21 @@ public class CONST
 		text_field.setForeground(Color.GREEN);
 		text_field.setBackground(Color.GRAY);
 	}
-	
+
 	public static void setKoloryAktywny2(JTextComponent text_field)
 	{
 		text_field.setBorder(BorderFactory.createEmptyBorder());
 		text_field.setForeground(Color.RED);
 		text_field.setOpaque(false);
 	}
+
 	public static void setKoloryNieaktywny2(JTextComponent text_field)
 	{
 		text_field.setBorder(BorderFactory.createEmptyBorder());
 		text_field.setForeground(Color.YELLOW);
 		text_field.setOpaque(false);
 	}
+
 	public static String transformToZeroNumber(int liczba)
 	{
 		String kod = "";
@@ -99,6 +123,7 @@ public class CONST
 		kod += liczba;
 		return kod;
 	}
+
 	public static String getKodZamowienia()
 	{
 		String kod = "";
@@ -115,9 +140,11 @@ public class CONST
 
 		return kod;
 	}
+
 	public static boolean jestKodemCyfry(int kod)
 	{
-		if ((kod >= 96 && kod <= 105) || (kod >= 48 && kod <= 57))
+		System.out.println("KOD: "+kod);
+		if ((kod >= 96 && kod <= 105) || (kod >= 48 && kod <= 57) || kod == 109 || kod == 45)
 		{
 			return true;
 		}

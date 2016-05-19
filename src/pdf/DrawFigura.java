@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import dodatki.CONST;
+import dodatki.Tools;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
@@ -61,7 +61,7 @@ public class DrawFigura
 
 	private static int rescale(int number)
 	{
-		return (int) (number * CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	private static void rysujFigury(Graphics g, Figura fig, Figura figura_atrapa)
@@ -147,8 +147,8 @@ public class DrawFigura
 
 	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat, Czesc c_opis)
 	{
-		int x = (int) (Math.cos(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
-		int y = (int) (Math.sin(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
+		int x = (int) (Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
+		int y = (int) (Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
 		last_kat = c.getKat() + poprz_kat;
 
 		g.drawLine(_x, _y, x + _x, y + _y);

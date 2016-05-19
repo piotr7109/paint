@@ -21,11 +21,11 @@ public class FiguraZamowienie
 	{
 		figura = null;
 		pozycja = "0";
-		ilosc_sztuk = 0;
+		ilosc_sztuk = 1;
 		srednica = 6;
-		fig = 0;
+		fig = 1;
 		ilosc_paczek = 1;
-		maszyna = 0;
+		maszyna = 4;
 		sworzen = 32;
 		waga = 0.222;
 		uwagi = "";
@@ -33,8 +33,8 @@ public class FiguraZamowienie
 
 	public FiguraZamowienie(FiguraZamowienie f_zam)
 	{
-		this.figura = f_zam.figura;
-		this.pozycja = f_zam.pozycja;
+		this.figura = new Figura(f_zam.figura);
+		this.pozycja = (Integer.parseInt(f_zam.pozycja)+1)+"";
 		this.ilosc_sztuk = f_zam.ilosc_sztuk;
 		this.srednica = f_zam.srednica;
 		this.fig = f_zam.fig;

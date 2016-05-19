@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.formularz.*;
 import modules.zamowienie.odbiorcy.Odbiorca;
 import modules.zamowienie.budowy.Budowa;
@@ -73,7 +74,7 @@ public class Formularz extends JPanel
 
 	public Formularz()
 	{
-		this.setPreferredSize(new Dimension((int) (CONST.scale * CONST.WIDTH), (int) (CONST.scale * CONST.HEIGHT)));
+		this.setPreferredSize(new Dimension((int) (Tools.scale * Tools.MAX_WIDTH/20*13), (int) (Tools.scale * Tools.MAX_HEIGHT/20*13)));
 		this.setLayout(null);
 
 		this.konfigurujEtykiety();
@@ -233,7 +234,7 @@ public class Formularz extends JPanel
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		float scale = ((float) (this.getWidth()) / 1000);
-		CONST.scale = scale;
+		Tools.scale = scale;
 		resize();
 	}
 
@@ -247,7 +248,7 @@ public class Formularz extends JPanel
 		resizeDodatkoweButtony();
 		for (Component comp : this.getComponents())
 		{
-			((JComponent) comp).setFont(new Font("", 0, CONST.rescale(12)));
+			((JComponent) comp).setFont(new Font("", 0, Tools.rescale(12)));
 		}
 		System.out.println("REPAINT END");
 
@@ -255,7 +256,7 @@ public class Formularz extends JPanel
 
 	private void resizeDodatkoweButtony()
 	{
-		Dimension size = new Dimension(CONST.rescale(150), CONST.rescale(50));
+		Dimension size = new Dimension(Tools.rescale(150), Tools.rescale(50));
 		int y = this.getHeight() - size.height;
 		int x = this.getWidth() - size.width;
 
@@ -264,7 +265,7 @@ public class Formularz extends JPanel
 
 	private void resizeWydruki()
 	{
-		Dimension size = new Dimension(CONST.rescale(150), CONST.rescale(50));
+		Dimension size = new Dimension(Tools.rescale(150), Tools.rescale(50));
 		int y = -size.height;
 		int x = this.getWidth() - size.width;
 
@@ -278,21 +279,21 @@ public class Formularz extends JPanel
 	private void resizeButton()
 	{
 		int y = -20;
-		int x = CONST.rescale(480);
-		Dimension text_size = new Dimension(CONST.rescale(85), CONST.rescale(25));
+		int x = Tools.rescale(480);
+		Dimension text_size = new Dimension(Tools.rescale(85), Tools.rescale(25));
 
-		odbiorca_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		budowa_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		obiekt_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		element_nowy.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		odbiorca_nowy.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowa_nowy.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekt_nowy.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		element_nowy.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 
-		x = CONST.rescale(580);
+		x = Tools.rescale(580);
 		y = -20;
 
-		odbiorca_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		budowa_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		obiekt_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		element_edytuj.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		odbiorca_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowa_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekt_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		element_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 	}
 
 	private void resizeLabel()
@@ -304,38 +305,38 @@ public class Formularz extends JPanel
 		for (int i = 0; i < ile_kontrolek; i++)
 		{
 			y += HEIGHT + 10;
-			kontrolki_label.get(i).setLocation(CONST.rescale(x), CONST.rescale(y));
-			kontrolki_label.get(i).setSize(new Dimension(CONST.rescale(WIDTH_LABEL), CONST.rescale(HEIGHT)));
+			kontrolki_label.get(i).setLocation(Tools.rescale(x), Tools.rescale(y));
+			kontrolki_label.get(i).setSize(new Dimension(Tools.rescale(WIDTH_LABEL), Tools.rescale(HEIGHT)));
 		}
 
-		button_potwierdz.setLocation(CONST.rescale(x + WIDTH_LABEL), CONST.rescale(y + HEIGHT * 2));
-		button_potwierdz.setSize(CONST.rescale(WIDTH), (CONST.rescale(HEIGHT)));
+		button_potwierdz.setLocation(Tools.rescale(x + WIDTH_LABEL), Tools.rescale(y + HEIGHT * 2));
+		button_potwierdz.setSize(Tools.rescale(WIDTH), (Tools.rescale(HEIGHT)));
 	}
 
 	private void resizeTextField()
 	{
-		int x = CONST.rescale(440);
+		int x = Tools.rescale(440);
 		int y = -20;
-		Dimension text_size = new Dimension(CONST.rescale(35), CONST.rescale(25));
-		odbiorcy_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		budowy_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		obiekty_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
-		elementy_kod.setBounds(x, CONST.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		Dimension text_size = new Dimension(Tools.rescale(35), Tools.rescale(25));
+		odbiorcy_kod.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowy_kod.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekty_kod.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		elementy_kod.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 	}
 
 	private void resizeCombo()
 	{
-		int x = CONST.rescale(120);
+		int x = Tools.rescale(120);
 		int y = -20;
-		Dimension combo_size = new Dimension((int) (300 * CONST.scale), (int) (25 * CONST.scale));
+		Dimension combo_size = new Dimension((int) (300 * Tools.scale), (int) (25 * Tools.scale));
 		odbiorcy_combo.setSize(combo_size);
 		budowy_combo.setSize(combo_size);
 		obiekty_combo.setSize(combo_size);
 		elementy_combo.setSize(combo_size);
 
-		odbiorcy_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
-		budowy_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
-		obiekty_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
-		elementy_combo.setLocation(x, CONST.rescale(y += HEIGHT + 10));
+		odbiorcy_combo.setLocation(x, Tools.rescale(y += HEIGHT + 10));
+		budowy_combo.setLocation(x, Tools.rescale(y += HEIGHT + 10));
+		obiekty_combo.setLocation(x, Tools.rescale(y += HEIGHT + 10));
+		elementy_combo.setLocation(x, Tools.rescale(y += HEIGHT + 10));
 	}
 }

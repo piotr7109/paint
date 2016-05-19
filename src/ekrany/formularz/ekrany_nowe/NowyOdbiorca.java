@@ -2,8 +2,8 @@ package ekrany.formularz.ekrany_nowe;
 
 import javax.swing.JFrame;
 
+import dodatki.Tools;
 import ekrany.Formularz;
-import ekrany.formularz.DBLoader;
 import ekrany.formularz.EventLoaderJComboBox;
 import modules.zamowienie.odbiorcy.Odbiorca;
 
@@ -19,9 +19,10 @@ public class NowyOdbiorca extends AbstractDodajNowy
 	protected void zapiszDane()
 	{
 		Odbiorca item = new Odbiorca();
-		item.setKod(this.kod);
+		item.setKod(Integer.parseInt(kod_label.getText()));
 		item.setNazwa(this.nazwa.getText());
 		item.insert();
+		Tools.makeDir("wydruki/"+item.getNazwa());
 		EventLoaderJComboBox.wczytajOdbiorcow(form);
 	}
 

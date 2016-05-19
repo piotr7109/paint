@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 
 import dane.CzescKontolki;
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
@@ -97,7 +97,7 @@ public class WriteImageType
 
 	private static int rescale(int number)
 	{
-		return (int) (number * CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	private static boolean rysujFigury(Graphics g, Figura fig)
@@ -159,16 +159,16 @@ public class WriteImageType
 		Double newX = pt[0];
 		Double newY = pt[1];
 
-		pt[0] = p.x; // pocz¹tkowa pozycja X
-		pt[1] = p.y; // pocz¹tkowa pozycja Y
+		pt[0] = p.x; // poczï¿½tkowa pozycja X
+		pt[1] = p.y; // poczï¿½tkowa pozycja Y
 
 		p.x = p.x - Math.abs(newX.intValue() - p.x);
 		p.y = p.y - Math.abs(newY.intValue() - p.y);
 
-		x2 = p.x + rozmiar / 2; // œrodek ³uku
-		y2 = p.y + rozmiar / 2; // œrodek ³uku
+		x2 = p.x + rozmiar / 2; // ï¿½rodek ï¿½uku
+		y2 = p.y + rozmiar / 2; // ï¿½rodek ï¿½uku
 
-		// liczenie pozycji k¹ta koñcowego
+		// liczenie pozycji kï¿½ta koï¿½cowego
 		AffineTransform.getRotateInstance(Math.toRadians(-c.getKat() * 1), x2, y2).transform(pt, 0, pt, 0, 1);
 		int x_koniec = (int) pt[0];
 		int y_koniec = (int) pt[1];
@@ -194,8 +194,8 @@ public class WriteImageType
 
 	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat)
 	{
-		int x = (int) (Math.cos(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
-		int y = (int) (Math.sin(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
+		int x = (int) (Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
+		int y = (int) (Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc() / skala);
 		last_kat = c.getKat() + poprz_kat;
 
 		g.drawLine(_x, _y, x + _x, y + _y);

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import dodatki.FocusListeners;
 import ekrany.zamowienie.db.DBConnector;
 import pdf.ListaMetkiPdf;
@@ -32,7 +32,7 @@ public class EventLoaderWydruki
 				if (ZamowienieDane.element != null)
 				{
 					initDane();
-					String kod = CONST.getKodZamowienia();
+					String kod = Tools.getKodZamowienia();
 					ListaProdukcyjnaPdf pdf = new ListaProdukcyjnaPdf(kod);
 					pdf.drukuj();
 				}
@@ -51,7 +51,7 @@ public class EventLoaderWydruki
 				if (ZamowienieDane.element != null)
 				{
 					initDane();
-					String kod = CONST.getKodZamowienia();
+					String kod = Tools.getKodZamowienia();
 					ListaWysylkowaPdf pdf = new ListaWysylkowaPdf(kod);
 					pdf.drukuj();
 				}
@@ -68,7 +68,7 @@ public class EventLoaderWydruki
 			public void actionPerformed(ActionEvent e)
 			{
 				initDane();
-				String kod = CONST.getKodZamowienia();
+				String kod = Tools.getKodZamowienia();
 				ListaMetkiPdf pdf = new ListaMetkiPdf(kod);
 				pdf.drukuj();
 			}
@@ -97,7 +97,7 @@ public class EventLoaderWydruki
 			public void actionPerformed(ActionEvent e)
 			{
 				initDane();
-				String kod = CONST.getKodZamowienia();
+				String kod = Tools.getKodZamowienia();
 				ListaWagiPdf pdf = new ListaWagiPdf(kod);
 				pdf.drukuj();
 			}

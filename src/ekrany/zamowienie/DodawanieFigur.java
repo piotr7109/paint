@@ -12,10 +12,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+import org.apache.commons.lang.NumberUtils;
+
+import com.mysql.jdbc.StringUtils;
+
 import dane.FiguraKontrolki;
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import dodatki.FocusListeners;
 import ekrany.Zamowienie;
 import ekrany.zamowienie.ramki.RamkaCzesci;
@@ -111,7 +115,7 @@ public class DodawanieFigur
 		ilosc_paczek.setBounds(rescale(x += 50), y, rescale(el_width), rescale(20));
 		maszyna.setBounds(rescale(x += 50), y, rescale(el_width), rescale(20));
 		// mat??.setBounds(x += 50, y, el_width, 20);
-		x += rescale(50);
+		rescale(x += 50);
 		sworzen.setBounds(rescale(x += 50), y, rescale(el_width), rescale(20));
 
 		fig.getDocument().addDocumentListener(zmianaFigury(index, panel));
@@ -134,14 +138,14 @@ public class DodawanieFigur
 		// mat??.addKeyListener(panel);
 		sworzen.addKeyListener(panel);
 
-		CONST.setKoloryNieaktywny(pozycja);
-		CONST.setKoloryNieaktywny(ilosc_sztuk);
-		CONST.setKoloryNieaktywny(srednica);
-		CONST.setKoloryNieaktywny(fig);
-		CONST.setKoloryNieaktywny(ilosc_paczek);
-		CONST.setKoloryNieaktywny(maszyna);
+		Tools.setKoloryNieaktywny(pozycja);
+		Tools.setKoloryNieaktywny(ilosc_sztuk);
+		Tools.setKoloryNieaktywny(srednica);
+		Tools.setKoloryNieaktywny(fig);
+		Tools.setKoloryNieaktywny(ilosc_paczek);
+		Tools.setKoloryNieaktywny(maszyna);
 		// CONST.setKolory(mat??);
-		CONST.setKoloryNieaktywny(sworzen);
+		Tools.setKoloryNieaktywny(sworzen);
 		liczba.setBackground(Color.BLACK);
 		liczba.setForeground(Color.GREEN);
 		liczba.setBorder(BorderFactory.createEmptyBorder());
@@ -281,19 +285,19 @@ public class DodawanieFigur
 			public void focusLost(FocusEvent e)
 			{
 				panel.poprzedni_text_field = text_field;
-				if (text_field.getText().equals(""))
+				if (!NumberUtils.isNumber(text_field.getText()))
 				{
 					text_field.setText(0 + "");
 				}
 				
 				aktualizujDane(index, panel);
-				CONST.setKoloryNieaktywny(text_field);
+				Tools.setKoloryNieaktywny(text_field);
 			}
 
 			@Override
 			public void focusGained(FocusEvent e)
 			{
-				CONST.setKoloryAktywny(text_field);
+				Tools.setKoloryAktywny(text_field);
 				panel.figura = ZamowienieDane.figury.get(index).figura;
 
 				RamkaCzesci.rysujKontrolki(panel, index);
@@ -366,7 +370,7 @@ public class DodawanieFigur
 
 	private static int rescale(int number)
 	{
-		return (int) (number * CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	public static void rescale()

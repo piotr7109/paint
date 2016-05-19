@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.Zamowienie;
 
 public class RamkaUwagi
@@ -29,10 +29,10 @@ public class RamkaUwagi
 	
 	protected void initKontrolki(Zamowienie panel)
 	{
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Uwagi", Color.RED, CONST.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y), "Uwagi", Color.RED, Tools.scale));
 		uwagi = new JTextArea("");
 		uwagi.setBounds(x + 5, y + 25, 200, 70);
-		CONST.setKoloryAktywny2(uwagi);
+		Tools.setKoloryAktywny2(uwagi);
 		uwagi.addFocusListener(uwagiFocusListener(panel, uwagi));
 		uwagi.addKeyListener(panel);
 		uwagi.setLineWrap(true);
@@ -62,13 +62,13 @@ public class RamkaUwagi
 			public void focusLost(FocusEvent e)
 			{
 				ZamowienieDane.figury.get(panel.z_x).uwagi = text_field.getText();
-				CONST.setKoloryAktywny2(text_field);
+				Tools.setKoloryAktywny2(text_field);
 			}
 
 			@Override
 			public void focusGained(FocusEvent e)
 			{
-				CONST.setKoloryNieaktywny2(text_field);
+				Tools.setKoloryNieaktywny2(text_field);
 				text_field.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 				// ramkaUwagiUpdate(panel);
 
@@ -77,7 +77,7 @@ public class RamkaUwagi
 	}
 	private static int rescale(int number)
 	{
-		return (int)(number*CONST.scale);
+		return (int)(number*Tools.scale);
 	}
 	public static void rescale()
 	{

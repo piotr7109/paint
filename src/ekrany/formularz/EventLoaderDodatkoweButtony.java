@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 import ekrany.Rysowanie;
-import ekrany.formularz.ekrany_edytuj.EdytujOdbiorca;
-import modules.zamowienie.ZamowienieCore;
 
 public class EventLoaderDodatkoweButtony
 {

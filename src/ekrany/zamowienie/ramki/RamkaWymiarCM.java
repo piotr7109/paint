@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import dane.CzescKontolki;
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import dodatki.Obliczenia;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
@@ -30,13 +30,13 @@ public class RamkaWymiarCM
 	{
 		int x = 780;
 		int y = 690;
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(cm) / Ciężar(kg)", Color.RED, CONST.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y), "Wymiar(cm) / Ciężar(kg)", Color.RED, Tools.scale));
 
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 15), "Max wysokość:", Color.PINK, CONST.scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 30), "Max długość:", Color.PINK, CONST.scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 45), "Całk. długość:", Color.PINK, CONST.scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 60), "Cięar:", Color.PINK, CONST.scale));
-		panel.add(CONST.getTytul(rescale(x), rescale(y + 75), "Całk. cięar:", Color.PINK, CONST.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y + 15), "Max wysokość:", Color.PINK, Tools.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y + 30), "Max długość:", Color.PINK, Tools.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y + 45), "Całk. długość:", Color.PINK, Tools.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y + 60), "Cięar:", Color.PINK, Tools.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y + 75), "Całk. cięar:", Color.PINK, Tools.scale));
 	}
 	
 	public static void ramkaWymiarCM(Graphics g, Zamowienie panel)
@@ -55,11 +55,11 @@ public class RamkaWymiarCM
 	{
 		int x = 900;
 		int y = 690;
-		max_wysokosc = CONST.getTytul(x, y + 15, ".", Color.YELLOW, CONST.scale);
-		max_dlugosc = CONST.getTytul(x, y + 30, ".", Color.YELLOW, CONST.scale);
-		calk_dlugosc = CONST.getTytul(x, y + 45, ".", Color.YELLOW, CONST.scale);
-		ciezar = CONST.getTytul(x, y + 60, ".", Color.YELLOW, CONST.scale);
-		calk_ciezar = CONST.getTytul(x, y + 75, ".", Color.YELLOW, CONST.scale);
+		max_wysokosc = Tools.getTytul(x, y + 15, ".", Color.YELLOW, Tools.scale);
+		max_dlugosc = Tools.getTytul(x, y + 30, ".", Color.YELLOW, Tools.scale);
+		calk_dlugosc = Tools.getTytul(x, y + 45, ".", Color.YELLOW, Tools.scale);
+		ciezar = Tools.getTytul(x, y + 60, ".", Color.YELLOW, Tools.scale);
+		calk_ciezar = Tools.getTytul(x, y + 75, ".", Color.YELLOW, Tools.scale);
 
 		panel.add(max_wysokosc);
 		panel.add(max_dlugosc);
@@ -90,9 +90,9 @@ public class RamkaWymiarCM
 			dlugosc = Obliczenia.obliczDlugosc(ZamowienieDane.figury.get(index).figura);
 		}
 		int round = 0;
-		calk_dlugosc.setText(CONST.round(dlugosc, round) + "");
-		ciezar.setText(CONST.round((obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(index).ilosc_sztuk), round) + "");
-		calk_ciezar.setText(CONST.round(obliczCalkCiezar(index, panel.tryb_rzeczywisty), round) + "");
+		calk_dlugosc.setText(Tools.round(dlugosc, round) + "");
+		ciezar.setText(Tools.round((obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(index).ilosc_sztuk), round) + "");
+		calk_ciezar.setText(Tools.round(obliczCalkCiezar(index, panel.tryb_rzeczywisty), round) + "");
 
 	}
 
@@ -297,8 +297,8 @@ public class RamkaWymiarCM
 	private static void rysujLinie(Czesc c, int poprz_kat)
 	{
 
-		int x = (int) (Math.cos(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
-		int y = (int) (Math.sin(CONST.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+		int x = (int) (Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+		int y = (int) (Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
 		last_kat = c.getKat() + poprz_kat;
 		_x += x;
 		_y += y;
@@ -322,7 +322,7 @@ public class RamkaWymiarCM
 
 	private static int rescale(int number)
 	{
-		return (int) (number * CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	public static void rescale()

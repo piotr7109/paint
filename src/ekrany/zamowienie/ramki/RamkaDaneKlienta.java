@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.Zamowienie;
 
 public class RamkaDaneKlienta
@@ -66,13 +66,13 @@ public class RamkaDaneKlienta
 		int y = -5;
 		Dimension text_size = new Dimension(100, 20);
 
-		kod = new JLabel(CONST.getKodZamowienia());
+		kod = new JLabel(Tools.getKodZamowienia());
 		odbiorca = new JLabel(ZamowienieDane.odbiorca.getNazwa());
 		budowa = new JLabel(ZamowienieDane.budowa.getNazwa());
 		obiekt = new JLabel(ZamowienieDane.obiekt.getNazwa());
 		element = new JLabel(ZamowienieDane.element.getNazwa());
-		termin_dostawy = new JTextField(CONST.nullStringToEmpty(ZamowienieDane.element.getTerminDostawy()));
-		rysunek = new JTextField(CONST.nullStringToEmpty(ZamowienieDane.element.getRysunek()));
+		termin_dostawy = new JTextField(Tools.nullStringToEmpty(ZamowienieDane.element.getTerminDostawy()));
+		rysunek = new JTextField(Tools.nullStringToEmpty(ZamowienieDane.element.getRysunek()));
 
 		kod.setForeground(Color.WHITE);
 		odbiorca.setForeground(Color.WHITE);
@@ -94,8 +94,8 @@ public class RamkaDaneKlienta
 		termin_dostawy.addFocusListener(zapiszDane(termin_dostawy));
 		rysunek.addFocusListener(zapiszDane(rysunek));
 
-		CONST.setKoloryNieaktywny2(termin_dostawy);
-		CONST.setKoloryNieaktywny2(rysunek);
+		Tools.setKoloryNieaktywny2(termin_dostawy);
+		Tools.setKoloryNieaktywny2(rysunek);
 
 		kontrolki.add(kod);
 		kontrolki.add(odbiorca);
@@ -121,7 +121,7 @@ public class RamkaDaneKlienta
 			@Override
 			public void focusLost(FocusEvent e)
 			{
-				CONST.setKoloryNieaktywny2(text_field);
+				Tools.setKoloryNieaktywny2(text_field);
 				ZamowienieDane.element.setRysunek(rysunek.getText());
 				ZamowienieDane.element.setTerminDostawy(termin_dostawy.getText());
 			}
@@ -129,7 +129,7 @@ public class RamkaDaneKlienta
 			@Override
 			public void focusGained(FocusEvent e)
 			{
-				CONST.setKoloryAktywny2(text_field);
+				Tools.setKoloryAktywny2(text_field);
 
 			}
 		};
@@ -151,7 +151,7 @@ public class RamkaDaneKlienta
 
 	private static int rescale(int number)
 	{
-		return (int) (number * CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	// kod, odbiorca, budowa, obiekt, element;

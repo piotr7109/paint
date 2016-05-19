@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,8 +25,8 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final int WIDTH = CONST.WIDTH;
-	private static final int HEIGHT = CONST.HEIGHT;
+	private final int WIDTH = (int) (Tools.WIDTH * Tools.scale);
+	private final int HEIGHT = (int) (Tools.HEIGHT * Tools.scale);
 
 	private boolean is_pressed = false;
 	private Point start, koniec;
@@ -79,18 +80,21 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 	public ArrayList<Integer> _katy = new ArrayList<Integer>();
 	public ArrayList<String> _typy_figur = new ArrayList<String>();
 
+	JButton odcinek;
+	JButton okrag;
+	
 	public void dodajKontrolki(JFrame frame)
 	{
-		JButton odcinek = new JButton("Odcinek");
-		JButton okrag = new JButton("Łuk");
+		odcinek = new JButton("Odcinek");
+		okrag = new JButton("Łuk");
 		reset = new JButton("Resetuj");
 		zapisz = new JButton("Zapisz");
 		kod = new JTextField();
 
-		odcinek.setSize(CONST.btn_size);
-		okrag.setSize(CONST.btn_size);
-		reset.setSize(CONST.btn_size);
-		zapisz.setSize(CONST.btn_size);
+		odcinek.setSize(Tools.btn_size);
+		okrag.setSize(Tools.btn_size);
+		reset.setSize(Tools.btn_size);
+		zapisz.setSize(Tools.btn_size);
 		kod.setSize(50, 25);
 
 		odcinek.setLocation(0, 0);
@@ -212,7 +216,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	private void resizeCzesci()
 	{
-		Dimension size = new Dimension(CONST.rescale(50), CONST.rescale(20));
+		Dimension size = new Dimension(Tools.rescale(50), Tools.rescale(20));
 		int x = (int) (this.getWidth() - size.getWidth());
 		int x2 = (int) (this.getWidth() - size.getWidth() * 2 - 10);
 		int y = 0;
@@ -222,8 +226,29 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 		for (int i = 0; i < text_size; i++)
 		{
-			dlugosci_text.get(i).setBounds(x2, CONST.rescale(y += size.getHeight()), size.width, size.height);
-			katy_text.get(i).setBounds(x, CONST.rescale(y2 += size.getHeight()), size.width, size.height);
+			dlugosci_text.get(i).setBounds(x2, Tools.rescale(y += size.getHeight()), size.width, size.height);
+			katy_text.get(i).setBounds(x, Tools.rescale(y2 += size.getHeight()), size.width, size.height);
+		}
+		
+		
+		
+	}
+	protected void rescaleComponents()
+	{
+		zapisz.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
+		reset.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
+		okrag.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
+		odcinek.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
+		kod.setSize(Tools.rescale(50), Tools.rescale(25));
+
+		odcinek.setLocation(0, 0);
+		okrag.setLocation(Tools.rescale(110), 0);
+		kod.setLocation(WIDTH - Tools.rescale(150), HEIGHT - Tools.rescale(25));
+		zapisz.setLocation(WIDTH - Tools.rescale(100), HEIGHT -  Tools.rescale( 25));
+		reset.setLocation(Tools.rescale(220), 0);
+		for (Component comp : this.getComponents())
+		{
+			((JComponent) comp).setFont(new Font("", 0, Tools.rescale(12)));
 		}
 	}
 
@@ -324,7 +349,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 		int dlugosc = Obliczenia.getDlugosc(start, koniec);
 
-		JLabel dlugosc_label = new JLabel(dlugosc / skala + "");
+		JLabel dlugosc_label = new JLabel((int)(dlugosc / skala/Tools.scale) + "");
 		dlugosc_label.setForeground(Color.GREEN);
 
 		dlugosc_label.setLocation((start.x + koniec.x) / 2, (start.y + koniec.y) / 2);
@@ -413,11 +438,11 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 				dlugosc_teraz = (int) (Math.abs((int) aktualna_pozycja.getX() - start.x) * kat_teraz / 360 * Math.PI);
 			}
 
-			this.aktualna_dlugosc.setText(dlugosc_teraz / skala + "");
+			this.aktualna_dlugosc.setText((int)(dlugosc_teraz / skala/Tools.scale) + "");
 			this.aktualna_dlugosc.setLocation((start.x + e.getX()) / 2, (start.y + e.getY()) / 2);
 			this.aktualna_dlugosc.setForeground(Color.GREEN);
 
-			this.aktualny_kat.setText("kąt: " + kat_teraz + "");
+			this.aktualny_kat.setText(kat_teraz + "");
 			this.aktualny_kat.setLocation((start.x + e.getX()) / 2 + 50, (start.y + e.getY()) / 2 + 50);
 
 			repaint();
@@ -437,14 +462,15 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, WIDTH, HEIGHT);
 		g2d.setColor(Color.YELLOW);
-		g2d.setStroke(new BasicStroke(4));
+		g2d.setStroke(new BasicStroke(4*Tools.scale));
 		rysujLinie(g2d);
 		rysujOkregi(g2d);
 		rysujAktualne(g2d);
 		resizeCzesci();
+		rescaleComponents();
 
 		g2d.setColor(Color.BLUE);
-		g2d.drawRect(0, 100, 150 * skala, 50 * skala);
+		g2d.drawRect(0, 100, (int) ((150 * skala)*Tools.scale),(int) (( 50 * skala)*Tools.scale));
 
 		g2d.setStroke(new BasicStroke(1));
 	}
@@ -552,10 +578,10 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 	private void dodajCzesc()
 	{
 		JTextField dlugosc = new JTextField("0");
-		JTextField kat = new JTextField("0");
+		JTextField kat = new JTextField(this.aktualny_kat.getText());
 
-		CONST.setKoloryNieaktywny(dlugosc);
-		CONST.setKoloryNieaktywny(kat);
+		Tools.setKoloryNieaktywny(dlugosc);
+		Tools.setKoloryNieaktywny(kat);
 
 		dlugosc.addKeyListener(this);
 		kat.addKeyListener(this);
@@ -579,14 +605,14 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 			@Override
 			public void focusLost(FocusEvent e)
 			{
-				CONST.setKoloryNieaktywny((JTextComponent) e.getSource());
+				Tools.setKoloryNieaktywny((JTextComponent) e.getSource());
 
 			}
 
 			@Override
 			public void focusGained(FocusEvent e)
 			{
-				CONST.setKoloryAktywny((JTextComponent) e.getSource());
+				Tools.setKoloryAktywny((JTextComponent) e.getSource());
 
 			}
 		};
@@ -631,7 +657,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		{
 			katy_text.get(z_y).grabFocus();
 		}
-		if (CONST.jestKodemCyfry(e.getKeyCode()))
+		if (Tools.jestKodemCyfry(e.getKeyCode()))
 		{
 			JTextField current_text_field = (JTextField) KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 			if (poprzedni_text_field != current_text_field)

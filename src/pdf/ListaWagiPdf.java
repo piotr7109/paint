@@ -32,16 +32,16 @@ public class ListaWagiPdf extends PdfCreator
 		String material = "";
 
 		header = getHeaderHtml();
-		
-		maszyna = String.format(getHtmlFile(HTML_SOURCE, "maszyna.html"), kod,"OGÓŁEM", getMaszynaHtml());
 
-		material = String.format(getHtmlFile(HTML_SOURCE, "material.html"), kod,"OGÓŁEM", getMaterialHtml());
-		
+		maszyna = String.format(getHtmlFile(HTML_SOURCE, "maszyna.html"), kod, "OGÓŁEM", getMaszynaHtml());
+
+		material = String.format(getHtmlFile(HTML_SOURCE, "material.html"), "OGÓŁEM", getMaterialHtml());
+
 		int proste = 0;
 		int giete = 0;
-		for(FiguraZamowienie fig_zam: ZamowienieDane.figury)
+		for (FiguraZamowienie fig_zam : ZamowienieDane.figury)
 		{
-			if(fig_zam.figura.getKod() == 1)
+			if (fig_zam.figura.getKod() == 1)
 			{
 				proste++;
 			}
@@ -51,22 +51,17 @@ public class ListaWagiPdf extends PdfCreator
 			}
 		}
 
-		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), header, maszyna, material, "Proste", proste,"Gięte", giete);
+		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), header, maszyna, material, "Proste", proste, "Gięte", giete);
 		return html;
 	}
-	
+
 	protected String getHeaderHtml()
 	{
-		String html ="";
-		
-		html += String.format(getHtmlFile(HTML_SOURCE, "header.html"),
-				ZamowienieDane.odbiorca.getNazwa(),
-				ZamowienieDane.budowa.getNazwa(),
-				ZamowienieDane.obiekt.getNazwa(),
-				ZamowienieDane.element.getNazwa(),
-				ZamowienieDane.element.getTerminDostawy());
+		String html = "";
 
-		
+		html += String.format(getHtmlFile(HTML_SOURCE, "header.html"), ZamowienieDane.odbiorca.getNazwa(), ZamowienieDane.budowa.getNazwa(), ZamowienieDane.obiekt.getNazwa(),
+				ZamowienieDane.element.getNazwa(), ZamowienieDane.element.getTerminDostawy());
+
 		return html;
 	}
 
@@ -119,9 +114,10 @@ public class ListaWagiPdf extends PdfCreator
 			{
 				if (fig.srednica == sr)
 				{
-					int waga = fig.ilosc_sztuk * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(sr));
-					wh.dodajWage(waga, fig.maszyna);
-					wagi_suma.dodajWage(waga, fig.maszyna);
+					int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
+					int waga = fig.ilosc_sztuk * (int) (dlugosc * FocusListeners.sred_waga.get(sr));
+					wh.dodajWage(fig, waga, dlugosc);
+					wagi_suma.dodajWage(fig, waga, dlugosc);
 				}
 			}
 			wagi_h.add(wh);

@@ -60,7 +60,6 @@ public class ListaProdukcyjnaPdf extends PdfCreator
 		}
 		content += cells + "</table>";
 		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), content);
-
 		return html;
 
 	}

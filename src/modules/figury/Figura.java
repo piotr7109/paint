@@ -17,6 +17,20 @@ public class Figura
 	private int kod;
 	public int start_x, start_y;
 
+	public Figura()
+	{
+		
+	}
+	
+	public Figura(Figura fig)
+	{
+		this.kod = fig.kod;
+		for(Czesc czesc: fig.getCzesci())
+		{
+			this.addCzesc(new Czesc(czesc));
+		}
+	}
+	
 	public int getId()
 	{
 		return id;

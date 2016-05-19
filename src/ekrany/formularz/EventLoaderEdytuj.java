@@ -6,19 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 import ekrany.Formularz;
-import ekrany.formularz.ekrany_nowe.NowyOdbiorca;
-import ekrany.formularz.ekrany_nowe.NowyObiekt;
 import ekrany.formularz.ekrany_edytuj.EdytujBudowa;
 import ekrany.formularz.ekrany_edytuj.EdytujElement;
 import ekrany.formularz.ekrany_edytuj.EdytujObiekt;
 import ekrany.formularz.ekrany_edytuj.EdytujOdbiorca;
-import ekrany.formularz.ekrany_nowe.NowyBudowa;
-import ekrany.formularz.ekrany_nowe.NowyElement;
 import modules.zamowienie.ZamowienieCore;
-import modules.zamowienie.budowy.Budowa;
-import modules.zamowienie.elementy.Element;
-import modules.zamowienie.obiekty.Obiekt;
-import modules.zamowienie.odbiorcy.Odbiorca;
 
 public class EventLoaderEdytuj
 {

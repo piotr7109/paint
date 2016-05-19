@@ -10,9 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang.NumberUtils;
+
 import dane.CzescKontolki;
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
 
@@ -85,8 +87,8 @@ public class RamkaCzesci
 				bok_text.addKeyListener(panel);
 				kat_text.addKeyListener(panel);
 
-				CONST.setKoloryNieaktywny(bok_text);
-				CONST.setKoloryNieaktywny(kat_text);
+				Tools.setKoloryNieaktywny(bok_text);
+				Tools.setKoloryNieaktywny(kat_text);
 
 				panel.add(bok_text);
 				panel.add(kat_text);
@@ -116,14 +118,15 @@ public class RamkaCzesci
 			@Override
 			public void focusLost(FocusEvent arg0)
 			{
-				if (text_field.getText().equals(""))
+				if (!NumberUtils.isNumber(text_field.getText()))
 				{
 					text_field.setText("0");
 				}
-				CONST.setKoloryNieaktywny(text_field);
+				Tools.setKoloryNieaktywny(text_field);
 				Czesc czesc = ZamowienieDane.figury.get(index).figura.getCzesci().get(index_czesc);
 				czesc.setDlugosc(Integer.parseInt(ZamowienieDane.czesc_kontrolki.get(index_czesc).bok.getText()));
 				czesc.setKat(Integer.parseInt(ZamowienieDane.czesc_kontrolki.get(index_czesc).kat.getText()));
+				panel.poprzedni_text_field = text_field;
 				RamkaFigura.skalaReset();
 				panel.repaint();
 			}
@@ -131,7 +134,8 @@ public class RamkaCzesci
 			@Override
 			public void focusGained(FocusEvent arg0)
 			{
-				CONST.setKoloryAktywny(text_field);
+				
+				Tools.setKoloryAktywny(text_field);
 				panel.repaint();
 
 			}
@@ -160,7 +164,7 @@ public class RamkaCzesci
 	}
 	private static int rescale(int number)
 	{
-		return (int)(number*CONST.scale);
+		return (int)(number*Tools.scale);
 	}
 	public static void rescale()
 	{

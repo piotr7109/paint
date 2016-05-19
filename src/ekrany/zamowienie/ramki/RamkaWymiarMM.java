@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import dane.FiguraKontrolki;
 import dane.ZamowienieDane;
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.Zamowienie;
 
 public class RamkaWymiarMM
@@ -25,7 +25,7 @@ public class RamkaWymiarMM
 		int x = 10;
 		int y = 120;
 		
-		panel.add(CONST.getTytul(rescale(x), rescale(y), "Wymiar(mm)", Color.PINK, CONST.scale));
+		panel.add(Tools.getTytul(rescale(x), rescale(y), "Wymiar(mm)", Color.PINK, Tools.scale));
 
 		String elem[] = { "Lp", "Pozcja", "Sztuk", "Średnica", "Figura", "Il. pac.", "Maszyna", "Ma??", "Sworzeń" };
 		int i = 0;
@@ -101,7 +101,7 @@ public class RamkaWymiarMM
 
 	private static int rescale(int number)
 	{
-		return (int) (number * CONST.scale);
+		return (int) (number * Tools.scale);
 	}
 
 	public static void rescale()

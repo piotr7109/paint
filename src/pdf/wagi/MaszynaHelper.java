@@ -1,5 +1,7 @@
 package pdf.wagi;
 
+import dane.FiguraZamowienie;
+
 public class MaszynaHelper
 {
 	public int form12, form16, msyn, sflex, cs40, mag, nrec, grec, ogolem;
@@ -16,11 +18,11 @@ public class MaszynaHelper
 		grec = 0;
 		ogolem = 0;
 	}
-	
-	public void dodajWage(int waga, int maszyna)
+
+	public void dodajWage(FiguraZamowienie fig, int waga, int dlugosc)
 	{
 		ogolem += waga;
-		switch (maszyna)
+		switch (fig.maszyna)
 		{
 			case 1:
 				mag += waga;
@@ -32,6 +34,27 @@ public class MaszynaHelper
 				grec += waga;
 				break;
 			case 4:
+				if(fig.figura.getKod() != 1 && dlugosc > 1200)
+				{
+					grec +=waga;
+				}
+				else if(fig.figura.getKod() != 1 && dlugosc < 80)
+				{
+					nrec+=waga;
+					grec+=waga;
+				}
+				else if (fig.figura.getKod() != 1)
+				{
+					cs40 += waga;
+				}
+				else if (dlugosc > 1200 && fig.figura.getKod() == 1)
+				{
+					mag += waga;
+				}
+				else if (dlugosc < 80)
+				{
+					nrec+= waga;
+				}
 				sflex += waga;
 				break;
 			case 5:

@@ -3,7 +3,7 @@ package ekrany.zamowienie.ramki;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import dodatki.CONST;
+import dodatki.Tools;
 import ekrany.Zamowienie;
 
 public class RamkaIlosc
@@ -18,7 +18,7 @@ public class RamkaIlosc
 	
 	private static int rescale(int number)
 	{
-		return (int)(number*CONST.scale);
+		return (int)(number*Tools.scale);
 	}
 	public static void rescale(double scale)
 	{

@@ -15,9 +15,11 @@ import org.xhtmlrenderer.resource.XMLResource;
 
 import com.lowagie.text.pdf.BaseFont;
 
+import dane.ZamowienieDane;
+
 abstract public class PdfCreator implements PdfCreatorInterface
 {
-	protected String RESULT_DIRECTORY = System.getProperty("user.home") + "/Desktop/java_pdf/";
+	protected String RESULT_DIRECTORY = "wydruki/"+ZamowienieDane.odbiorca.getNazwa()+"/"+ZamowienieDane.budowa.getNazwa()+"/"+ZamowienieDane.obiekt.getNazwa()+"/"+ZamowienieDane.element.getNazwa()+"/";
 	protected String FILENAME;
 	protected String HTML_SOURCE;
 
