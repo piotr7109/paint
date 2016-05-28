@@ -24,6 +24,7 @@ import dodatki.FocusListeners;
 import ekrany.Zamowienie;
 import ekrany.zamowienie.ramki.RamkaCzesci;
 import ekrany.zamowienie.ramki.RamkaFigura;
+import ekrany.zamowienie.ramki.RamkaIlosc;
 import ekrany.zamowienie.ramki.RamkaUwagi;
 import ekrany.zamowienie.ramki.RamkaWymiarCM;
 import ekrany.zamowienie.ramki.RamkaWymiarMM;
@@ -202,6 +203,7 @@ public class DodawanieFigur
 		f_zam.srednica = Integer.parseInt(f_kontrolki.srednica.getText());
 		f_zam.sworzen = Integer.parseInt(f_kontrolki.sworzen.getText());
 		RamkaUwagi.ramkaUwagiUpdate(panel);
+		RamkaIlosc.update(panel);
 
 	}
 

@@ -41,7 +41,7 @@ public class RamkaCzesci
 	}
 	public static void ramkaCzesci(Graphics g)
 	{
-		// ramka cz�ci
+		// ramka części
 		int x = 780;
 		int y = 120;
 		g.setColor(Color.WHITE);

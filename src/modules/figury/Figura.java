@@ -14,6 +14,8 @@ public class Figura
 	private int id;
 	private ArrayList<Czesc> czesci = new ArrayList<Czesc>();
 	private ArrayList<Czesc> czesci_atrapy = new ArrayList<Czesc>();
+	private int ilosc_skokow;
+	private int poziom_skoku;
 	private int kod;
 	public int start_x, start_y;
 
@@ -22,6 +24,26 @@ public class Figura
 		
 	}
 	
+	public int getIloscSkokow()
+	{
+		return ilosc_skokow;
+	}
+
+	public void setIloscSkokow(int ilosc_skokow)
+	{
+		this.ilosc_skokow = ilosc_skokow;
+	}
+
+	public int getPoziomSkoku()
+	{
+		return poziom_skoku;
+	}
+
+	public void setPoziomSkoku(int poziom_skoku)
+	{
+		this.poziom_skoku = poziom_skoku;
+	}
+
 	public Figura(Figura fig)
 	{
 		this.kod = fig.kod;

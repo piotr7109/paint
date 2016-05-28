@@ -36,8 +36,8 @@ public class DBConnector
 			fig.setMaszyna(fig_zam.maszyna);
 			fig.setSworzen(fig_zam.sworzen);
 			fig.setUwagi(fig_zam.uwagi);
-			// fig.setPoziomSkoku(...);
-			// fig.setIloscSkokow(...);
+			fig.setPoziomSkoku(fig_temp.getPoziomSkoku());
+			fig.setIloscSkokow(fig_temp.getIloscSkokow());
 			fig.insert();
 			fig.insertCzesci(fig_temp);
 

@@ -73,6 +73,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		RamkaWymiarMM ramka_wymiar_mm = new RamkaWymiarMM(this);
 		RamkaWymiarCM ramka_wymiar_cm = new RamkaWymiarCM(this);
 		RamkaFigura ramka_figura = new RamkaFigura(this);
+		RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
 	}
 
 	protected void initZapiszButton()
