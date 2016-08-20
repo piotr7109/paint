@@ -3,6 +3,7 @@ package ekrany;
 import dodatki.*;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
+import modules.figury.FiguraFactory;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -82,7 +84,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	JButton odcinek;
 	JButton okrag;
-	
+
 	public void dodajKontrolki(JFrame frame)
 	{
 		odcinek = new JButton("Odcinek");
@@ -159,38 +161,43 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 							_typy_figur.add("okrag");
 							index_okrag++;
 							break;
-
 					}
-
 				}
 				zapiszElement();
-
 			}
 		});
-
 	}
 
 	private int start_x = 0, start_y = 0;
 
 	private void zapiszElement()
 	{
+
 		Figura fig = new Figura();
 		fig.setKod(Integer.parseInt(kod.getText()));
 		fig.start_x = start_x / skala;
 		fig.start_y = (start_y) / skala - 20;
-		int id_figury = fig.insert();
-		int size = dlugosci_text.size();
-		for (int i = 0; i < size; i++)
+		if (FiguraFactory.czyKodZajety(fig.getKod()))
 		{
-			Czesc czesc = new Czesc();
-			czesc.setDlugosc(Integer.parseInt(dlugosci_text.get(i).getText()));
-			czesc.setKat(Integer.parseInt(katy_text.get(i).getText()));
-			czesc.setIdFigury(id_figury);
-			czesc.setTyp(_typy_figur.get(i));
-			czesc.insert();
-			czesc.setDlugosc(_dlugosci.get(i) / skala);
-			czesc.setKat(_katy.get(i));
-			czesc.insertAtrapa();
+			Tools.showSimpleMessage("Kod jest już zajęty!", JOptionPane.ERROR_MESSAGE);
+		}
+		else
+		{
+			int id_figury = fig.insert();
+			int size = dlugosci_text.size();
+			for (int i = 0; i < size; i++)
+			{
+				Czesc czesc = new Czesc();
+				czesc.setDlugosc(Integer.parseInt(dlugosci_text.get(i).getText()));
+				czesc.setKat(Integer.parseInt(katy_text.get(i).getText()));
+				czesc.setIdFigury(id_figury);
+				czesc.setTyp(_typy_figur.get(i));
+				czesc.insert();
+				czesc.setDlugosc(_dlugosci.get(i) / skala);
+				czesc.setKat(_katy.get(i));
+				czesc.insertAtrapa();
+			}
+			Tools.showSimpleMessage("Figura zapisana!", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -229,22 +236,21 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 			dlugosci_text.get(i).setBounds(x2, Tools.rescale(y += size.getHeight()), size.width, size.height);
 			katy_text.get(i).setBounds(x, Tools.rescale(y2 += size.getHeight()), size.width, size.height);
 		}
-		
-		
-		
+
 	}
+
 	protected void rescaleComponents()
 	{
-		zapisz.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
-		reset.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
-		okrag.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
-		odcinek.setSize(new Dimension(Tools.rescale(Tools.btn_size.width),Tools.rescale(Tools.btn_size.height) ));
+		zapisz.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
+		reset.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
+		okrag.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
+		odcinek.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
 		kod.setSize(Tools.rescale(50), Tools.rescale(25));
 
 		odcinek.setLocation(0, 0);
 		okrag.setLocation(Tools.rescale(110), 0);
 		kod.setLocation(WIDTH - Tools.rescale(150), HEIGHT - Tools.rescale(25));
-		zapisz.setLocation(WIDTH - Tools.rescale(100), HEIGHT -  Tools.rescale( 25));
+		zapisz.setLocation(WIDTH - Tools.rescale(100), HEIGHT - Tools.rescale(25));
 		reset.setLocation(Tools.rescale(220), 0);
 		for (Component comp : this.getComponents())
 		{
@@ -349,7 +355,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 		int dlugosc = Obliczenia.getDlugosc(start, koniec);
 
-		JLabel dlugosc_label = new JLabel((int)(dlugosc / skala/Tools.scale) + "");
+		JLabel dlugosc_label = new JLabel((int) (dlugosc / skala / Tools.scale) + "");
 		dlugosc_label.setForeground(Color.GREEN);
 
 		dlugosc_label.setLocation((start.x + koniec.x) / 2, (start.y + koniec.y) / 2);
@@ -438,7 +444,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 				dlugosc_teraz = (int) (Math.abs((int) aktualna_pozycja.getX() - start.x) * kat_teraz / 360 * Math.PI);
 			}
 
-			this.aktualna_dlugosc.setText((int)(dlugosc_teraz / skala/Tools.scale) + "");
+			this.aktualna_dlugosc.setText((int) (dlugosc_teraz / skala / Tools.scale) + "");
 			this.aktualna_dlugosc.setLocation((start.x + e.getX()) / 2, (start.y + e.getY()) / 2);
 			this.aktualna_dlugosc.setForeground(Color.GREEN);
 
@@ -462,7 +468,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, WIDTH, HEIGHT);
 		g2d.setColor(Color.YELLOW);
-		g2d.setStroke(new BasicStroke(4*Tools.scale));
+		g2d.setStroke(new BasicStroke(4 * Tools.scale));
 		rysujLinie(g2d);
 		rysujOkregi(g2d);
 		rysujAktualne(g2d);
@@ -470,7 +476,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 		rescaleComponents();
 
 		g2d.setColor(Color.BLUE);
-		g2d.drawRect(0, 100, (int) ((150 * skala)*Tools.scale),(int) (( 50 * skala)*Tools.scale));
+		g2d.drawRect(0, 100, (int) ((150 * skala) * Tools.scale), (int) ((50 * skala) * Tools.scale));
 
 		g2d.setStroke(new BasicStroke(1));
 	}
@@ -577,7 +583,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	private void dodajCzesc()
 	{
-		JTextField dlugosc = new JTextField("0");
+		JTextField dlugosc = new JTextField(this.aktualna_dlugosc.getText());
 		JTextField kat = new JTextField(this.aktualny_kat.getText());
 
 		Tools.setKoloryNieaktywny(dlugosc);

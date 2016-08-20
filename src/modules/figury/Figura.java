@@ -21,9 +21,9 @@ public class Figura
 
 	public Figura()
 	{
-		
+
 	}
-	
+
 	public int getIloscSkokow()
 	{
 		return ilosc_skokow;
@@ -47,12 +47,12 @@ public class Figura
 	public Figura(Figura fig)
 	{
 		this.kod = fig.kod;
-		for(Czesc czesc: fig.getCzesci())
+		for (Czesc czesc : fig.getCzesci())
 		{
 			this.addCzesc(new Czesc(czesc));
 		}
 	}
-	
+
 	public int getId()
 	{
 		return id;
@@ -72,48 +72,61 @@ public class Figura
 	{
 		this.kod = kod;
 	}
+
 	public ArrayList<Czesc> getCzesci()
 	{
-		
 		return this.czesci;
 	}
-	
+
 	public void setCzesci()
 	{
 		this.czesci.clear();
-		
+
 		CzescLista c_lista = new CzescLista();
 		ArrayList<Object> lista_czesci = c_lista.getCzesci(this.id);
 		int size = lista_czesci.size();
-		for(int i =0; i< size ;i++)
+		for (int i = 0; i < size; i++)
 		{
-			this.czesci.add((Czesc)lista_czesci.get(i));
+			this.czesci.add((Czesc) lista_czesci.get(i));
 		}
 	}
+
 	public void addCzesc(Czesc czesc)
 	{
 		this.czesci.add(czesc);
 	}
+
 	public ArrayList<Czesc> getCzesciAtrapy()
 	{
 		return this.czesci_atrapy;
 	}
+
 	public void setCzesciAtrapy()
 	{
 		this.czesci_atrapy.clear();
-		
+
 		CzescLista c_lista = new CzescLista();
 		ArrayList<Object> lista_czesci = c_lista.getCzesciAtrapy(this.id);
 		int size = lista_czesci.size();
-		for(int i =0; i< size ;i++)
+		for (int i = 0; i < size; i++)
 		{
-			this.czesci_atrapy.add((Czesc)lista_czesci.get(i));
+			this.czesci_atrapy.add((Czesc) lista_czesci.get(i));
 		}
 	}
+	
+	public void wyczyscDlugoscCzesci()
+	{
+		for(Czesc czesc: czesci)
+		{
+			czesc.setDlugosc(0);
+		}
+	}
+	
 	public String toString()
 	{
 		return Integer.toString(kod);
 	}
+
 	public int insert()
 	{
 		MySQLJDBC pgsq = new MySQLJDBC();
@@ -121,6 +134,7 @@ public class Figura
 		pgsq.queryOpertaion(query);
 		return this.getLastId();
 	}
+
 	public int getLastId()
 	{
 		int id = 0;

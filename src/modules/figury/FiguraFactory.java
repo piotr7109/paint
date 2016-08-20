@@ -31,4 +31,10 @@ public class FiguraFactory extends AbstractFactory
 
 		return fig;
 	}
+
+	public static boolean czyKodZajety(int kod)
+	{
+		FiguraFactory f_factory = new FiguraFactory();
+		return f_factory.getFiguraByKod(kod) == null ? false : true;
+	}
 }

@@ -12,7 +12,7 @@ public class OdbiorcaLista extends ZamowienieListaCore
 	public OdbiorcaLista()
 	{
 		super(0, "");
-		query = String.format("SELECT * FROM %s", table);
+		query = String.format("SELECT * FROM %s ORDER BY nazwa", table);
 	}
 	
 	protected Object fetchObject(ResultSet rs) throws SQLException

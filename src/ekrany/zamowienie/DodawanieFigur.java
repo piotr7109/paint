@@ -58,30 +58,22 @@ public class DodawanieFigur
 		f_kontrolki.index = ZamowienieDane.f_kontrolki.size();
 		if (default_figura == true)
 		{
-			if (f_kontrolki.index > 0)
-			{
-				FiguraZamowienie f_zamowienie = new FiguraZamowienie(ZamowienieDane.figury.get(f_kontrolki.index - 1));
-
-				ZamowienieDane.figury.add(f_zamowienie);
-			}
-			else
-			{
-				ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
-			}
+			ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
+			ZamowienieDane.figury.get(f_kontrolki.index).uwagi = ZamowienieDane.figury.get(f_kontrolki.index - 1).uwagi;
 		}
 
 		int index = f_kontrolki.index;
 		int x = 20;
 		int y;
 		JTextField liczba = new JTextField(index + 1 + "");
-		JTextField pozycja = new JTextField("0");
-		JTextField ilosc_sztuk = new JTextField("1");
-		JTextField srednica = new JTextField("6");
-		JTextField fig = new JTextField(1 + "");
-		JTextField ilosc_paczek = new JTextField("0");
-		JTextField maszyna = new JTextField("6");
+		JTextField pozycja = new JTextField();
+		JTextField ilosc_sztuk = new JTextField();
+		JTextField srednica = new JTextField();
+		JTextField fig = new JTextField();
+		JTextField ilosc_paczek = new JTextField();
+		JTextField maszyna = new JTextField();
 		// JTextField mat?? = new JTextField(fig_zam.mat??);
-		JTextField sworzen = new JTextField(32 + "");
+		JTextField sworzen = new JTextField();
 
 		if (ZamowienieDane.figury.get(index) != null)
 		{
@@ -283,6 +275,7 @@ public class DodawanieFigur
 		return new FocusListener()
 		{
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void focusLost(FocusEvent e)
 			{
@@ -348,7 +341,7 @@ public class DodawanieFigur
 					if (figura != null)
 					{
 						figura.setCzesci();
-						figura.getCzesci();
+						figura.wyczyscDlugoscCzesci();
 
 						f_zamowienie.figura = figura;
 						panel.figura = f_zamowienie.figura;

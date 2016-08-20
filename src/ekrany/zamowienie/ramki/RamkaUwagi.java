@@ -36,6 +36,7 @@ public class RamkaUwagi
 		uwagi.addFocusListener(uwagiFocusListener(panel, uwagi));
 		uwagi.addKeyListener(panel);
 		uwagi.setLineWrap(true);
+		uwagi.addMouseListener(Tools.getFocusOut(panel));
 		panel.add(uwagi);
 		rescale();
 	}

@@ -10,7 +10,7 @@ import ekrany.formularz.ekrany_nowe.NowyOdbiorca;
 import ekrany.formularz.ekrany_nowe.NowyObiekt;
 import ekrany.formularz.ekrany_nowe.NowyBudowa;
 import ekrany.formularz.ekrany_nowe.NowyElement;
-
+import modules.zamowienie.ZamowienieCoreFactory;
 import modules.zamowienie.budowy.Budowa;
 import modules.zamowienie.elementy.Element;
 import modules.zamowienie.obiekty.Obiekt;
@@ -39,7 +39,7 @@ public class EventLoaderNowe
 				int kod;
 				try
 				{
-					kod = ((Odbiorca) form.odbiorcy_combo.getItemAt(form.odbiorcy_combo.getItemCount() - 1)).getKod() + 1;
+					kod = new ZamowienieCoreFactory().getMaxKodOdbiorca();
 				}
 				catch (NullPointerException e)
 				{
@@ -63,15 +63,16 @@ public class EventLoaderNowe
 			{
 				JFrame frame = createNewWindow();
 				int kod;
+				int id_parent = ((Odbiorca) form.odbiorcy_combo.getSelectedItem()).getId();
 				try
 				{
-					kod = ((Budowa) form.budowy_combo.getItemAt(form.budowy_combo.getItemCount() - 1)).getKod() + 1;
+					kod = new ZamowienieCoreFactory().getMaxKodBudowa(id_parent);
 				}
 				catch (NullPointerException e)
 				{
 					kod = 1;
 				}
-				int id_parent = ((Odbiorca) form.odbiorcy_combo.getSelectedItem()).getId();
+				
 				frame.add(new NowyBudowa(kod, frame, id_parent, form));
 				frame.pack();
 			}
@@ -88,15 +89,15 @@ public class EventLoaderNowe
 			{
 				JFrame frame = createNewWindow();
 				int kod;
+				int id_parent = ((Budowa) form.budowy_combo.getSelectedItem()).getId();
 				try
 				{
-					kod = ((Obiekt) form.obiekty_combo.getItemAt(form.obiekty_combo.getItemCount() - 1)).getKod() + 1;
+					kod = new ZamowienieCoreFactory().getMaxKodObiekt(id_parent);
 				}
 				catch (NullPointerException e)
 				{
 					kod = 1;
 				}
-				int id_parent = ((Budowa) form.budowy_combo.getSelectedItem()).getId();
 				frame.add(new NowyObiekt(kod, frame, id_parent, form));
 				frame.pack();
 			}
@@ -113,15 +114,15 @@ public class EventLoaderNowe
 			{
 				JFrame frame = createNewWindow();
 				int kod;
+				int id_parent = ((Obiekt) form.obiekty_combo.getSelectedItem()).getId();
 				try
 				{
-					kod = ((Element) form.elementy_combo.getItemAt(form.elementy_combo.getItemCount() - 1)).getKod() + 1;
+					kod = new ZamowienieCoreFactory().getMaxKodElement(id_parent);
 				}
 				catch (NullPointerException e)
 				{
 					kod = 1;
 				}
-				int id_parent = ((Obiekt) form.obiekty_combo.getSelectedItem()).getId();
 				frame.add(new NowyElement(kod, frame, id_parent, form));
 				frame.pack();
 			}

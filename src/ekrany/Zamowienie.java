@@ -1,36 +1,17 @@
 package ekrany;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
-import dane.CzescKontolki;
-import dane.FiguraKontrolki;
-import dane.FiguraZamowienie;
-import dane.ZamowienieDane;
+import dane.*;
+import dodatki.Keys;
 import dodatki.Tools;
 import ekrany.zamowienie.DodawanieFigur;
 import ekrany.zamowienie.db.DBConnector;
-import ekrany.zamowienie.ramki.RamkaCzesci;
-import ekrany.zamowienie.ramki.RamkaDaneKlienta;
-import ekrany.zamowienie.ramki.RamkaFigura;
-import ekrany.zamowienie.ramki.RamkaIlosc;
-import ekrany.zamowienie.ramki.RamkaUwagi;
-import ekrany.zamowienie.ramki.RamkaWymiarCM;
-import ekrany.zamowienie.ramki.RamkaWymiarMM;
+import ekrany.zamowienie.ramki.*;
 import modules.figury.Figura;
 
 public class Zamowienie extends JPanel implements KeyListener
@@ -45,15 +26,18 @@ public class Zamowienie extends JPanel implements KeyListener
 	public Figura figura;
 	public JButton zapisz_dane = new JButton("Zapisz dane");
 
-	public Zamowienie()
+	private JFrame frame;
+
+	public Zamowienie(JFrame frame)
 	{
 
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		WIDTH = (int) (Tools.WIDTH * Tools.scale);
 		HEIGHT = (int) (Tools.HEIGHT * Tools.scale);
-
+		this.frame = frame;
 		this.addKeyListener(this);
+
 		init();
 
 	}
@@ -74,16 +58,20 @@ public class Zamowienie extends JPanel implements KeyListener
 		RamkaWymiarCM ramka_wymiar_cm = new RamkaWymiarCM(this);
 		RamkaFigura ramka_figura = new RamkaFigura(this);
 		RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
+
+		addMouseListeners();
+
+		frame.addWindowListener(this.actionOnClose());
 	}
 
 	protected void initZapiszButton()
 	{
 		zapisz_dane.setBounds(0, this.HEIGHT - 25, 150, 25);
-		zapisz_dane.addActionListener(zapiszDane());
+		zapisz_dane.addActionListener(zapiszDaneListener());
 		add(zapisz_dane);
 	}
 
-	private ActionListener zapiszDane()
+	private ActionListener zapiszDaneListener()
 	{
 		return new ActionListener()
 		{
@@ -91,10 +79,14 @@ public class Zamowienie extends JPanel implements KeyListener
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				DBConnector.zapiszDane();
-
+				zapiszDane();
 			}
 		};
+	}
+
+	private void zapiszDane()
+	{
+		DBConnector.zapiszDane();
 	}
 
 	private void wczytajDane()
@@ -132,6 +124,20 @@ public class Zamowienie extends JPanel implements KeyListener
 		g2d.setColor(Color.YELLOW);
 		// policzIloscKomponentow();
 		rysujRamki(g);
+
+	}
+
+	private MouseListener ml = Tools.getFocusOut(this);
+
+	private void addMouseListeners()
+	{
+		for (Component c : this.getComponents())
+		{
+			if (c instanceof JTextField)
+			{
+				c.addMouseListener(ml);
+			}
+		}
 	}
 
 	private void policzIloscKomponentow()
@@ -139,18 +145,23 @@ public class Zamowienie extends JPanel implements KeyListener
 		int label = 0;
 		int button = 0;
 		int text_field = 0;
+
 		for (Component c : this.getComponents())
 		{
 			if (c instanceof JButton)
-				button++;
+				;
+			// button++;
 			if (c instanceof JLabel)
-				label++;
+				;
+			// label++;
 			if (c instanceof JTextField)
-				text_field++;
+			{
+			}
+			// text_field++;
 		}
-		System.out.println("Label:" + label);
-		System.out.println("Buttin:" + button);
-		System.out.println("TextField:" + text_field);
+		// System.out.println("Label:" + label);
+		// System.out.println("Buttin:" + button);
+		// System.out.println("TextField:" + text_field);
 	}
 
 	private void rysujRamki(Graphics g)
@@ -174,7 +185,7 @@ public class Zamowienie extends JPanel implements KeyListener
 			g.setColor(Color.RED);
 		}
 		g.fillOval(WIDTH - 50, 0, 50, 50);
-		
+
 		if (czy_aktywna_ilosc_paczek_sworzen)
 		{
 			g.setColor(Color.BLUE);
@@ -209,7 +220,7 @@ public class Zamowienie extends JPanel implements KeyListener
 			{
 				switch (e.getKeyCode())
 				{
-					case 40: // DÓŁ
+					case Keys.ARROW_DOWN:
 						if (z_x + 1 < ZamowienieDane.f_kontrolki.size())
 						{
 							z_x++;
@@ -220,19 +231,20 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						RamkaFigura.skalaReset();
 						break;
-					case 38: // GÓRA
+					case Keys.ARROW_UP: // GÓRA
 						if (z_x > 0)
 						{
 							z_x--;
 						}
 						RamkaFigura.skalaReset();
 						break;
-					case 39: // PRAWO
-					case 10: // ENTER
+					case Keys.ARROW_RIGHT: // PRAWO
+					case Keys.ENTER: // ENTER
 						if (!czy_aktywna_ilosc_paczek_sworzen && (z_y == 4 || z_y == 6))
 						{
 							z_y++;
 						}
+
 						if (z_y + 1 < 8)
 						{
 							z_y++;
@@ -245,7 +257,7 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						break;
 
-					case 37: // LEWO
+					case Keys.ARROW_LEFT: // LEWO
 						if (!czy_aktywna_ilosc_paczek_sworzen && (z_y == 6))
 						{
 							z_y--;
@@ -268,11 +280,10 @@ public class Zamowienie extends JPanel implements KeyListener
 				{
 					RamkaWymiarMM.przewinElementy(this, ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y]);
 					ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
-					if (e.getKeyCode() == 112) // F1
+					if (e.getKeyCode() == Keys.F1) // F1
 					{
 						tryb = "czesci_figury";
 						ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
-
 					}
 				}
 
@@ -282,7 +293,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		{
 			switch (e.getKeyCode())
 			{
-				case 40:
+				case Keys.ARROW_DOWN:
 					if (c_x + 1 < ZamowienieDane.figury.get(z_x).figura.getCzesci().size())
 					{
 						c_x++;
@@ -290,24 +301,22 @@ public class Zamowienie extends JPanel implements KeyListener
 					else
 					{
 						RamkaCzesci.dodajCzesc(this, z_x);
-
 					}
-
 					break;
-				case 38:
+				case Keys.ARROW_UP:
 					if (c_x > 0)
 					{
 						c_x--;
 					}
 					break;
-				case 39:
+				case Keys.ARROW_RIGHT:
 					if (c_y + 1 < 2)
 					{
 						c_y++;
 					}
 					break;
 
-				case 37:
+				case Keys.ARROW_LEFT:
 					if (c_y > 0)
 					{
 						c_y--;
@@ -315,7 +324,7 @@ public class Zamowienie extends JPanel implements KeyListener
 					break;
 			}
 			ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
-			if (e.getKeyCode() == 112) // F1
+			if (e.getKeyCode() == Keys.F1) // F1
 			{
 				tryb = "figury";
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
@@ -325,8 +334,8 @@ public class Zamowienie extends JPanel implements KeyListener
 		{
 			switch (e.getKeyCode())
 			{
-				case 10:
-				case 40:
+				case Keys.ENTER:
+				case Keys.ARROW_DOWN:
 					if (f_x + 1 < ZamowienieDane.figury.get(z_x).figura.getCzesci().size())
 					{
 						f_x++;
@@ -346,7 +355,7 @@ public class Zamowienie extends JPanel implements KeyListener
 						ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
 					}
 					break;
-				case 38:
+				case Keys.ARROW_UP:
 					if (f_x > 0)
 					{
 						f_x--;
@@ -355,7 +364,7 @@ public class Zamowienie extends JPanel implements KeyListener
 					break;
 			}
 			ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
-			if (e.getKeyCode() == 112) // F1
+			if (e.getKeyCode() == Keys.F1) // F1
 			{
 				tryb = "czesci";
 				ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
@@ -364,7 +373,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		}
 		if (tryb.equals("uwagi"))
 		{
-			if (e.getKeyCode() == 120) // F9
+			if (e.getKeyCode() == Keys.F9) // F9
 			{
 				tryb = "figury";
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
@@ -374,7 +383,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		{
 			switch (e.getKeyCode())
 			{
-				case 113: // F2
+				case Keys.F2: // F2
 					if (tryb_rzeczywisty)
 					{
 						tryb_rzeczywisty = false;
@@ -387,33 +396,25 @@ public class Zamowienie extends JPanel implements KeyListener
 					repaint();
 					break;
 
-				case 82: // r
+				case Keys.R: // r
 					DodawanieFigur.usunFigure(z_x, this);
 					break;
 
-				case 117: // F6 - zapisz w pamięci
+				case Keys.F6: // F6 - zapisz w pamięci
 					f_zamowienie_temp = ZamowienieDane.figury.get(z_x);
 					break;
 
-				case 118: // F7 - skopiuj
+				case Keys.F7: // F7 - skopiuj
 					ZamowienieDane.figury.set(z_x, new FiguraZamowienie(f_zamowienie_temp));
 					ZamowienieDane.f_kontrolki.get(z_x).updateFromFiguraZamowienie();
 
 					break;
-				case 120: // F9
+				case Keys.F9: // F9
 					tryb = "uwagi";
 					RamkaUwagi.uwagi.grabFocus();
 					break;
-				case 123: // F12
-					if (czy_aktywna_ilosc_paczek_sworzen)
-					{
-						czy_aktywna_ilosc_paczek_sworzen = false;
-					}
-					else
-					{
-						czy_aktywna_ilosc_paczek_sworzen = true;
-
-					}
+				case Keys.F12: // F12
+					czy_aktywna_ilosc_paczek_sworzen = !czy_aktywna_ilosc_paczek_sworzen;
 					repaint();
 					break;
 			}
@@ -448,6 +449,22 @@ public class Zamowienie extends JPanel implements KeyListener
 	public static int rescale(double number)
 	{
 		return (int) (Tools.scale * number);
+	}
+
+	public WindowAdapter actionOnClose()
+	{
+		return new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent windowEvent)
+			{
+				if (JOptionPane.showConfirmDialog(frame, "Czy chcesz zapisać?", "UWAGA", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+				{
+					System.out.println("ZAPISAĆ!!!!!!!!11");
+					zapiszDane();
+				}
+			}
+		};
 	}
 
 }

@@ -31,46 +31,16 @@ public class PanelGlowny extends JPanel
 		super(new GridLayout(1, 1));
 
 		panel = new JTabbedPane();
-		//EkranRysowanie();
+		// EkranRysowanie();
 		EkranFormularz();
 
-		//EkranWyswietlFigure();
+		// EkranWyswietlFigure();
 
-		//EkranZamowienie();
+		// EkranZamowienie();
 		panel.setSelectedComponent(form);
 		this.add(panel);
 
 		panel.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-	}
-
-	
-
-	
-	private void EkranZamowienie()
-	{
-		zamowienie = new Zamowienie();
-		panel.addTab("Zam�wienie", zamowienie);
-		panel.addKeyListener(zamowienie);
-		panel.setFocusable(true);
-		EkranZamowienieEvent();
-	}
-
-	private void EkranZamowienieEvent()
-	{
-
-	}
-
-	private void EkranWyswietlFigure()
-	{
-		wyswietlanie_figur = new WyswietlFigure();
-		panel.addTab("Wy�wietlanie figur", wyswietlanie_figur);
-		EkranWyswietlFigureEvent();
-		
-	}
-
-	private void EkranWyswietlFigureEvent()
-	{
-
 	}
 
 	private void EkranFormularz()
@@ -78,8 +48,6 @@ public class PanelGlowny extends JPanel
 		form = new Formularz();
 		panel.addTab("Formularz", form);
 	}
-
-
 
 	public static void main(String[] args)
 	{
@@ -94,6 +62,7 @@ public class PanelGlowny extends JPanel
 			}
 		});
 	}
+
 	private static void createAndShowGUI()
 	{
 		// Create and set up the window.

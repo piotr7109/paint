@@ -21,13 +21,13 @@ public class FiguraZamowienie
 	{
 		figura = null;
 		pozycja = "0";
-		ilosc_sztuk = 1;
-		srednica = 6;
+		ilosc_sztuk = 0;
+		srednica = 0;
 		fig = 1;
-		ilosc_paczek = 1;
-		maszyna = 4;
-		sworzen = 32;
-		waga = 0.222;
+		ilosc_paczek = 0;
+		maszyna = 0;
+		sworzen = 0;
+		waga = 0;
 		uwagi = "";
 	}
 

@@ -5,9 +5,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -209,7 +211,10 @@ public class Formularz extends JPanel
 					ZamowienieDane.budowa = (Budowa) budowy_combo.getSelectedItem();
 					ZamowienieDane.obiekt = (Obiekt) obiekty_combo.getSelectedItem();
 					ZamowienieDane.element = (Element) elementy_combo.getSelectedItem();
-					frame.add(new Zamowienie());
+					frame.add(new Zamowienie(frame));
+					/*frame.setCursor(frame.getToolkit().createCustomCursor(
+				            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+				            "null"));*/
 				}
 				else
 				{

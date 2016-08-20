@@ -38,6 +38,7 @@ public class RamkaCzesci
 		kat.setFont(new Font("",0, rescale(12)));
 		panel.add(bok);
 		panel.add(kat);
+		
 	}
 	public static void ramkaCzesci(Graphics g)
 	{
@@ -86,6 +87,9 @@ public class RamkaCzesci
 
 				bok_text.addKeyListener(panel);
 				kat_text.addKeyListener(panel);
+				
+				bok_text.addMouseListener(Tools.getFocusOut(panel));
+				kat_text.addMouseListener(Tools.getFocusOut(panel));
 
 				Tools.setKoloryNieaktywny(bok_text);
 				Tools.setKoloryNieaktywny(kat_text);

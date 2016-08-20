@@ -27,6 +27,7 @@ public class NowyBudowa extends AbstractDodajNowy
 		makeDir(item);
 		EventLoaderJComboBox.wczytajBudowy(id_parent, form);
 	}
+	
 	protected void makeDir(ZamowienieCore item)
 	{
 		String odbiorca_nazwa = ((ZamowienieCore)form.odbiorcy_combo.getSelectedItem()).getNazwa();

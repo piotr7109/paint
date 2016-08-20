@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
 import dane.ZamowienieDane;
@@ -143,11 +147,36 @@ public class Tools
 
 	public static boolean jestKodemCyfry(int kod)
 	{
-		System.out.println("KOD: "+kod);
 		if ((kod >= 96 && kod <= 105) || (kod >= 48 && kod <= 57) || kod == 109 || kod == 45)
 		{
 			return true;
 		}
 		return false;
+	}
+	
+	public static MouseListener getFocusOut(final JPanel panel) {
+		return new MouseListener()
+		{	
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				panel.requestFocusInWindow();	
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e){}
+			@Override
+			public void mouseEntered(MouseEvent e){}
+			@Override
+			public void mouseClicked(MouseEvent e){}
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{}
+		};
+	}	
+	
+	public static void showSimpleMessage(String message, int type)
+	{
+		JOptionPane.showMessageDialog(null, message, "UWAGA", type);	
 	}
 }

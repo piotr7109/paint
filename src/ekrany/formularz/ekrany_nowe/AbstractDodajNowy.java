@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dodatki.Tools;
 import ekrany.Formularz;
+import modules.zamowienie.ZamowienieCoreFactory;
 
 public abstract class AbstractDodajNowy extends JPanel
 {
@@ -65,13 +67,56 @@ public abstract class AbstractDodajNowy extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				zapiszDane();
-				frame.dispose();
-
+				if(czyIstnieje())
+				{
+					showErrorMessage("Ta nazwa została już użyta!");
+				}
+				else if(nazwa.getText().equals(""))
+				{
+					showErrorMessage("Nazwa nie może być pusta!");
+				}
+				else
+				{
+					zapiszDane();
+					frame.dispose();
+				}
 			}
 		};
+	}	
+	
+	protected boolean czyIstnieje()
+	{
+		ZamowienieCoreFactory zc_factory = new ZamowienieCoreFactory();
+		String nazwa_text = nazwa.getText();
+		
+		if(this.getClass() == NowyOdbiorca.class)
+		{
+			return zc_factory.czyIstniejeOdbiorca(nazwa_text);
+		}
+		
+		if(this.getClass() == NowyBudowa.class)
+		{
+			return zc_factory.czyIstniejeBudowa(nazwa_text, id_parent);
+		}
+		
+		if(this.getClass() == NowyElement.class)
+		{
+			return zc_factory.czyIstniejeElement(nazwa_text, id_parent);
+		}
+		
+		if(this.getClass() == NowyObiekt.class)
+		{
+			return zc_factory.czyIstniejeObiekt(nazwa_text, id_parent);
+		}
+		
+		return true;
 	}
-
+	
+	protected void showErrorMessage(String message)
+	{
+		JOptionPane.showMessageDialog(null, message, "UWAGA", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	protected void zapiszDane()
 	{
 

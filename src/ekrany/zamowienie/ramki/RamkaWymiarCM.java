@@ -170,7 +170,7 @@ public class RamkaWymiarCM
 
 	private static double obliczWage(double dlugosc, double waga)
 	{
-		return (dlugosc * waga);
+		return (dlugosc * waga)/100;
 	}
 
 	

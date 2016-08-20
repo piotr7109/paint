@@ -13,7 +13,7 @@ public class ZamowienieListaCore extends AbstractLista
 	{
 		if (id_parent != 0)
 		{
-			query = String.format("SELECT * FROM %s WHERE id_parent=%d", table, id_parent);
+			query = String.format("SELECT * FROM %s WHERE id_parent=%d ORDER BY nazwa", table, id_parent);
 		}
 	}
 
