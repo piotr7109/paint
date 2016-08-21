@@ -14,25 +14,17 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.commons.lang.NumberUtils;
 
-import com.mysql.jdbc.StringUtils;
-
 import dane.FiguraKontrolki;
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.Tools;
 import dodatki.FocusListeners;
 import ekrany.Zamowienie;
-import ekrany.zamowienie.ramki.RamkaCzesci;
-import ekrany.zamowienie.ramki.RamkaFigura;
-import ekrany.zamowienie.ramki.RamkaFiguraAtrapa;
-import ekrany.zamowienie.ramki.RamkaIlosc;
-import ekrany.zamowienie.ramki.RamkaUwagi;
-import ekrany.zamowienie.ramki.RamkaWymiarCM;
-import ekrany.zamowienie.ramki.RamkaWymiarMM;
-import modules.czesci.Czesc;
+import ekrany.zamowienie.ramki.*;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 
+@SuppressWarnings("deprecation")
 public class DodawanieFigur
 {
 	private static Figura default_figura;
@@ -165,6 +157,7 @@ public class DodawanieFigur
 		// RamkaWymiarMM.panel.add(mat??);
 		panel.add(sworzen);
 		panel.add(liczba);
+		FocusListeners.initSrednicaSworzen(index, srednica, sworzen);
 
 		x = 20;
 		y += 20;
@@ -272,7 +265,6 @@ public class DodawanieFigur
 
 			dodajFigury(panel);
 		}
-		// ZamowienieDane.czesc_kontrolki.remove(index);
 
 	}
 
@@ -281,7 +273,6 @@ public class DodawanieFigur
 		return new FocusListener()
 		{
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public void focusLost(FocusEvent e)
 			{
@@ -300,8 +291,6 @@ public class DodawanieFigur
 			{
 				Tools.setKoloryAktywny(text_field);
 				panel.figura = ZamowienieDane.figury.get(index).figura;
-				// panel.figura_atrapa = new
-				// Figura(ZamowienieDane.figury.get(index).figura);
 
 				RamkaCzesci.rysujKontrolki(panel, index);
 				RamkaFiguraAtrapa.rysujKontrolki(panel, index);

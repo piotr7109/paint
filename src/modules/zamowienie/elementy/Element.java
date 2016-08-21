@@ -1,5 +1,7 @@
 package modules.zamowienie.elementy;
 
+import java.util.Date;
+
 import dodatki.MySQLJDBC;
 import modules.zamowienie.ZamowienieCore;
 
@@ -7,6 +9,7 @@ public class Element extends ZamowienieCore
 {
 	private String uwagi;
 	private String termin_dostawy, rysunek;
+	private Date data_utworzenia;
 
 	public String getTerminDostawy()
 	{
@@ -33,6 +36,16 @@ public class Element extends ZamowienieCore
 		table = "t_zamowienia_elementy";
 	}
 
+	public Date getDataUtworzenia()
+	{
+		return data_utworzenia;
+	}
+
+	public void setDataUtworzenia(Date data_utworzenia)
+	{
+		this.data_utworzenia = data_utworzenia;
+	}
+
 	public String getUwagi()
 	{
 		return uwagi;
@@ -46,8 +59,8 @@ public class Element extends ZamowienieCore
 	public void insert()
 	{
 		MySQLJDBC pgsq = new MySQLJDBC();
-		String query = String.format("INSERT INTO %s (kod, nazwa,id_parent, uwagi, termin_dostawy, rysunek) VALUES (%d, '%s',%d, '%s', '%s', '%s')", table, kod, nazwa, id_parent, "", termin_dostawy,
-				rysunek);
+		String query = String.format("INSERT INTO %s (kod, nazwa,id_parent, uwagi, termin_dostawy, rysunek, data_utworzenia) VALUES (%d, '%s',%d, '%s', '%s', '%s', NOW())", table, kod, nazwa, id_parent, "",
+				termin_dostawy, rysunek);
 		pgsq.queryOpertaion(query);
 	}
 
@@ -57,4 +70,5 @@ public class Element extends ZamowienieCore
 		String query = String.format("UPDATE %s SET nazwa = '%s',termin_dostawy = '%s', rysunek='%s' WHERE id = %d", table, nazwa, termin_dostawy, rysunek, id);
 		pgsq.queryOpertaion(query);
 	}
+
 }

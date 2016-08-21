@@ -57,7 +57,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		RamkaWymiarMM ramka_wymiar_mm = new RamkaWymiarMM(this);
 		RamkaWymiarCM ramka_wymiar_cm = new RamkaWymiarCM(this);
 		RamkaFigura ramka_figura = new RamkaFigura(this);
-		RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
+		//RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
 		RamkaFiguraAtrapa ramka_figura_atrapa = new RamkaFiguraAtrapa(this);
 
 		addMouseListeners();
@@ -170,7 +170,7 @@ public class Zamowienie extends JPanel implements KeyListener
 
 		RamkaDaneKlienta.ramkaDaneKlienta(g, this);
 		RamkaWymiarMM.ramkaWymiarMM(g);
-		RamkaIlosc.ramkaIlosc(g, this);
+		//RamkaIlosc.ramkaIlosc(g, this);
 		RamkaCzesci.ramkaCzesci(g);
 		RamkaFigura.ramkaFigura(g, this);
 		RamkaFiguraAtrapa.ramkaFiguraAtrapa(g, this);

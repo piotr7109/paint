@@ -17,7 +17,7 @@ public class EventLoaderDodatkoweButtony
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow("title");
+				JFrame frame = createNewWindow("Dodaj Figurę");
 				
 				frame.add(new Rysowanie(frame));
 				frame.pack();

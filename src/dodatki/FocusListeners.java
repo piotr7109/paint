@@ -14,11 +14,12 @@ public class FocusListeners
 	public static HashMap<Integer, Double> sred_waga = new HashMap<Integer, Double>();
 	public static HashMap<Integer, String> maszyny = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> maszyny_kodowo = new HashMap<Integer, String>();
-	
+
 	public static void setSredSworzen()
 	{
 		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 
+		map.put(0, 0);
 		map.put(6, 32);
 		map.put(8, 32);
 		map.put(10, 40);
@@ -34,6 +35,7 @@ public class FocusListeners
 
 		HashMap<Integer, Double> map2 = new HashMap<Integer, Double>();
 
+		map2.put(0, 0.0);
 		map2.put(6, 0.222);
 		map2.put(8, 0.395);
 		map2.put(10, 0.617);
@@ -46,7 +48,7 @@ public class FocusListeners
 		map2.put(25, 3.85);
 		map2.put(28, 4.83);
 		map2.put(32, 6.31);
-		
+
 		HashMap<Integer, String> map3 = new HashMap<Integer, String>();
 		map3.put(1, "Magazyn");
 		map3.put(2, "Norzyce ręczne");
@@ -56,7 +58,7 @@ public class FocusListeners
 		map3.put(6, "MiniSyntax");
 		map3.put(7, "Format16");
 		map3.put(8, "CS40");
-		
+
 		HashMap<Integer, String> map4 = new HashMap<Integer, String>();
 		map4.put(1, "Magazyn");
 		map4.put(2, "Norzyce ręczne");
@@ -66,7 +68,6 @@ public class FocusListeners
 		map4.put(6, "MiniSyntax");
 		map4.put(7, "Format16");
 		map4.put(8, "CS40");
-		
 
 		sred_sworzen = map;
 		sred_waga = map2;
@@ -83,27 +84,7 @@ public class FocusListeners
 			@Override
 			public void focusLost(FocusEvent e)
 			{
-				int srednica = Integer.parseInt(srednica_text.getText());
-				int sworzen = 0;
-				double waga = 0;
-
-				try
-				{
-					sworzen = sred_sworzen.get(srednica);
-					waga = sred_waga.get(srednica);
-				}
-				catch (NullPointerException exception)
-				{
-					sworzen = 32;
-					waga = 0.222;
-				}
-
-				sworzen_text.setText(sworzen + "");
-				ZamowienieDane.figury.get(index).sworzen = sworzen;
-				ZamowienieDane.figury.get(index).waga = waga;
-
-				
-
+				initSrednicaSworzen(index, srednica_text, sworzen_text);
 			}
 
 			@Override
@@ -113,5 +94,27 @@ public class FocusListeners
 
 			}
 		};
+	}
+	
+	public static void initSrednicaSworzen(final int index, final JTextField srednica_text, final JTextField sworzen_text)
+	{
+		int srednica = Integer.parseInt(srednica_text.getText());
+		int sworzen = 0;
+		double waga = 0;
+
+		try
+		{
+			sworzen = sred_sworzen.get(srednica);
+			waga = sred_waga.get(srednica);
+		}
+		catch (NullPointerException exception)
+		{
+			sworzen = 32;
+			waga = 0.222;
+		}
+
+		sworzen_text.setText(sworzen + "");
+		ZamowienieDane.figury.get(index).sworzen = sworzen;
+		ZamowienieDane.figury.get(index).waga = waga;
 	}
 }

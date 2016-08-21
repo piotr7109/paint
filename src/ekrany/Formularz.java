@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -70,21 +72,56 @@ public class Formularz extends JPanel
 
 	private JButton rysowanie = new JButton("Dodaj Figurę");
 
+	private JTextField data_utworzenia_label = new JTextField("Data utworzenia:");
+	private JTextField waga_label = new JTextField("Waga zaprogramowana:");
+	private JTextField waga_rzeczywista_label = new JTextField("Waga rzeczywista:");
+
+	public JTextField data_utworzenia = new JTextField("n/a");
+	public JTextField waga = new JTextField("n/a");
+	public JTextField waga_rzeczywista = new JTextField("n/a");
+
 	public Formularz()
 	{
-		this.setPreferredSize(new Dimension((int) (Tools.scale * Tools.MAX_WIDTH/20*13), (int) (Tools.scale * Tools.MAX_HEIGHT/20*13)));
+		this.setPreferredSize(new Dimension((int) (Tools.scale * Tools.MAX_WIDTH / 20 * 13), (int) (Tools.scale * Tools.MAX_HEIGHT / 20 * 13)));
 		this.setLayout(null);
 
-		this.konfigurujEtykiety();
-		this.konfigurujKontrolkiCombo();
-		this.konfigurujKontrolkiKodow();
-		this.konfigurujKontrolkiNowe();
-		this.konfigurujKontrolkiEdytuj();
-		this.konfigurujDodatkoweButtony();
+		konfigurujEtykiety();
+		konfigurujKontrolkiCombo();
+		konfigurujKontrolkiKodow();
+		konfigurujKontrolkiNowe();
+		konfigurujKontrolkiEdytuj();
+		konfigurujDodatkoweButtony();
 		konfigurujKontrolkiWydruki();
+		konfigurujDodatkoweDane();
 
 		EventLoaderJComboBox.wczytajOdbiorcow(this);
 
+	}
+
+	private void konfigurujDodatkoweDane()
+	{
+		converToDisabledJTextField(data_utworzenia_label);
+		converToDisabledJTextField(waga_label);
+		converToDisabledJTextField(waga_rzeczywista_label);
+		converToDisabledJTextField(data_utworzenia);
+		converToDisabledJTextField(waga);
+		converToDisabledJTextField(waga_rzeczywista);
+
+		add(data_utworzenia_label);
+		add(waga_label);
+		add(waga_rzeczywista_label);
+
+		add(data_utworzenia);
+		add(waga);
+		add(waga_rzeczywista);
+
+	}
+
+	private void converToDisabledJTextField(JTextField text_field)
+	{
+		text_field.setBorder(BorderFactory.createEmptyBorder());
+		text_field.setBackground(Color.WHITE);
+		text_field.setEditable(false);
 	}
 
 	private void konfigurujDodatkoweButtony()
@@ -196,36 +233,28 @@ public class Formularz extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = new JFrame("Dodaj nowy");
-				frame.setResizable(false);
-
-				frame.setVisible(true);
 
 				if (elementy_combo.getItemCount() > 0)
 				{
+					JFrame frame = new JFrame("Zamówienie");
+					frame.setResizable(false);
+					frame.setVisible(true);
+
 					ZamowienieDane.odbiorca = (Odbiorca) odbiorcy_combo.getSelectedItem();
 					ZamowienieDane.budowa = (Budowa) budowy_combo.getSelectedItem();
 					ZamowienieDane.obiekt = (Obiekt) obiekty_combo.getSelectedItem();
 					ZamowienieDane.element = (Element) elementy_combo.getSelectedItem();
 					frame.add(new Zamowienie(frame));
-					/*frame.setCursor(frame.getToolkit().createCustomCursor(
-				            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
-				            "null"));*/
+
+					frame.pack();
 				}
 				else
 				{
-					frame.add(getKomunikatOBledzie(frame));
+					Tools.showSimpleMessage("Brak obiektu!", JOptionPane.ERROR_MESSAGE);
 				}
-
-				frame.pack();
 
 			}
 		};
-	}
-
-	protected Komunikat getKomunikatOBledzie(JFrame frame)
-	{
-		return new Komunikat("Brak obiektu", frame);
 	}
 
 	///////////////////////////////////////// RESIZE
@@ -312,6 +341,25 @@ public class Formularz extends JPanel
 
 		button_potwierdz.setLocation(Tools.rescale(x + WIDTH_LABEL), Tools.rescale(y + HEIGHT * 2));
 		button_potwierdz.setSize(Tools.rescale(WIDTH), (Tools.rescale(HEIGHT)));
+
+		x = 20;
+		y = 300;
+		data_utworzenia_label.setSize(Tools.rescale(WIDTH), (Tools.rescale(HEIGHT)));
+		data_utworzenia_label.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
+		waga_label.setSize(Tools.rescale(WIDTH), (Tools.rescale(HEIGHT)));
+		waga_label.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
+		waga_rzeczywista_label.setSize(Tools.rescale(WIDTH), (Tools.rescale(HEIGHT)));
+		waga_rzeczywista_label.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
+
+		x += 150;
+		y = 300;
+
+		data_utworzenia.setSize(Tools.rescale(WIDTH*2), (Tools.rescale(HEIGHT)));
+		data_utworzenia.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
+		waga.setSize(Tools.rescale(WIDTH*2), (Tools.rescale(HEIGHT)));
+		waga.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
+		waga_rzeczywista.setSize(Tools.rescale(WIDTH*2), (Tools.rescale(HEIGHT)));
+		waga_rzeczywista.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
 	}
 
 	private void resizeTextField()

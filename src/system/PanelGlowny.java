@@ -52,16 +52,25 @@ public class PanelGlowny extends JPanel
 			public void run()
 			{
 				// Turn off metal's use of bold fonts
-				UIManager.put("swing.boldMetal", Boolean.FALSE);
+				configureUIElements();
 				createAndShowGUI();
 			}
 		});
+	}
+	
+	private static void configureUIElements()
+	{
+		UIManager.put("swing.boldMetal", Boolean.FALSE);
+		
+		//JoptionPane translation
+		UIManager.put("OptionPane.yesButtonText", "Tak");
+		UIManager.put("OptionPane.noButtonText", "Nie");
 	}
 
 	private static void createAndShowGUI()
 	{
 		// Create and set up the window.
-		JFrame frame = new JFrame("Projekt Blacha");
+		JFrame frame = new JFrame("Maximus");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		// Add content to the window.

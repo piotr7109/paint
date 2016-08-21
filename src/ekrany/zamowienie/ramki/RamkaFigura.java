@@ -45,11 +45,11 @@ public class RamkaFigura
 
 	private static int last_kat;
 	private static int _x, _y;
-	private static double skala = 1;
+	private static double skala = 0.5;
 
 	public static void skalaReset()
 	{
-		skala = 1;
+		skala = 0.5;
 	}
 
 	private static void rysujFigury(Graphics g, Zamowienie panel)

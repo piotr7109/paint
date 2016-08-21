@@ -168,7 +168,7 @@ public class RamkaWymiarCM
 		return ciezar;
 	}
 
-	private static double obliczWage(double dlugosc, double waga)
+	public static double obliczWage(double dlugosc, double waga)
 	{
 		return (dlugosc * waga)/100;
 	}

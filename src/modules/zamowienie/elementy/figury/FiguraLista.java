@@ -13,6 +13,7 @@ public class FiguraLista extends AbstractLista
 	{
 		table = "t_element_figury";
 		query = String.format("SELECT * from %s WHERE id_elementu = %d", table, id_elementu );
+		System.out.println(query);
 	}
 	protected Object fetchObject(ResultSet rs) throws SQLException
 	{

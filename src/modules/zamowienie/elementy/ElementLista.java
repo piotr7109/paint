@@ -26,6 +26,7 @@ public class ElementLista extends ZamowienieListaCore
 		zamowienie_core.setUwagi(rs.getString("uwagi"));
 		zamowienie_core.setRysunek(rs.getString("rysunek"));
 		zamowienie_core.setTerminDostawy(rs.getString("termin_dostawy"));
+		zamowienie_core.setDataUtworzenia(rs.getTimestamp("data_utworzenia"));
 
 		return zamowienie_core;
 	}

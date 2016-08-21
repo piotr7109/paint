@@ -48,9 +48,6 @@ public class RamkaWymiarMM
 		int y = 120;
 		g.setColor(Color.BLUE);
 		g.drawRect(rescale(x), rescale(y), rescale(500), rescale(300));
-
-		
-
 	}
 
 	public static void przewinElementy(Zamowienie panel, JTextField txt)
@@ -74,7 +71,6 @@ public class RamkaWymiarMM
 					{
 						text.setVisible(true);
 					}
-
 				}
 			}
 		}

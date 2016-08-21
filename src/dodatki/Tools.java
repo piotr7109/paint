@@ -177,6 +177,6 @@ public class Tools
 	
 	public static void showSimpleMessage(String message, int type)
 	{
-		JOptionPane.showMessageDialog(null, message, "UWAGA", type);	
+		JOptionPane.showMessageDialog(null, message, "Coś poszło nie tak...", type);	
 	}
 }
