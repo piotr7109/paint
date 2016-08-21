@@ -4,9 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import dodatki.Tools;
 import ekrany.Rysowanie;
 
 public class EventLoaderDodatkoweButtony

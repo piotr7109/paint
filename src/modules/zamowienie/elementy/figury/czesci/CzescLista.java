@@ -30,9 +30,9 @@ public class CzescLista extends AbstractLista
 		ArrayList<Object> czesci = (ArrayList<Object>) getList();
 		return czesci;
 	}
-	public ArrayList<Object> getCzesciAtrapy(int id_figury)
+	public ArrayList<Object> getCzesciAtrapy(int kod)
 	{
-		query = String.format("select * FROM t_czesci_atrapy where id_figury =  %d order by id", id_figury);
+		query = String.format("select c.* FROM t_czesci_atrapy c INNER JOIN t_figury f ON f.id = c.id_figury WHERE f.kod = %d order by f.id", kod);
 		ArrayList<Object> czesci = (ArrayList<Object>) getList();
 		return czesci;
 	}

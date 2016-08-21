@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
-import ekrany.Zamowienie;
 import modules.zamowienie.elementy.figury.Figura;
 import modules.zamowienie.elementy.figury.FiguraFactory;
 import modules.zamowienie.elementy.figury.FiguraLista;
@@ -55,21 +54,28 @@ public class DBConnector
 		{
 			Figura fig_temp = (Figura) objects_figury.get(i);
 			fig_temp.setCzesci();
+			fig_temp.setCzesciAtrapy();
 
 			FiguraZamowienie fig_zam = new FiguraZamowienie();
 			modules.figury.Figura fig = new modules.figury.Figura();
 
 			fig.setKod(fig_temp.getKod());
-			int czesc_size = fig_temp.getCzesci().size();
 
-			for (int j = 0; j < czesc_size; j++)
+			for (Czesc czesc_temp: fig_temp.getCzesci())
 			{
-				Czesc czesc_temp = fig_temp.getCzesci().get(j);
 				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
 				czesc.setDlugosc(czesc_temp.getDlugosc());
 				czesc.setKat(czesc_temp.getKat());
 				czesc.setTyp(czesc_temp.getTyp());
 				fig.addCzesc(czesc);
+			}
+			for (Czesc czesc_temp: fig_temp.getCzesciAtrapy())
+			{
+				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
+				czesc.setDlugosc(czesc_temp.getDlugosc());
+				czesc.setKat(czesc_temp.getKat());
+				czesc.setTyp(czesc_temp.getTyp());
+				fig.addCzescAtrapy(czesc);
 			}
 
 			fig_zam.figura = fig;

@@ -15,6 +15,7 @@ import dane.ZamowienieDane;
 import dodatki.Tools;
 import ekrany.Zamowienie;
 
+@SuppressWarnings("deprecation")
 public class RamkaIlosc
 {
 	public static JTextField poziom_skoku = new JTextField();

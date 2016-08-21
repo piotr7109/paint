@@ -2,8 +2,6 @@ package system;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,11 +10,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import ekrany.Formularz;
-import ekrany.Rysowanie;
 import ekrany.WyswietlFigure;
 import ekrany.Zamowienie;
-import modules.czesci.Czesc;
-import modules.figury.Figura;
 
 public class PanelGlowny extends JPanel
 {

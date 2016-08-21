@@ -169,7 +169,7 @@ public class Figura
 		this.czesci_atrapy.clear();
 
 		CzescLista c_lista = new CzescLista();
-		ArrayList<Object> lista_czesci = c_lista.getCzesciAtrapy(this.id);
+		ArrayList<Object> lista_czesci = c_lista.getCzesciAtrapy(this.kod);
 		int size = lista_czesci.size();
 		for (int i = 0; i < size; i++)
 		{

@@ -24,10 +24,12 @@ import dodatki.FocusListeners;
 import ekrany.Zamowienie;
 import ekrany.zamowienie.ramki.RamkaCzesci;
 import ekrany.zamowienie.ramki.RamkaFigura;
+import ekrany.zamowienie.ramki.RamkaFiguraAtrapa;
 import ekrany.zamowienie.ramki.RamkaIlosc;
 import ekrany.zamowienie.ramki.RamkaUwagi;
 import ekrany.zamowienie.ramki.RamkaWymiarCM;
 import ekrany.zamowienie.ramki.RamkaWymiarMM;
+import modules.czesci.Czesc;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 
@@ -41,6 +43,7 @@ public class DodawanieFigur
 		FiguraFactory fig_factory = new FiguraFactory();
 		default_figura = (Figura) fig_factory.getFiguraByKod(1);
 		default_figura.setCzesci();
+		default_figura.setCzesciAtrapy();
 	}
 
 	private static FiguraZamowienie getDefaultFiguraZamowienie()
@@ -59,7 +62,10 @@ public class DodawanieFigur
 		if (default_figura == true)
 		{
 			ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
-			ZamowienieDane.figury.get(f_kontrolki.index).uwagi = ZamowienieDane.figury.get(f_kontrolki.index - 1).uwagi;
+			if (f_kontrolki.index > 0)
+			{
+				ZamowienieDane.figury.get(f_kontrolki.index).uwagi = ZamowienieDane.figury.get(f_kontrolki.index - 1).uwagi;
+			}
 		}
 
 		int index = f_kontrolki.index;
@@ -216,7 +222,8 @@ public class DodawanieFigur
 
 			@Override
 			public void focusGained(FocusEvent e)
-			{}
+			{
+			}
 		};
 	}
 
@@ -265,7 +272,6 @@ public class DodawanieFigur
 
 			dodajFigury(panel);
 		}
-		System.out.println(ZamowienieDane.czesc_kontrolki.size());
 		// ZamowienieDane.czesc_kontrolki.remove(index);
 
 	}
@@ -284,7 +290,7 @@ public class DodawanieFigur
 				{
 					text_field.setText(0 + "");
 				}
-				
+
 				aktualizujDane(index, panel);
 				Tools.setKoloryNieaktywny(text_field);
 			}
@@ -294,9 +300,11 @@ public class DodawanieFigur
 			{
 				Tools.setKoloryAktywny(text_field);
 				panel.figura = ZamowienieDane.figury.get(index).figura;
+				// panel.figura_atrapa = new
+				// Figura(ZamowienieDane.figury.get(index).figura);
 
 				RamkaCzesci.rysujKontrolki(panel, index);
-				RamkaFigura.rysujKontrolki(panel, index);
+				RamkaFiguraAtrapa.rysujKontrolki(panel, index);
 				RamkaWymiarCM.ustawKontrolki(index, panel);
 
 			}
@@ -328,21 +336,22 @@ public class DodawanieFigur
 				FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
 				if (Integer.parseInt(kod) != f_zamowienie.figura.getKod())
 				{
-					
+
 					FiguraFactory f_factory = new FiguraFactory();
 					Figura figura = null;
 					if (!kod.equals(""))
 					{
 						RamkaFigura.skalaReset();
 						figura = f_factory.getFiguraByKod(Integer.parseInt(kod));
-						
+
 					}
 
 					if (figura != null)
 					{
 						figura.setCzesci();
-						figura.wyczyscDlugoscCzesci();
+						figura.setCzesciAtrapy();
 
+						figura.wyczyscDlugoscCzesci();
 						f_zamowienie.figura = figura;
 						panel.figura = f_zamowienie.figura;
 
@@ -352,7 +361,7 @@ public class DodawanieFigur
 						// ERROR nie ma w bazie
 					}
 				}
-				RamkaFigura.rysujKontrolki(panel, index);
+				RamkaFiguraAtrapa.rysujKontrolki(panel, index);
 				RamkaCzesci.rysujKontrolki(panel, index);
 			}
 

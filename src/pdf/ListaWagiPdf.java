@@ -8,7 +8,6 @@ import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.FocusListeners;
 import dodatki.Obliczenia;
-import ekrany.Zamowienie;
 import pdf.wagi.MaszynaHelper;
 import pdf.wagi.MaterialHelper;
 

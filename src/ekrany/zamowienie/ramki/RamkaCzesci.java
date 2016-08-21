@@ -18,6 +18,7 @@ import dodatki.Tools;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
 
+@SuppressWarnings("deprecation")
 public class RamkaCzesci
 {
 	

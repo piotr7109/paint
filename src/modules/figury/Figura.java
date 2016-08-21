@@ -95,6 +95,11 @@ public class Figura
 	{
 		this.czesci.add(czesc);
 	}
+	
+	public void addCzescAtrapy(Czesc czesc)
+	{
+		this.czesci_atrapy.add(czesc);
+	}
 
 	public ArrayList<Czesc> getCzesciAtrapy()
 	{
