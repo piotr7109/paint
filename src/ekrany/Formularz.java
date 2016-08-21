@@ -109,11 +109,11 @@ public class Formularz extends JPanel
 
 		add(data_utworzenia_label);
 		add(waga_label);
-		add(waga_rzeczywista_label);
+		//add(waga_rzeczywista_label);
 
 		add(data_utworzenia);
 		add(waga);
-		add(waga_rzeczywista);
+		//add(waga_rzeczywista);
 
 	}
 
@@ -358,8 +358,8 @@ public class Formularz extends JPanel
 		data_utworzenia.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
 		waga.setSize(Tools.rescale(WIDTH*2), (Tools.rescale(HEIGHT)));
 		waga.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
-		waga_rzeczywista.setSize(Tools.rescale(WIDTH*2), (Tools.rescale(HEIGHT)));
-		waga_rzeczywista.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
+		//waga_rzeczywista.setSize(Tools.rescale(WIDTH*2), (Tools.rescale(HEIGHT)));
+		//waga_rzeczywista.setLocation(Tools.rescale(x), Tools.rescale(y += HEIGHT + 10));
 	}
 
 	private void resizeTextField()

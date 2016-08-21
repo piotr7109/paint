@@ -186,7 +186,14 @@ public class EventLoaderJComboBox
 			}
 		}
 
-		form.waga.setText(waga + "");
+		if (waga > 0)
+		{
+			form.waga.setText(waga + "");
+		}
+		else
+		{
+			form.waga.setText("n/a");
+		}
 	}
 
 	private static void wczytajDateUtworzenia(final Formularz form)
