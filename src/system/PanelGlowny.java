@@ -56,10 +56,17 @@ public class PanelGlowny extends JPanel
 			public void run()
 			{
 				// Turn off metal's use of bold fonts
+				initConfiguration();
 				configureUIElements();
+			
 				createAndShowGUI();
 			}
 		});
+	}
+	
+	private static void initConfiguration()
+	{
+		Config.loadConfig();
 	}
 	
 	private static void configureUIElements()

@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import system.Config;
+
 public class MySQLJDBC
 {
-	private String host = "localhost:3306";
-	private String database = "rbs_stal";
-	private String user = "user";
-	private String password = "123";
+	private String host = Config.host;
+	private String database = Config.database;
+	private String user = Config.user;
+	private String password = Config.password;
 
 	private Connection c = null;
 
