@@ -141,30 +141,6 @@ public class Zamowienie extends JPanel implements KeyListener
 		}
 	}
 
-	private void policzIloscKomponentow()
-	{
-		int label = 0;
-		int button = 0;
-		int text_field = 0;
-
-		for (Component c : this.getComponents())
-		{
-			if (c instanceof JButton)
-				;
-			// button++;
-			if (c instanceof JLabel)
-				;
-			// label++;
-			if (c instanceof JTextField)
-			{
-			}
-			// text_field++;
-		}
-		// System.out.println("Label:" + label);
-		// System.out.println("Buttin:" + button);
-		// System.out.println("TextField:" + text_field);
-	}
-
 	private void rysujRamki(Graphics g)
 	{
 

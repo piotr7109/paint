@@ -89,7 +89,7 @@ public class RamkaIlosc
 	{
 		int x = 20;
 		int y = 445;
-		Dimension size = new Dimension(Tools.rescale(50), Tools.rescale(20));
+		Dimension size = Tools.getDimension(50, 20);
 		
 		poziom_skoku.setBounds(Tools.rescale(x),Tools.rescale(y), size.width, size.height);
 		ilosc_skokow.setBounds(Tools.rescale(x+100),Tools.rescale(y), size.width, size.height);

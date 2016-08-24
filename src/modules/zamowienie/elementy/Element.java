@@ -4,6 +4,7 @@ import java.util.Date;
 
 import dodatki.MySQLJDBC;
 import modules.zamowienie.ZamowienieCore;
+import modules.zamowienie.elementy.figury.FiguraFactory;
 
 public class Element extends ZamowienieCore
 {
@@ -70,5 +71,10 @@ public class Element extends ZamowienieCore
 		String query = String.format("UPDATE %s SET nazwa = '%s',termin_dostawy = '%s', rysunek='%s' WHERE id = %d", table, nazwa, termin_dostawy, rysunek, id);
 		pgsq.queryOpertaion(query);
 	}
-
+	
+	@Override
+	protected void deleteChildren()
+	{
+		FiguraFactory.usunWszystkie(id);
+	}
 }

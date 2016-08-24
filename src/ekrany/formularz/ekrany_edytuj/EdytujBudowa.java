@@ -10,6 +10,11 @@ import modules.zamowienie.budowy.Budowa;
 public class EdytujBudowa extends AbstractEdytujNowy
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6354002750883111475L;
+
 	public EdytujBudowa(JFrame frame, Formularz form, ZamowienieCore item)
 	{
 		super(frame, form, item);

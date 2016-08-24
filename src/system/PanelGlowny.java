@@ -16,6 +16,10 @@ import ekrany.Zamowienie;
 public class PanelGlowny extends JPanel
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7691601859763202768L;
 	private JTabbedPane panel;
 	Formularz form;
 	WyswietlFigure wyswietlanie_figur;

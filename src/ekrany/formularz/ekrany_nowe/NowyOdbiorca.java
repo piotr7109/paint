@@ -10,6 +10,11 @@ import modules.zamowienie.odbiorcy.Odbiorca;
 public class NowyOdbiorca extends AbstractDodajNowy
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1100943528070043938L;
+
 	public NowyOdbiorca(int kod, JFrame frame, int id_parent, Formularz form)
 	{
 		super(kod, frame, id_parent, form);

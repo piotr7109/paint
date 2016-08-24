@@ -3,15 +3,18 @@ package dodatki;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import dane.ZamowienieDane;
@@ -54,6 +57,16 @@ public class Tools
 	public static int rescale(int number)
 	{
 		return (int) (number * Tools.scale);
+	}
+	
+	public static Dimension getDimension(int x, int y)
+	{
+		return(new Dimension(Tools.rescale(x), Tools.rescale(y)));
+	}
+	
+	public static Point getPoint(int x, int y)
+	{
+		return(new Point(Tools.rescale(x), Tools.rescale(y)));
 	}
 
 	public static double radians(int kat)
@@ -178,5 +191,22 @@ public class Tools
 	public static void showSimpleMessage(String message, int type)
 	{
 		JOptionPane.showMessageDialog(null, message, "Coś poszło nie tak...", type);	
+	}
+	
+	public static void converToDisabledJTextField(JTextField text_field)
+	{
+		text_field.setBorder(BorderFactory.createEmptyBorder());
+		text_field.setBackground(Color.WHITE);
+		text_field.setEditable(false);
+	}
+	
+	
+	public static JFrame createNewWindow(String title)
+	{
+		JFrame frame = new JFrame(title);
+		frame.setResizable(false);
+
+		frame.setVisible(true);
+		return frame;
 	}
 }

@@ -10,11 +10,8 @@ import dodatki.Obliczenia;
 
 public class ListaMetkiPdf extends PdfCreator
 {
-	private String kod;
-
 	public ListaMetkiPdf(String kod)
 	{
-		this.kod = kod;
 		this.FILENAME = "metki/metki_" + kod + ".pdf";
 		this.HTML_SOURCE = "metki/";
 	}

@@ -195,6 +195,14 @@ public class Figura
 		pgsq.queryOpertaion(query);
 		return this.getLastId();
 	}
+	
+	public void delete() {
+		MySQLJDBC pgsq = new MySQLJDBC();
+		String query = String.format("DELETE FROM t_element_figury WHERE id_elementu=%d", id_elementu);
+		pgsq.queryOpertaion(query);
+		query = String.format("DELETE FROM t_element_figura_czesci WHERE id_figury=%d", id);
+		pgsq.queryOpertaion(query);
+	}
 
 	public void insertCzesci(modules.figury.Figura fig)
 	{

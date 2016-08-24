@@ -15,7 +15,6 @@ import modules.zamowienie.ZamowienieCore;
 import modules.zamowienie.budowy.Budowa;
 import modules.zamowienie.elementy.Element;
 import modules.zamowienie.elementy.figury.Figura;
-import modules.zamowienie.elementy.figury.FiguraFactory;
 import modules.zamowienie.elementy.figury.FiguraLista;
 import modules.zamowienie.obiekty.Obiekt;
 import modules.zamowienie.odbiorcy.Odbiorca;

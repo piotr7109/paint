@@ -40,6 +40,7 @@ public class MySQLJDBC
 	public void queryOpertaion(String query)
 	{
 		Statement stmt;
+		System.out.println(query);
 		try
 		{
 			stmt = c.createStatement();

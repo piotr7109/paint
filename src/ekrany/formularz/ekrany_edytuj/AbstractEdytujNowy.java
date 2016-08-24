@@ -14,10 +14,13 @@ import javax.swing.JTextField;
 import dodatki.Tools;
 import ekrany.Formularz;
 import modules.zamowienie.ZamowienieCore;
-import modules.zamowienie.budowy.Budowa;
 
 public abstract class AbstractEdytujNowy extends JPanel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 871047994768615105L;
 	protected JTextField nazwa = new JTextField();
 	protected JButton ok = new JButton("OK");
 	protected JLabel kod_label = new JLabel();
@@ -27,7 +30,7 @@ public abstract class AbstractEdytujNowy extends JPanel
 
 	public AbstractEdytujNowy(JFrame frame, Formularz form, ZamowienieCore item)
 	{
-		this.setPreferredSize(new Dimension(Tools.rescale(400), Tools.rescale(100)));
+		this.setPreferredSize(Tools.getDimension(400, 100));
 		this.setLayout(null);
 
 		this.item = item;
@@ -42,7 +45,7 @@ public abstract class AbstractEdytujNowy extends JPanel
 	{
 		int x = 25;
 		int y = Tools.rescale(25);
-		Dimension size = new Dimension(Tools.rescale(100), Tools.rescale(25));
+		Dimension size = Tools.getDimension(100, 25);
 		nazwa.setBounds(Tools.rescale(x), y, size.width, size.height);
 		kod_label.setBounds(Tools.rescale(x += 100), y, size.width, size.height);
 		ok.setBounds(Tools.rescale(x += 100), y, size.width, size.height);

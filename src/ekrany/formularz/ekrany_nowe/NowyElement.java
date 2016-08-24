@@ -11,6 +11,10 @@ import modules.zamowienie.elementy.Element;
 public class NowyElement extends AbstractDodajNowy
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5401613140693358806L;
 	public NowyElement(int kod, JFrame frame, int id_parent, Formularz form)
 	{
 		super(kod, frame, id_parent, form);

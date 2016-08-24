@@ -53,22 +53,40 @@ public class ZamowienieCore
 	{
 		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("INSERT INTO %s (kod, nazwa, id_parent) VALUES (%d, '%s', %d)", table, kod, nazwa, id_parent);
-		
+
 		pgsq.queryOpertaion(query);
 	}
+
 	public void update()
 	{
 		MySQLJDBC pgsq = new MySQLJDBC();
-		String query = String.format("UPDATE %s SET nazwa='%s' WHERE id=%d", table,nazwa, id);
-		
+		String query = String.format("UPDATE %s SET nazwa='%s' WHERE id=%d", table, nazwa, id);
+
 		pgsq.queryOpertaion(query);
 	}
+
 	protected void delete()
 	{
 		MySQLJDBC pgsq = new MySQLJDBC();
 		String query = String.format("DELETE FROM %s WHERE kod = %d", table, kod);
 		pgsq.queryOpertaion(query);
 	}
+
+	public void deleteRecursively()
+	{
+
+		MySQLJDBC pgsq = new MySQLJDBC();
+		String query = String.format("DELETE FROM %s WHERE id=%d", table, id);
+		pgsq.queryOpertaion(query);
+
+		deleteChildren();
+	}
+
+	protected void deleteChildren()
+	{
+
+	}
+
 	public String toString()
 	{
 		return this.nazwa;

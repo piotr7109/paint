@@ -14,7 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -63,6 +62,11 @@ public class Formularz extends JPanel
 	private JButton budowa_edytuj = new JButton("Edytuj");
 	private JButton obiekt_edytuj = new JButton("Edytuj");
 	private JButton element_edytuj = new JButton("Edytuj");
+	
+	private JButton odbiorca_usun = new JButton("Usuń");
+	private JButton budowa_usun = new JButton("Usuń");
+	private JButton obiekt_usun = new JButton("Usuń");
+	private JButton element_usun = new JButton("Usuń");
 
 	private JButton lista_produkcyjna = new JButton("Lista produkcyjna");
 	private JButton lista_wysylkowa = new JButton("Lista wysyłkowa");
@@ -82,7 +86,7 @@ public class Formularz extends JPanel
 
 	public Formularz()
 	{
-		this.setPreferredSize(new Dimension((int) (Tools.scale * Tools.MAX_WIDTH / 20 * 13), (int) (Tools.scale * Tools.MAX_HEIGHT / 20 * 13)));
+		this.setPreferredSize(Tools.getDimension((int) (Tools.MAX_WIDTH / 20 * 13), (int) (Tools.MAX_HEIGHT / 20 * 13)));
 		this.setLayout(null);
 
 		konfigurujEtykiety();
@@ -90,6 +94,7 @@ public class Formularz extends JPanel
 		konfigurujKontrolkiKodow();
 		konfigurujKontrolkiNowe();
 		konfigurujKontrolkiEdytuj();
+		konfigurujKontrolkiUsun();
 		konfigurujDodatkoweButtony();
 		konfigurujKontrolkiWydruki();
 		konfigurujDodatkoweDane();
@@ -100,12 +105,12 @@ public class Formularz extends JPanel
 
 	private void konfigurujDodatkoweDane()
 	{
-		converToDisabledJTextField(data_utworzenia_label);
-		converToDisabledJTextField(waga_label);
-		converToDisabledJTextField(waga_rzeczywista_label);
-		converToDisabledJTextField(data_utworzenia);
-		converToDisabledJTextField(waga);
-		converToDisabledJTextField(waga_rzeczywista);
+		Tools.converToDisabledJTextField(data_utworzenia_label);
+		Tools.converToDisabledJTextField(waga_label);
+		Tools.converToDisabledJTextField(waga_rzeczywista_label);
+		Tools.converToDisabledJTextField(data_utworzenia);
+		Tools.converToDisabledJTextField(waga);
+		Tools.converToDisabledJTextField(waga_rzeczywista);
 
 		add(data_utworzenia_label);
 		add(waga_label);
@@ -115,13 +120,6 @@ public class Formularz extends JPanel
 		add(waga);
 		//add(waga_rzeczywista);
 
-	}
-
-	private void converToDisabledJTextField(JTextField text_field)
-	{
-		text_field.setBorder(BorderFactory.createEmptyBorder());
-		text_field.setBackground(Color.WHITE);
-		text_field.setEditable(false);
 	}
 
 	private void konfigurujDodatkoweButtony()
@@ -138,7 +136,7 @@ public class Formularz extends JPanel
 		lista_wysylkowa.addActionListener(EventLoaderWydruki.drukujListeWysylkowa());
 		metki.addActionListener(EventLoaderWydruki.drukujMetki());
 		wagi.addActionListener(EventLoaderWydruki.drukujWagi());
-		optymalizacja.addActionListener(EventLoaderWydruki.drukujOptymalizacje());
+		optymalizacja.addActionListener(EventLoaderWydruki.drukujOptymalizacje(this));
 
 		add(lista_produkcyjna);
 		add(lista_wysylkowa);
@@ -223,6 +221,20 @@ public class Formularz extends JPanel
 		add(budowa_edytuj);
 		add(obiekt_edytuj);
 		add(element_edytuj);
+	}
+	
+	private void konfigurujKontrolkiUsun()
+	{
+
+		odbiorca_usun.addActionListener(EventLoaderUsun.odbiorcaEvent(this));
+		budowa_usun.addActionListener(EventLoaderUsun.budowaEvent(this));
+		obiekt_usun.addActionListener(EventLoaderUsun.obiektEvent(this));
+		element_usun.addActionListener(EventLoaderUsun.elementEvent(this));
+
+		add(odbiorca_usun);
+		add(budowa_usun);
+		add(obiekt_usun);
+		add(element_usun);
 	}
 
 	protected ActionListener buttonPotwierdz()
@@ -324,6 +336,14 @@ public class Formularz extends JPanel
 		budowa_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 		obiekt_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 		element_edytuj.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		
+		x = Tools.rescale(680);
+		y = -20;
+		
+		odbiorca_usun.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		budowa_usun.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		obiekt_usun.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
+		element_usun.setBounds(x, Tools.rescale(y += HEIGHT + 10), text_size.width, text_size.height);
 	}
 
 	private void resizeLabel()

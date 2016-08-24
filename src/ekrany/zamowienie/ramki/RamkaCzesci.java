@@ -48,11 +48,6 @@ public class RamkaCzesci
 		int y = 120;
 		g.setColor(Color.WHITE);
 		g.drawRect(rescale(x), rescale(y), rescale(210), rescale(450));
-
-		
-
-		////
-
 	}
 
 	public static void rysujKontrolki(Zamowienie panel, int index)

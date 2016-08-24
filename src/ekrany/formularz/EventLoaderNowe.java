@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import dodatki.Tools;
 import ekrany.Formularz;
 import ekrany.formularz.ekrany_nowe.NowyOdbiorca;
 import ekrany.formularz.ekrany_nowe.NowyObiekt;
@@ -12,21 +13,11 @@ import ekrany.formularz.ekrany_nowe.NowyBudowa;
 import ekrany.formularz.ekrany_nowe.NowyElement;
 import modules.zamowienie.ZamowienieCoreFactory;
 import modules.zamowienie.budowy.Budowa;
-import modules.zamowienie.elementy.Element;
 import modules.zamowienie.obiekty.Obiekt;
 import modules.zamowienie.odbiorcy.Odbiorca;
 
 public class EventLoaderNowe
 {
-	private static JFrame createNewWindow()
-	{
-		JFrame frame = new JFrame("Dodaj nowy");
-		frame.setResizable(false);
-
-		frame.setVisible(true);
-		return frame;
-	}
-
 	public static ActionListener odbiorcaEvent(final Formularz form)
 	{
 		return new ActionListener()
@@ -35,7 +26,7 @@ public class EventLoaderNowe
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Dodaj nowy");
 				int kod;
 				try
 				{
@@ -61,7 +52,7 @@ public class EventLoaderNowe
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Dodaj nowy");
 				int kod;
 				int id_parent = ((Odbiorca) form.odbiorcy_combo.getSelectedItem()).getId();
 				try
@@ -87,7 +78,7 @@ public class EventLoaderNowe
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Dodaj nowy");
 				int kod;
 				int id_parent = ((Budowa) form.budowy_combo.getSelectedItem()).getId();
 				try
@@ -112,7 +103,7 @@ public class EventLoaderNowe
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Dodaj nowy");
 				int kod;
 				int id_parent = ((Obiekt) form.obiekty_combo.getSelectedItem()).getId();
 				try

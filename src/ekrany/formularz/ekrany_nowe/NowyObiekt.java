@@ -11,6 +11,10 @@ import modules.zamowienie.obiekty.Obiekt;
 public class NowyObiekt extends AbstractDodajNowy
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3343599361339385970L;
 	public NowyObiekt(int kod, JFrame frame, int id_parent, Formularz form)
 	{
 		super(kod, frame, id_parent, form);

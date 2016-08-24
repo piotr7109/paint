@@ -11,6 +11,11 @@ import modules.zamowienie.budowy.Budowa;
 public class NowyBudowa extends AbstractDodajNowy
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4763670400043702064L;
+
 	public NowyBudowa(int kod, JFrame frame, int id_parent, Formularz form)
 	{
 		super(kod, frame, id_parent, form);

@@ -3,10 +3,15 @@ package ekrany.formularz;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+
 import dane.ZamowienieDane;
 import dodatki.Tools;
 import dodatki.FocusListeners;
+import ekrany.Formularz;
+import ekrany.optymalizacja.OpymalizacjaFrame;
 import ekrany.zamowienie.db.DBConnector;
+import modules.zamowienie.elementy.Element;
 import pdf.ListaMetkiPdf;
 import pdf.ListaProdukcyjnaPdf;
 import pdf.ListaWagiPdf;
@@ -75,7 +80,7 @@ public class EventLoaderWydruki
 		};
 	}
 
-	public static ActionListener drukujOptymalizacje()
+	public static ActionListener drukujOptymalizacje(final Formularz form)
 	{
 		return new ActionListener()
 		{
@@ -83,7 +88,10 @@ public class EventLoaderWydruki
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
+				JFrame frame = Tools.createNewWindow("Optymalizacja");
+				Element element = (Element)form.elementy_combo.getSelectedItem();
+				frame.add(new OpymalizacjaFrame(element, frame));
+				frame.pack();
 			}
 		};
 	}

@@ -223,7 +223,7 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	private void resizeCzesci()
 	{
-		Dimension size = new Dimension(Tools.rescale(50), Tools.rescale(20));
+		Dimension size = Tools.getDimension(50, 20);
 		int x = (int) (this.getWidth() - size.getWidth());
 		int x2 = (int) (this.getWidth() - size.getWidth() * 2 - 10);
 		int y = 0;
@@ -241,11 +241,11 @@ public class Rysowanie extends JPanel implements MouseListener, MouseMotionListe
 
 	protected void rescaleComponents()
 	{
-		zapisz.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
-		reset.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
-		okrag.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
-		odcinek.setSize(new Dimension(Tools.rescale(Tools.btn_size.width), Tools.rescale(Tools.btn_size.height)));
-		kod.setSize(Tools.rescale(50), Tools.rescale(25));
+		zapisz.setSize(Tools.getDimension(Tools.btn_size.width, Tools.btn_size.height));
+		reset.setSize(Tools.getDimension(Tools.btn_size.width, Tools.btn_size.height));
+		okrag.setSize(Tools.getDimension(Tools.btn_size.width, Tools.btn_size.height));
+		odcinek.setSize(Tools.getDimension(Tools.btn_size.width, Tools.btn_size.height));
+		kod.setSize(Tools.getDimension(50, 25));
 
 		odcinek.setLocation(0, 0);
 		okrag.setLocation(Tools.rescale(110), 0);

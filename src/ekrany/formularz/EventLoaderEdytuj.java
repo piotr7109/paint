@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import dodatki.Tools;
 import ekrany.Formularz;
 import ekrany.formularz.ekrany_edytuj.EdytujBudowa;
 import ekrany.formularz.ekrany_edytuj.EdytujElement;
@@ -14,14 +15,6 @@ import modules.zamowienie.ZamowienieCore;
 
 public class EventLoaderEdytuj
 {
-	private static JFrame createNewWindow()
-	{
-		JFrame frame = new JFrame("Edycja");
-		frame.setResizable(false);
-
-		frame.setVisible(true);
-		return frame;
-	}
 
 	public static ActionListener odbiorcaEvent(final Formularz form)
 	{
@@ -31,7 +24,7 @@ public class EventLoaderEdytuj
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Edycja");
 				
 				frame.add(new EdytujOdbiorca(frame, form, (ZamowienieCore)form.odbiorcy_combo.getSelectedItem()));
 				frame.pack();
@@ -48,7 +41,7 @@ public class EventLoaderEdytuj
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Edycja");
 				frame.add(new EdytujBudowa(frame, form, (ZamowienieCore)form.budowy_combo.getSelectedItem()));
 				frame.pack();
 			}
@@ -63,7 +56,7 @@ public class EventLoaderEdytuj
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Edycja");
 				frame.add(new EdytujObiekt(frame, form, (ZamowienieCore)form.obiekty_combo.getSelectedItem()));
 				frame.pack();
 			}
@@ -78,7 +71,7 @@ public class EventLoaderEdytuj
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JFrame frame = createNewWindow();
+				JFrame frame = Tools.createNewWindow("Edycja");
 				frame.add(new EdytujElement(frame, form, (ZamowienieCore)form.elementy_combo.getSelectedItem()));
 				frame.pack();
 			}
