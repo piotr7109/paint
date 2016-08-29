@@ -43,7 +43,7 @@ public class Config
 	
 	private static Document getInitializedXML(String path) throws SAXException, IOException, ParserConfigurationException
 	{
-		File file = new File("config/config.xml");
+		File file = new File(path);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document doc = db.parse(file);

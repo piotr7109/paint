@@ -75,7 +75,7 @@ public class Figura
 
 	public ArrayList<Czesc> getCzesci()
 	{
-		return this.czesci;
+		return czesci;
 	}
 
 	public void setCzesci()
@@ -95,7 +95,7 @@ public class Figura
 	{
 		this.czesci.add(czesc);
 	}
-	
+
 	public void addCzescAtrapy(Czesc czesc)
 	{
 		this.czesci_atrapy.add(czesc);
@@ -118,15 +118,15 @@ public class Figura
 			this.czesci_atrapy.add((Czesc) lista_czesci.get(i));
 		}
 	}
-	
+
 	public void wyczyscDlugoscCzesci()
 	{
-		for(Czesc czesc: czesci)
+		for (Czesc czesc : czesci)
 		{
 			czesc.setDlugosc(0);
 		}
 	}
-	
+
 	public String toString()
 	{
 		return Integer.toString(kod);

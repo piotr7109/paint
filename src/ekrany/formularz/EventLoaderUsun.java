@@ -3,6 +3,8 @@ package ekrany.formularz;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import ekrany.Formularz;
 import modules.zamowienie.budowy.Budowa;
 import modules.zamowienie.elementy.Element;
@@ -19,7 +21,7 @@ public class EventLoaderUsun
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (form.odbiorcy_combo.getItemCount() > 0)
+				if (form.odbiorcy_combo.getItemCount() > 0 && confirmRemoval())
 				{
 					((Odbiorca) form.odbiorcy_combo.getSelectedItem()).deleteRecursively();
 					form.odbiorcy_combo.removeItemAt(form.odbiorcy_combo.getSelectedIndex());
@@ -39,7 +41,7 @@ public class EventLoaderUsun
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (form.budowy_combo.getItemCount() > 0)
+				if (form.budowy_combo.getItemCount() > 0 && confirmRemoval())
 				{
 					((Budowa) form.budowy_combo.getSelectedItem()).deleteRecursively();
 					form.budowy_combo.removeItemAt(form.budowy_combo.getSelectedIndex());
@@ -58,7 +60,7 @@ public class EventLoaderUsun
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (form.obiekty_combo.getItemCount() > 0)
+				if (form.obiekty_combo.getItemCount() > 0 && confirmRemoval())
 				{
 					((Obiekt) form.obiekty_combo.getSelectedItem()).deleteRecursively();
 					form.obiekty_combo.removeItemAt(form.obiekty_combo.getSelectedIndex());
@@ -76,12 +78,21 @@ public class EventLoaderUsun
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (form.elementy_combo.getItemCount() > 0)
+				if (form.elementy_combo.getItemCount() > 0 && confirmRemoval())
 				{
 					((Element) form.elementy_combo.getSelectedItem()).deleteRecursively();
 					form.elementy_combo.removeItemAt(form.elementy_combo.getSelectedIndex());
 				}
 			}
 		};
+	}
+	
+	private static boolean confirmRemoval()
+	{
+		if (JOptionPane.showConfirmDialog(null, "Na pewno chcesz usunąć?", "UWAGA", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+		{
+			return true;
+		}
+		return false;
 	}
 }

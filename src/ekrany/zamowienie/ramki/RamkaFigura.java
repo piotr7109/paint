@@ -166,8 +166,11 @@ public class RamkaFigura
 		g.fillOval(rescale(_x) - 1, rescale(y + _y) - 1, 2, 2);
 
 		g.setFont(new Font("", 0, rescale(8)));
-		g.drawString((int) Math.abs(x * skala) + "", (rescale(_x) + rescale(x + _x)) / 2, rescale(y + _y));
-		g.drawString((int) Math.abs(y * skala) + "", rescale(_x), (rescale(_y) + rescale(y + _y)) / 2);
+
+		double x_c_r = Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc();
+		double y_c_r = Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc();
+		g.drawString((int) Math.abs(x_c_r) + "", (rescale(_x) + rescale(x + _x)) / 2, rescale(y + _y));
+		g.drawString((int) Math.abs(y_c_r) + "", rescale(_x), (rescale(_y) + rescale(y + _y)) / 2);
 
 		_x += x;
 		_y += y;

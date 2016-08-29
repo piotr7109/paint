@@ -67,8 +67,8 @@ public class RamkaIlosc
 	}
 	public static void update(Zamowienie panel)
 	{
-		poziom_skoku.setText(ZamowienieDane.figury.get(panel.z_x).figura.getPoziomSkoku()+"");
-		ilosc_skokow.setText(ZamowienieDane.figury.get(panel.z_x).figura.getIloscSkokow()+"");
+		//poziom_skoku.setText(ZamowienieDane.figury.get(panel.z_x).figura.getPoziomSkoku()+"");
+		//ilosc_skokow.setText(ZamowienieDane.figury.get(panel.z_x).figura.getIloscSkokow()+"");
 	}
 	
 	public static void ramkaIlosc(Graphics g, Zamowienie panel)

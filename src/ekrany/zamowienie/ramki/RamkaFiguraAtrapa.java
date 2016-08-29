@@ -127,6 +127,7 @@ public class RamkaFiguraAtrapa
 			for (CzescKontolki czesc_text : ZamowienieDane.czesc_kontrolki)
 			{
 				Czesc czesc_atrapa = new Czesc(panel.figura.getCzesciAtrapy().get(index));
+				Czesc c_r = new Czesc(panel.figura.getCzesci().get(index));
 
 				CzescKontolki czesc_figury = ZamowienieDane.czesc_kontrolki_figura.get(index);
 				if (czesc_text.bok.hasFocus() || czesc_text.kat.hasFocus() || czesc_figury.bok.hasFocus())
@@ -144,7 +145,7 @@ public class RamkaFiguraAtrapa
 				{
 					case "linia":
 
-						rysujLinie(g, czesc_atrapa, last_kat);
+						rysujLinie(g, czesc_atrapa, last_kat, c_r);
 
 						break;
 
@@ -214,7 +215,7 @@ public class RamkaFiguraAtrapa
 
 	}
 
-	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat)
+	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat, Czesc c_r)
 	{
 		int x = (int) (Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
 		int y = (int) (Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
@@ -222,6 +223,11 @@ public class RamkaFiguraAtrapa
 
 		g.drawLine(rescale(_x), rescale(_y), rescale(x + _x), rescale(y + _y));
 		g.fillOval(rescale(_x) - 1, rescale(y + _y) - 1, 2, 2);
+		
+		int x_c_r = (int) (Math.cos(Tools.radians(c_r.getKat() + poprz_kat)) * c_r.getDlugosc() );
+		int y_c_r = (int) (Math.sin(Tools.radians(c_r.getKat() + poprz_kat)) * c_r.getDlugosc() );
+		g.drawString((int) Math.abs(x_c_r) + "", (rescale(_x) + rescale(x + _x)) / 2, rescale(y + _y));
+		g.drawString((int) Math.abs(y_c_r) + "", rescale(_x), (rescale(_y) + rescale(y + _y)) / 2);
 
 		_x += x;
 		_y += y;

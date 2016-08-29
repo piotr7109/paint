@@ -32,7 +32,7 @@ public class CzescLista extends AbstractLista
 	}
 	public ArrayList<Object> getCzesciAtrapy(int kod)
 	{
-		query = String.format("select c.* FROM t_czesci_atrapy c INNER JOIN t_figury f ON f.id = c.id_figury WHERE f.kod = %d order by f.id", kod);
+		query = String.format("select c.* FROM t_czesci_atrapy c INNER JOIN t_figury f ON f.id = c.id_figury WHERE f.kod = %d order by c.id", kod);
 		ArrayList<Object> czesci = (ArrayList<Object>) getList();
 		return czesci;
 	}

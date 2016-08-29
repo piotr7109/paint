@@ -25,7 +25,6 @@ public class RamkaWymiarCM
 	public static JLabel calk_ciezar;
 	private static ArrayList<JLabel> kontrolki = new ArrayList<JLabel>();
 
-	
 	public RamkaWymiarCM(Zamowienie panel)
 	{
 		int x = 780;
@@ -38,7 +37,7 @@ public class RamkaWymiarCM
 		panel.add(Tools.getTytul(rescale(x), rescale(y + 60), "Cięar:", Color.PINK, Tools.scale));
 		panel.add(Tools.getTytul(rescale(x), rescale(y + 75), "Całk. cięar:", Color.PINK, Tools.scale));
 	}
-	
+
 	public static void ramkaWymiarCM(Graphics g, Zamowienie panel)
 	{
 		// ramak wymiar cm
@@ -79,20 +78,24 @@ public class RamkaWymiarCM
 
 	public static void ustawKontrolki(int index, Zamowienie panel)
 	{
-		double dlugosc = 0;
-		double waga_jedn = ZamowienieDane.figury.get(index).waga;
-		if (panel.tryb_rzeczywisty)
+		if (ZamowienieDane.figury.get(index).figura != null)
 		{
-			dlugosc = obliczDlugoscRzeczywista(index);
+			double dlugosc = 0;
+			double waga_jedn = ZamowienieDane.figury.get(index).waga;
+			if (panel.tryb_rzeczywisty)
+			{
+				dlugosc = obliczDlugoscRzeczywista(index);
+			}
+			else
+			{
+				dlugosc = Obliczenia.obliczDlugosc(ZamowienieDane.figury.get(index).figura);
+			}
+
+			int round = 0;
+			calk_dlugosc.setText(Tools.round(dlugosc, round) + "");
+			ciezar.setText(Tools.round((obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(index).ilosc_sztuk), round) + "");
+			calk_ciezar.setText(Tools.round(obliczCalkCiezar(index, panel.tryb_rzeczywisty), round) + "");
 		}
-		else
-		{
-			dlugosc = Obliczenia.obliczDlugosc(ZamowienieDane.figury.get(index).figura);
-		}
-		int round = 0;
-		calk_dlugosc.setText(Tools.round(dlugosc, round) + "");
-		ciezar.setText(Tools.round((obliczWage(dlugosc, waga_jedn) * ZamowienieDane.figury.get(index).ilosc_sztuk), round) + "");
-		calk_ciezar.setText(Tools.round(obliczCalkCiezar(index, panel.tryb_rzeczywisty), round) + "");
 
 	}
 
@@ -170,10 +173,8 @@ public class RamkaWymiarCM
 
 	public static double obliczWage(double dlugosc, double waga)
 	{
-		return (dlugosc * waga)/100;
+		return (dlugosc * waga) / 100;
 	}
-
-	
 
 	private static int last_kat;
 	private static int _x;

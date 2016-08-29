@@ -41,8 +41,8 @@ public class DodawanieFigur
 	private static FiguraZamowienie getDefaultFiguraZamowienie()
 	{
 		FiguraZamowienie fig_zam = new FiguraZamowienie();
-		fig_zam.figura = default_figura;
-		fig_zam.fig = default_figura.getKod();
+		fig_zam.figura = null;
+		fig_zam.fig = 0;
 		return fig_zam;
 
 	}
@@ -291,7 +291,14 @@ public class DodawanieFigur
 			{
 				Tools.setKoloryAktywny(text_field);
 				panel.figura = ZamowienieDane.figury.get(index).figura;
-
+				if (panel.figura != null)
+				{
+					panel.fig = ZamowienieDane.figury.get(index).figura.getKod();
+				}
+				else
+				{
+					panel.fig = 0;
+				}
 				RamkaCzesci.rysujKontrolki(panel, index);
 				RamkaFiguraAtrapa.rysujKontrolki(panel, index);
 				RamkaWymiarCM.ustawKontrolki(index, panel);
@@ -323,7 +330,7 @@ public class DodawanieFigur
 					e1.printStackTrace();
 				}
 				FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
-				if (Integer.parseInt(kod) != f_zamowienie.figura.getKod())
+				if (f_zamowienie.figura == null || 	Integer.parseInt(kod) != f_zamowienie.figura.getKod())
 				{
 
 					FiguraFactory f_factory = new FiguraFactory();
@@ -343,12 +350,15 @@ public class DodawanieFigur
 						figura.wyczyscDlugoscCzesci();
 						f_zamowienie.figura = figura;
 						panel.figura = f_zamowienie.figura;
-
+						panel.fig = Integer.parseInt(kod);
 					}
 					else
 					{
-						// ERROR nie ma w bazie
+						f_zamowienie.figura = null;
+						panel.figura = null;
+						panel.fig = 0;
 					}
+
 				}
 				RamkaFiguraAtrapa.rysujKontrolki(panel, index);
 				RamkaCzesci.rysujKontrolki(panel, index);

@@ -24,6 +24,7 @@ public class Zamowienie extends JPanel implements KeyListener
 	private int HEIGHT = (int) (Tools.HEIGHT * Tools.scale);
 
 	public Figura figura;
+	public int fig;
 	public JButton zapisz_dane = new JButton("Zapisz dane");
 
 	private JFrame frame;
@@ -57,7 +58,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		RamkaWymiarMM ramka_wymiar_mm = new RamkaWymiarMM(this);
 		RamkaWymiarCM ramka_wymiar_cm = new RamkaWymiarCM(this);
 		RamkaFigura ramka_figura = new RamkaFigura(this);
-		//RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
+		// RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
 		RamkaFiguraAtrapa ramka_figura_atrapa = new RamkaFiguraAtrapa(this);
 
 		addMouseListeners();
@@ -146,7 +147,7 @@ public class Zamowienie extends JPanel implements KeyListener
 
 		RamkaDaneKlienta.ramkaDaneKlienta(g, this);
 		RamkaWymiarMM.ramkaWymiarMM(g);
-		//RamkaIlosc.ramkaIlosc(g, this);
+		// RamkaIlosc.ramkaIlosc(g, this);
 		RamkaCzesci.ramkaCzesci(g);
 		RamkaFigura.ramkaFigura(g, this);
 		RamkaFiguraAtrapa.ramkaFiguraAtrapa(g, this);
@@ -220,7 +221,7 @@ public class Zamowienie extends JPanel implements KeyListener
 					case Keys.ENTER: // ENTER
 						if (!czy_aktywna_ilosc_paczek_sworzen && (z_y == 4 || z_y == 6))
 						{
-							z_y++;
+							z_y += 3;
 						}
 
 						if (z_y + 1 < 8)
@@ -229,9 +230,16 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						else
 						{
-							tryb = "czesci_figury";
-							ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
-							z_y = 1;
+							if (fig > 0)
+							{
+								tryb = "czesci_figury";
+								ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
+								z_y = 1;
+							}
+							else
+							{
+								z_y -= 3;
+							}
 						}
 						break;
 
@@ -410,7 +418,7 @@ public class Zamowienie extends JPanel implements KeyListener
 
 			}
 		}
-		System.out.println("KEY: " + e.getKeyCode());
+		// System.out.println("KEY: " + e.getKeyCode());
 
 	}
 
@@ -436,10 +444,14 @@ public class Zamowienie extends JPanel implements KeyListener
 			@Override
 			public void windowClosing(WindowEvent windowEvent)
 			{
-				if (JOptionPane.showConfirmDialog(frame, "Czy chcesz zapisać?", "UWAGA", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				if (JOptionPane.showConfirmDialog(frame, "Czy na pewno chcesz wyjść?", "UWAGA", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
 				{
-					System.out.println("ZAPISAĆ!!!!!!!!11");
-					zapiszDane();
+					if (JOptionPane.showConfirmDialog(frame, "Czy chcesz zapisać?", "UWAGA", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+					{
+						zapiszDane();
+					}
+					frame.dispose();
 				}
 			}
 		};

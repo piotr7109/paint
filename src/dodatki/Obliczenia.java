@@ -42,8 +42,13 @@ public class Obliczenia
 
 	public static int obliczDlugosc(Figura fig)
 	{
+		if(fig == null)
+		{
+			return 0;
+		}
+		
 		int dlugosc = 0;
-
+		
 		for (Czesc czesc : fig.getCzesci())
 		{
 			dlugosc += czesc.getDlugosc();
