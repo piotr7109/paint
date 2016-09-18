@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="pdf_html"/>
 	<classpathentry kind="src" path="files"/>
 	<classpathentry kind="src" path="temp_img"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="postgresql-9.4-1206-jdbc41.jar"/>
 	<classpathentry kind="lib" path="core-renderer.jar"/>
 	<classpathentry kind="lib" path="iText-2.0.8.jar"/>

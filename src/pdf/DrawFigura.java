@@ -21,8 +21,8 @@ import modules.figury.FiguraFactory;
 public class DrawFigura
 {
 	public static final String RESULT = System.getProperty("user.home") + "/Desktop/java_pdf/png/";
-	private static int width = 300;
-	private static int height = 100;
+	private static int width = 320;
+	private static int height = 120;
 
 	public static String rysuj(Figura figura)
 	{
@@ -36,15 +36,14 @@ public class DrawFigura
 			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			Graphics2D ig2 = bi.createGraphics();
 			ig2.setStroke(new BasicStroke(3f));
-			ig2.setFont(new Font("", 0, 20));
 			ig2.setColor(Color.WHITE);
 			ig2.fillRect(0, 0, width, height);
 			ig2.setColor(Color.BLACK);
-			_x = (int) (figura_atrapa.start_x/skala);
-			_y = (int) (figura_atrapa.start_y/skala);
+			_x = (int) (figura_atrapa.start_x / skala);
+			_y = (int) (figura_atrapa.start_y / skala) + 15;
 			last_kat = 0;
 
-			rysujFigury(ig2, figura,figura_atrapa);
+			rysujFigury(ig2, figura, figura_atrapa);
 
 			ImageIO.write(bi, "PNG", new File("temp_img/" + filename + ".PNG"));
 		}
@@ -57,21 +56,15 @@ public class DrawFigura
 
 	private static int last_kat;
 	private static int _x, _y;
-	private static double skala = 0.5;
-
-	private static int rescale(int number)
-	{
-		return (int) (number * Tools.scale);
-	}
+	private static double skala = 0.65;
 
 	private static void rysujFigury(Graphics g, Figura fig, Figura figura_atrapa)
 	{
 
 		int index = 0;
-		
-		
+
 		int fig_atr_size = figura_atrapa.getCzesciAtrapy().size();
-		for (int i =0; i< fig_atr_size; i++)
+		for (int i = 0; i < fig_atr_size; i++)
 		{
 			Czesc czesc = fig.getCzesci().get(i);
 			Czesc czesc_atrapa = figura_atrapa.getCzesciAtrapy().get(i);
@@ -127,7 +120,7 @@ public class DrawFigura
 		int x_koniec = (int) pt[0];
 		int y_koniec = (int) pt[1];
 
-		g.drawArc(rescale(p.x), rescale(p.y), rescale(rozmiar), rescale(rozmiar), (poprz_kat), (c.getKat()));
+		g.drawArc(p.x, p.y, rozmiar, rozmiar, poprz_kat, (c.getKat()));
 		if (last_kat < 0)
 		{
 			while (last_kat < -360)
@@ -155,10 +148,40 @@ public class DrawFigura
 		g.setColor(Color.WHITE);
 		g.fillRect((x + 2 * _x) / 2, (y + 2 * _y) / 2 - 12, 30, 13);
 		g.setColor(Color.BLACK);
+
+		g.setFont(new Font("", 0, 20));
 		g.drawString(c_opis.getDlugosc() + "", (x + 2 * _x) / 2, (y + 2 * _y) / 2);
 
+		g.setFont(new Font("", 0, 12));
+
+		if (!isNearRightAngle(c.getKat()) && !isNearZero(c.getKat()))
+		{
+			int x_c_r = (int) (Math.cos(Tools.radians(c_opis.getKat() + poprz_kat)) * c_opis.getDlugosc());
+			int y_c_r = (int) (Math.sin(Tools.radians(c_opis.getKat() + poprz_kat)) * c_opis.getDlugosc());
+			g.drawString((int) Math.abs(x_c_r) + "", ((_x) + (x + _x)) / 2, (y + _y));
+			g.drawString((int) Math.abs(y_c_r) + "", (_x), ((_y) + (y + _y)) / 2);
+			g.fillOval((_x) - 1, (y + _y) - 1, 2, 2);
+		}
 		_x += x;
 		_y += y;
 
+	}
+
+	private static boolean isNearRightAngle(int angle)
+	{
+		if (angle > 80 && angle < 100)
+			return true;
+		if (angle < -80 && angle > -100)
+			return true;
+
+		return false;
+	}
+
+	private static boolean isNearZero(int angle)
+	{
+		if (angle < 20 && angle > -20)
+			return true;
+
+		return false;
 	}
 }
