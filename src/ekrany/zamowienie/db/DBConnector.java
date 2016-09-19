@@ -69,7 +69,7 @@ public class DBConnector
 				czesc.setTyp(czesc_temp.getTyp());
 				fig.addCzesc(czesc);
 			}
-			System.out.println("START");
+			
 			for (Czesc czesc_temp: fig_temp.getCzesciAtrapy())
 			{
 				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
@@ -78,10 +78,8 @@ public class DBConnector
 				czesc.setTyp(czesc_temp.getTyp());
 				fig.addCzescAtrapy(czesc);
 				
-				System.out.println(czesc_temp.getKat());
 				
 			}
-			System.out.println("END");
 
 			fig_zam.figura = fig;
 			fig_zam.fig = fig.getKod();

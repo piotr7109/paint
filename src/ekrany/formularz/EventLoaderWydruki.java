@@ -90,7 +90,7 @@ public class EventLoaderWydruki
 			{
 				JFrame frame = Tools.createNewWindow("Optymalizacja");
 				Element element = (Element)form.elementy_combo.getSelectedItem();
-				frame.add(new OpymalizacjaFrame(element, frame));
+				frame.add(new OpymalizacjaFrame(element));
 				frame.pack();
 			}
 		};

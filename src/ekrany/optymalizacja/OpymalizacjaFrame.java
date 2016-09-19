@@ -8,18 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import dane.FiguraZamowienie;
+import dodatki.MathHelper;
 import dodatki.Tools;
 import modules.zamowienie.elementy.Element;
 import modules.zamowienie.elementy.figury.Figura;
+import modules.zamowienie.elementy.figury.FiguraLista;
+import modules.zamowienie.elementy.figury.czesci.Czesc;
+import optymalizacja.Evolution;
 
 public class OpymalizacjaFrame extends JPanel
 {
@@ -28,8 +28,16 @@ public class OpymalizacjaFrame extends JPanel
 	 */
 	private static final long serialVersionUID = 6507901662599568412L;
 	private Element element;
-	private JFrame frame;
-	private ArrayList<Figura> figury;
+	public JSlider grandIterations = new JSlider();
+	public JSlider iterations = new JSlider();
+	public JSlider numOfSuspects = new JSlider();
+	public JTextField grandIterationsLabel = new JTextField("Ilość prób (duży wpływ na jakość)");
+	public JTextField iterationsLabel = new JTextField("Wewnętrzna lość iteracji (średni wpływ na jakość)");
+	public JTextField numOfSuspectsLabel = new JTextField("Ilość osobników (duży wpływ na jakość)");
+	public JTextField grandIterationsValue = new JTextField(grandIterations.getValue() + "");
+	public JTextField iterationsValue = new JTextField(iterations.getValue() + "");
+	public JTextField numOfSuspectsValue = new JTextField(numOfSuspects.getValue() + "");
+	private ArrayList<FiguraZamowienie> figury;
 
 	private JTextField wymiary_label = new JTextField("Długości");
 	private JList<Integer> wymiary;
@@ -39,16 +47,15 @@ public class OpymalizacjaFrame extends JPanel
 
 	private JButton optymalizuj_button = new JButton("Optymalizuj");
 
-	public OpymalizacjaFrame(Element element, JFrame frame)
+	public OpymalizacjaFrame(Element element)
 	{
-		this.setPreferredSize(Tools.getDimension(400, 400));
+		this.setPreferredSize(Tools.getDimension(600, 400));
 		this.setLayout(null);
-
-		this.frame = frame;
 		this.element = element;
 		this.figury = getFilteredFigury();
 
 		initComponents();
+		initParametryComponents();
 	}
 
 	private void initComponents()
@@ -59,7 +66,7 @@ public class OpymalizacjaFrame extends JPanel
 		Tools.converToDisabledJTextField(wymiary_label);
 
 		dodaj_button.addActionListener(dodajButtonAL());
-		
+
 		optymalizuj_button.setBackground(Color.DARK_GRAY);
 		optymalizuj_button.setForeground(Color.YELLOW);
 		optymalizuj_button.addActionListener(optymalizujButtonAL());
@@ -72,10 +79,52 @@ public class OpymalizacjaFrame extends JPanel
 		add(optymalizuj_button);
 	}
 
+	private void initParametryComponents()
+	{
+		setJSlider(grandIterations, grandIterationsValue);
+		setJSlider(iterations, iterationsValue);
+		setJSlider(numOfSuspects, numOfSuspectsValue);
+
+		Tools.converToDisabledJTextField(grandIterationsLabel);
+		Tools.converToDisabledJTextField(iterationsLabel);
+		Tools.converToDisabledJTextField(numOfSuspectsLabel);
+		Tools.converToDisabledJTextField(grandIterationsValue);
+		Tools.converToDisabledJTextField(iterationsValue);
+		Tools.converToDisabledJTextField(numOfSuspectsValue);
+
+		this.add(grandIterations);
+		this.add(iterations);
+		this.add(numOfSuspects);
+		this.add(grandIterationsLabel);
+		this.add(iterationsLabel);
+		this.add(numOfSuspectsLabel);
+		this.add(grandIterationsValue);
+		this.add(iterationsValue);
+		this.add(numOfSuspectsValue);
+	}
+
+	private void setJSlider(JSlider slider, JTextField field)
+	{
+		slider.setMaximum(500);
+		slider.setMinimum(1);
+		slider.setValue(50);
+
+		slider.addChangeListener(new ChangeListener()
+		{
+
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				field.setText(slider.getValue() + "");
+
+			}
+		});
+	}
+
 	private void setInitialElementsInList()
 	{
-		wymiary_model.addElement(12);
-		wymiary_model.addElement(14);
+		wymiary_model.addElement(1200);
+		wymiary_model.addElement(1400);
 	}
 
 	public void paintComponent(Graphics g)
@@ -83,32 +132,103 @@ public class OpymalizacjaFrame extends JPanel
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		resize();
+		resizeParametry();
 	}
 
-	
-	private ArrayList<Figura> getFilteredFigury()
+	private ArrayList<FiguraZamowienie> getFilteredFigury()
 	{
-		// TODO
-		return null;
+		ArrayList<FiguraZamowienie> figury_zamowienie = new ArrayList<FiguraZamowienie>();
+
+		FiguraLista figury_lista = new FiguraLista(element.getId());
+		ArrayList<Object> objects_figury = figury_lista.getList();
+		int fig_size = objects_figury.size();
+
+		for (int i = 0; i < fig_size; i++)
+		{
+			Figura fig_temp = (Figura) objects_figury.get(i);
+			fig_temp.setCzesci();
+			fig_temp.setCzesciAtrapy();
+
+			FiguraZamowienie fig_zam = new FiguraZamowienie();
+			modules.figury.Figura fig = new modules.figury.Figura();
+
+			fig.setKod(fig_temp.getKod());
+
+			for (Czesc czesc_temp : fig_temp.getCzesci())
+			{
+				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
+				czesc.setDlugosc(czesc_temp.getDlugosc());
+				czesc.setKat(czesc_temp.getKat());
+				czesc.setTyp(czesc_temp.getTyp());
+				fig.addCzesc(czesc);
+			}
+			fig_zam.srednica = fig_temp.getSrednica();
+			fig_zam.sworzen = fig_temp.getSworzen();
+			fig_zam.figura = fig;
+			figury_zamowienie.add(fig_zam);
+		}
+		return figury_zamowienie;
 	}
-	
+
 	private ActionListener optymalizujButtonAL()
 	{
 		return new ActionListener()
 		{
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				optymalizuj();
-				
+
 			}
 		};
 	}
-	
+
 	private void optymalizuj()
 	{
-		//TODO
+
+		Evolution evo = new Evolution(getDlugosci(), getMax());
+		evo.runEvolve(getGrandIterations(), getIterations(), getNumOfSuspects());
+	}
+
+	private int getGrandIterations()
+	{
+		return 10;
+	}
+
+	private int getIterations()
+	{
+		return 10;
+	}
+
+	private int getNumOfSuspects()
+	{
+		return 10;
+	}
+
+	private int[] getDlugosci()
+	{
+		int size = figury.size();
+		int[] dlugosci = new int[size];
+		for (int i = 0; i < size; i++)
+		{
+			dlugosci[i] = (int) Math.ceil(MathHelper.obliczDlugoscRzeczywista(figury.get(i)));
+		}
+
+		return dlugosci;
+	}
+
+	private Integer[] getMax()
+	{
+		int size = wymiary_model.size();
+		Integer[] max = new Integer[size];
+
+		for (int i = 0; i < size; i++)
+		{
+			max[i] = wymiary_model.get(i);
+		}
+
+		return max;
 	}
 
 	private ActionListener dodajButtonAL()
@@ -168,4 +288,33 @@ public class OpymalizacjaFrame extends JPanel
 		}
 
 	}
+
+	protected void resizeParametry()
+	{
+		int x = 250;
+		int y = 25;
+		int width = 500;
+
+		grandIterations.setSize(Tools.getDimension(width / 2, 25));
+		grandIterationsLabel.setSize(Tools.getDimension(width / 2, 25));
+		grandIterationsValue.setSize(Tools.getDimension(30, 25));
+		iterations.setSize(Tools.getDimension(width / 2, 25));
+		iterationsLabel.setSize(Tools.getDimension(width / 2, 25));
+		iterationsValue.setSize(Tools.getDimension(30, 25));
+		numOfSuspects.setSize(Tools.getDimension(width / 2, 25));
+		numOfSuspectsLabel.setSize(Tools.getDimension(width / 2, 25));
+		numOfSuspectsValue.setSize(Tools.getDimension(30, 25));
+
+		grandIterations.setLocation(Tools.getPoint(x, y += 25));
+		grandIterationsValue.setLocation(Tools.getPoint(x - 30, y));
+		grandIterationsLabel.setLocation(Tools.getPoint(x, y += 25));
+
+		iterations.setLocation(Tools.getPoint(x, y += 25));
+		iterationsValue.setLocation(Tools.getPoint(x - 30, y));
+		iterationsLabel.setLocation(Tools.getPoint(x, y += 25));
+		numOfSuspects.setLocation(Tools.getPoint(x, y += 25));
+		numOfSuspectsValue.setLocation(Tools.getPoint(x - 30, y));
+		numOfSuspectsLabel.setLocation(Tools.getPoint(x, y += 25));
+	}
+
 }

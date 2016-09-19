@@ -13,7 +13,12 @@ public class Test
 	public static void main(String[] args) throws Exception
 	{
 		int[] max = {1200};
-		optymalize(getArrayOfIntegers(), max);
+		//optymalize(getArrayOfIntegers(), max);
+		
+		for(double i = 0; i< 10; i+=0.01)
+		{
+			System.out.println(Math.ceil(i));
+		}
 
 	}
 

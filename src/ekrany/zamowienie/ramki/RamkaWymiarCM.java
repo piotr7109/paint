@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import dane.CzescKontolki;
 import dane.ZamowienieDane;
 import dodatki.Tools;
+import dodatki.MathHelper;
 import dodatki.Obliczenia;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
@@ -84,7 +85,7 @@ public class RamkaWymiarCM
 			double waga_jedn = ZamowienieDane.figury.get(index).waga;
 			if (panel.tryb_rzeczywisty)
 			{
-				dlugosc = obliczDlugoscRzeczywista(index);
+				dlugosc = MathHelper.obliczDlugoscRzeczywista(ZamowienieDane.figury.get(index));
 			}
 			else
 			{
@@ -99,56 +100,8 @@ public class RamkaWymiarCM
 
 	}
 
-	private static double obliczDlugoscRzeczywista(int index)
-	{
-		double dlugosc = 0;
 
-		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();
-		int sworzen = ZamowienieDane.figury.get(index).sworzen / 2;
-		int srednica = ZamowienieDane.figury.get(index).srednica;
-
-		ArrayList<Czesc> czesci = cloneCzesci(index);
-		for (int i = 0; i < size - 1; i++)
-		{
-			Czesc czesc = czesci.get(i);
-			Czesc czesc_n = czesci.get(i + 1);
-
-			if (czesc.getTyp().equals("okrag") || czesc_n.getTyp().equals("okrag"))
-			{
-				dlugosc += czesc.getDlugosc();
-
-			}
-			else
-			{
-				int kat = czesc_n.getKat();
-				kat = Math.abs(kat);
-
-				double a = czesc.getDlugosc();
-				double b = 2 * Math.PI * ((sworzen + srednica) / 10) * kat / 360 / 2;
-				// int c = czesc_n.getDlugosc();
-				dlugosc += (a - b);
-
-			}
-		}
-
-		dlugosc += czesci.get(size - 1).getDlugosc();
-
-		return dlugosc;
-	}
-
-	private static ArrayList<Czesc> cloneCzesci(int index)
-	{
-		ArrayList<Czesc> czesci = new ArrayList<Czesc>();
-		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();
-
-		for (int i = 0; i < size; i++)
-		{
-			Czesc c = new Czesc(ZamowienieDane.figury.get(index).figura.getCzesci().get(i));
-			czesci.add(c);
-		}
-
-		return czesci;
-	}
+	
 
 	private static double obliczCalkCiezar(int index, boolean rzeczywista)
 	{
@@ -158,7 +111,7 @@ public class RamkaWymiarCM
 		{
 			if (rzeczywista)
 			{
-				dlugosc = obliczDlugoscRzeczywista(i);
+				dlugosc = MathHelper.obliczDlugoscRzeczywista(ZamowienieDane.figury.get(i));
 			}
 			else
 			{
