@@ -1,7 +1,9 @@
 package inne;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class Test
@@ -11,14 +13,15 @@ public class Test
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception
-	{
-		int[] max = {1200};
+	{	
+		
+		/*int[] max = {1200};
 		//optymalize(getArrayOfIntegers(), max);
 		
 		for(double i = 0; i< 10; i+=0.01)
 		{
 			System.out.println(Math.ceil(i));
-		}
+		}*/
 
 	}
 

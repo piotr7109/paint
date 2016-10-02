@@ -8,6 +8,9 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -208,5 +211,10 @@ public class Tools
 
 		frame.setVisible(true);
 		return frame;
+	}
+
+	public static String getFormattedDate()
+	{
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
 	}
 }

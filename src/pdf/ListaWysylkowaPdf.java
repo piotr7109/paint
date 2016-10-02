@@ -1,6 +1,5 @@
 package pdf;
 
-
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
 import dodatki.FocusListeners;
@@ -9,10 +8,11 @@ import dodatki.Obliczenia;
 public class ListaWysylkowaPdf extends PdfCreator
 {
 	private String kod;
+
 	public ListaWysylkowaPdf(String kod)
 	{
 		this.kod = kod;
-		this.FILENAME = "lista_wysylkowa/lista_w_"+kod+".pdf";
+		this.FILENAME = "lista_wysylkowa/lista_w_" + kod + ".pdf";
 		this.HTML_SOURCE = "bez_skrotow/";
 	}
 
@@ -25,7 +25,7 @@ public class ListaWysylkowaPdf extends PdfCreator
 
 		String cells = "";
 		String cell = getHtmlFile(HTML_SOURCE, "cell.html");
-		int size =ZamowienieDane.figury.size();
+		int size = ZamowienieDane.figury.size();
 		for (int i = 0; i < size; i++)
 		{
 			FiguraZamowienie fig = ZamowienieDane.figury.get(i);
@@ -36,16 +36,9 @@ public class ListaWysylkowaPdf extends PdfCreator
 				cells += "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>";
 			}
 			int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
-			int waga = fig.ilosc_sztuk*(int) (Obliczenia.obliczDlugosc(fig.figura)* FocusListeners.sred_waga.get(fig.srednica));
+			int waga = fig.ilosc_sztuk * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica));
 			String obrazek = DrawFigura.rysuj(fig.figura);
-			String cell_html = String.format(cell,
-					fig.pozycja,
-					fig.uwagi,
-					dlugosc,
-					waga,
-					fig.ilosc_sztuk,
-					fig.srednica,
-					obrazek);
+			String cell_html = String.format(cell, fig.pozycja, fig.uwagi, dlugosc, waga, fig.ilosc_sztuk, fig.srednica, obrazek);
 			if (i % 2 == 0)
 			{
 				cells += "<tr>" + cell_html;
@@ -66,16 +59,10 @@ public class ListaWysylkowaPdf extends PdfCreator
 		return html;
 
 	}
+
 	protected String getHeaderHtml()
 	{
-		return String.format(getHtmlFile(HTML_SOURCE, "header.html"),
-				"30-969 Kraków, ul. Łowińskiego 9",
-				ZamowienieDane.element.getTerminDostawy(), 
-				ZamowienieDane.obiekt.getNazwa(),
-				ZamowienieDane.odbiorca.getNazwa(),
-				ZamowienieDane.budowa.getNazwa(),
-				ZamowienieDane.element.getNazwa(),
-				ZamowienieDane.element.getTerminDostawy(),
-				kod);
+		return String.format(getHtmlFile(HTML_SOURCE, "header.html"), "30-969 Kraków, ul. Łowińskiego 9", ZamowienieDane.element.getTerminDostawy(), ZamowienieDane.obiekt.getNazwa(),
+				ZamowienieDane.odbiorca.getNazwa(), ZamowienieDane.budowa.getNazwa(), ZamowienieDane.element.getNazwa(), ZamowienieDane.element.getTerminDostawy(), kod);
 	}
 }

@@ -2,30 +2,42 @@ package optymalizacja;
 
 import java.util.ArrayList;
 
+import ekrany.optymalizacja.ProgressFrame;
 import javafx.util.Pair;
 
-public class Evolution
+public class Evolution implements Runnable
 {
 	private int[] data;
 	private Integer[] max; // should be sorted in descending order
-	private ArrayList<Pair<Integer, Suspect[]>> sol;
-
-	public static void main(String[] args)
-	{
-		int[] source = { 1000, 300, 2, 35, 234, 123, 433, 234, 123, 400, 1102, 200, 1001, 5, 41, 21, 333, 654, 543, 123, 200 };
-		Integer[] max = { 1400, 1200, 1000 };
-
-		Evolution evo = new Evolution(source, max);
-		evo.runEvolve(50, 20, 100);
-	}
+	public ArrayList<Pair<Integer, Suspect[]>> sol;
+	public int waste;
+	private ProgressFrame pFrame;
 
 	public Evolution(int[] source, Integer[] max)
 	{
 		this.data = source;
 		this.max = EvoHelper.sortArray(max);
+
 	}
 
-	public void runEvolve(int grandIterations, int iterations, int numOfSuspects)
+	private int progress;
+
+	public synchronized int getProgress()
+	{
+		return progress;
+	}
+
+	private int grandIterations, iterations, numOfSuspects;
+
+	public void setParameters(int grandIterations, int iterations, int numOfSuspects, ProgressFrame pFrame)
+	{
+		this.grandIterations = grandIterations;
+		this.iterations = iterations;
+		this.numOfSuspects = numOfSuspects;
+		this.pFrame = pFrame;
+	}
+
+	public void run()
 	{
 		int waste = 0;
 
@@ -48,8 +60,9 @@ public class Evolution
 					waste = result;
 				}
 			}
-			int progress = (int) (((double) i / (double) grandIterations) * 100);
-			System.out.print(progress + "% ");
+
+			progress = (int) (((double) i / (double) grandIterations) * 100);
+			pFrame.updateProgress(progress);
 
 		}
 		System.out.println();
@@ -57,10 +70,9 @@ public class Evolution
 		{
 			item = EvoHelper.clearSuspect(item);
 			EvoHelper.displayArray(item.getValue());
-			System.out.println(EvoHelper.arrayValue(item.getValue()));
 		}
 
-		System.out.println("WASTE: " + waste);
+		this.waste = waste;
 
 	}
 
