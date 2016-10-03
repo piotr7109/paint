@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import javafx.util.Pair;
 
 public class EvoHelper
