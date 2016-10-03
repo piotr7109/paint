@@ -2,7 +2,7 @@ package optymalizacja;
 
 public class Suspect
 {
-	int index, value;
+	public int index, value;
 
 	public Suspect(int index, int value)
 	{

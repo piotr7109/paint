@@ -2,11 +2,13 @@ package pdf;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.XMLResource;
@@ -52,7 +54,7 @@ abstract public class PdfCreator implements PdfCreatorInterface
 		{
 			try
 			{
-				//FileUtils.cleanDirectory(new File("temp_img/"));
+				FileUtils.cleanDirectory(new File("temp_img/"));
 			}
 			catch (Exception e)
 			{

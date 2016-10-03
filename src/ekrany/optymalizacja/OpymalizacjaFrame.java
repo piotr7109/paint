@@ -1,6 +1,5 @@
 package ekrany.optymalizacja;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -215,6 +214,8 @@ public class OpymalizacjaFrame extends JPanel
 			fig_zam.sworzen = fig_temp.getSworzen();
 			fig_zam.maszyna = fig_temp.getMaszyna();
 			fig_zam.ilosc_sztuk = fig_temp.getSztuk();
+			fig_zam.uwagi = fig_temp.getUwagi();
+			fig_zam.pozycja = fig_temp.getPozycja();
 			fig_zam.figura = fig;
 			figury_zamowienie.add(fig_zam);
 		}
@@ -326,18 +327,20 @@ public class OpymalizacjaFrame extends JPanel
 		ProgressFrame pFrame = null;
 		for (int sr : srednice)
 		{
-			Evolution evo = new Evolution(getDlugosci(figury.get(sr)), getMax());
+			Evolution evo = new Evolution(getDlugosci(figury.get(sr), sr), getMax());
 			pFrame = new ProgressFrame();
 			evo.setParameters(grandIterations.getValue(), iterations.getValue(), numOfSuspects.getValue(), pFrame);
 			evo.run();
 			pFrame.dispose();
 			System.out.println("Średnica:" + sr + ", odpad:" + evo.waste);
-			new OptymalizacjaPdf(new Date().getTime()+"", sr, evo.sol).drukuj();
+			new OptymalizacjaPdf(new Date().getTime()+"", sr, evo.sol, figury.get(sr) ).drukuj();
 		}
 	}
 
-	private int[] getDlugosci(ArrayList<FiguraZamowienie> fig_zam)
+	private int[] getDlugosci(ArrayList<FiguraZamowienie> fig_zam, int srednica)
 	{
+		ArrayList<FiguraZamowienie> newFigZam = new ArrayList<FiguraZamowienie>();
+		
 		ArrayList<Integer> _dlugosci = new ArrayList<Integer>();
 		for (FiguraZamowienie _figZam : fig_zam)
 		{
@@ -345,6 +348,7 @@ public class OpymalizacjaFrame extends JPanel
 			for(int j = 0; j < _figZam.ilosc_sztuk; j++) 
 			{
 				_dlugosci.add(dlugosc);
+				newFigZam.add(_figZam);
 			}
 		}
 		int size = _dlugosci.size();
@@ -353,6 +357,8 @@ public class OpymalizacjaFrame extends JPanel
 		{
 			dlugosci[i] = _dlugosci.get(i);
 		}
+		
+		figury.put(srednica, newFigZam);
 
 		return dlugosci;
 	}

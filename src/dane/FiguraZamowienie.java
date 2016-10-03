@@ -34,7 +34,7 @@ public class FiguraZamowienie
 	public FiguraZamowienie(FiguraZamowienie f_zam)
 	{
 		this.figura = new Figura(f_zam.figura);
-		this.pozycja = (Integer.parseInt(f_zam.pozycja)+1)+"";
+		this.pozycja = f_zam.pozycja;
 		this.ilosc_sztuk = f_zam.ilosc_sztuk;
 		this.srednica = f_zam.srednica;
 		this.fig = f_zam.fig;
@@ -43,6 +43,16 @@ public class FiguraZamowienie
 		this.sworzen = f_zam.sworzen;
 		this.waga = f_zam.waga;
 		this.uwagi = f_zam.uwagi;
+	}
+	
+	public boolean equals(FiguraZamowienie fig)
+	{
+		if(!this.pozycja.equals(fig.pozycja)) return false;
+		if(this.srednica != fig.srednica) return false;
+		if(this.maszyna != fig.maszyna) return false;
+		if(this.sworzen != fig.sworzen) return false;
+			
+		return true;
 	}
 
 }

@@ -17,15 +17,9 @@ public class Evolution implements Runnable
 	{
 		this.data = source;
 		this.max = EvoHelper.sortArray(max);
-
 	}
 
 	private int progress;
-
-	public synchronized int getProgress()
-	{
-		return progress;
-	}
 
 	private int grandIterations, iterations, numOfSuspects;
 

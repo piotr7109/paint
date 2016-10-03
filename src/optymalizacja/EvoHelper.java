@@ -1,6 +1,5 @@
 package optymalizacja;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,28 +13,28 @@ public class EvoHelper
 	public static Suspect[] arrayToSuspects(int[] source)
 	{
 		Suspect[] spcts = new Suspect[source.length];
-	
-		for(int i = 0; i< source.length; i++)
+
+		for (int i = 0; i < source.length; i++)
 		{
 			spcts[i] = new Suspect(i, source[i]);
 		}
-		
+
 		return spcts;
 	}
-	
+
 	public static Pair<Integer, Suspect[]> clearSuspect(Pair<Integer, Suspect[]> items)
 	{
 		ArrayList<Suspect> spcts = new ArrayList<>();
-		for(Suspect item : items.getValue())
+		for (Suspect item : items.getValue())
 		{
-			if(item.value != 0)
+			if (item.value != 0)
 			{
 				spcts.add(item);
 			}
 		}
 		return new Pair<Integer, Suspect[]>(items.getKey(), spcts.toArray(new Suspect[spcts.size()]));
 	}
-	
+
 	public static boolean isNear(int value, int target, int range)
 	{
 		if (value >= target - range && value <= target)
@@ -48,15 +47,15 @@ public class EvoHelper
 	public static Suspect[] removeSuspect(Suspect[] source, Suspect[] resolution)
 	{
 		ArrayList<Suspect> list = new ArrayList<Suspect>(Arrays.asList(source));
-		
+
 		for (Suspect item : resolution)
 		{
-			
+
 			if (item.value != 0)
 			{
-				for(Suspect suspect : list)
+				for (Suspect suspect : list)
 				{
-					if(suspect.index == item.index)
+					if (suspect.index == item.index)
 					{
 						list.remove(suspect);
 						break;
@@ -64,7 +63,6 @@ public class EvoHelper
 				}
 			}
 		}
-		
 
 		return list.toArray(new Suspect[list.size()]);
 	}
@@ -93,7 +91,7 @@ public class EvoHelper
 			double random = Math.random();
 			if (random < 0.5)
 			{
-				out[i] = new Suspect(0,0);
+				out[i] = new Suspect(0, 0);
 			}
 			else
 			{
@@ -127,7 +125,7 @@ public class EvoHelper
 		}
 		return value;
 	}
-	
+
 	public static Integer[] sortArray(Integer[] array)
 	{
 		ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(array));

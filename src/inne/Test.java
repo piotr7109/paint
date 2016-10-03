@@ -1,10 +1,11 @@
 package inne;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
+
+import dane.FiguraZamowienie;
+import pdf.optymalizacja.CountableArray;
 
 public class Test
 {
@@ -14,14 +15,24 @@ public class Test
 	 */
 	public static void main(String[] args) throws Exception
 	{	
+		System.out.println("START");
+		CountableArray cAr = new CountableArray();
 		
-		/*int[] max = {1200};
-		//optymalize(getArrayOfIntegers(), max);
-		
-		for(double i = 0; i< 10; i+=0.01)
+		cAr.add(new FiguraZamowienie(), 10);
+		cAr.add(new FiguraZamowienie(), 20);
+		cAr.add(new FiguraZamowienie(), 10);
+
+		for(int i = 0; i < cAr.array.size(); i++)
 		{
-			System.out.println(Math.ceil(i));
-		}*/
+			System.out.println(cAr.array.get(i).count);
+		}
+		
+		int a = 3000;
+		int b = 3000;
+		
+		System.out.println(a==b);
+		
+		System.out.println("END");
 
 	}
 
