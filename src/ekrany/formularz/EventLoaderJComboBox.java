@@ -47,7 +47,7 @@ public class EventLoaderJComboBox
 				if (form.odbiorcy_combo.getSelectedItem() != null)
 				{
 					Odbiorca item = (Odbiorca) form.odbiorcy_combo.getSelectedItem();
-					form.odbiorcy_kod.setText(item.getKod() + "");
+					form.odbiorcy_kod.setText(Integer.toString(item.getKod()));
 					form.budowy_combo.removeAllItems();
 					form.elementy_combo.removeAllItems();
 					form.obiekty_combo.removeAllItems();
@@ -82,7 +82,7 @@ public class EventLoaderJComboBox
 				if (form.budowy_combo.getSelectedItem() != null)
 				{
 					Budowa item = (Budowa) form.budowy_combo.getSelectedItem();
-					form.budowy_kod.setText(item.getKod() + "");
+					form.budowy_kod.setText(Integer.toString(item.getKod()));
 					form.elementy_combo.removeAllItems();
 					form.obiekty_combo.removeAllItems();
 					wczytajObiekty(item.getId(), form);
@@ -115,7 +115,7 @@ public class EventLoaderJComboBox
 				if (form.obiekty_combo.getSelectedItem() != null)
 				{
 					Obiekt item = (Obiekt) form.obiekty_combo.getSelectedItem();
-					form.obiekty_kod.setText(item.getKod() + "");
+					form.obiekty_kod.setText(Integer.toString(item.getKod()));
 					form.elementy_combo.removeAllItems();
 					wczytajElementy(item.getId(), form);
 					ZamowienieDane.obiekt = (Obiekt) form.obiekty_combo.getSelectedItem();
@@ -147,7 +147,7 @@ public class EventLoaderJComboBox
 				if (form.elementy_combo.getSelectedItem() != null)
 				{
 					Element item = (Element) form.elementy_combo.getSelectedItem();
-					form.elementy_kod.setText(item.getKod() + "");
+					form.elementy_kod.setText(Integer.toString(item.getKod()));
 					ZamowienieDane.element = (Element) form.elementy_combo.getSelectedItem();
 					wczytajDodatkoweDane(form);
 				}
@@ -187,7 +187,7 @@ public class EventLoaderJComboBox
 
 		if (waga > 0)
 		{
-			form.waga.setText(waga + "");
+			form.waga.setText(Double.toString(waga));
 		}
 		else
 		{

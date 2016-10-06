@@ -34,18 +34,14 @@ public class Evolution implements Runnable
 	public void run()
 	{
 		int waste = 0;
+		boolean initialized = false;
 
 		for (int i = 0; i < grandIterations; i++)
 		{
-			if (i % 30 == 0)
-			{
-				System.out.println();
-			}
-
 			int result = evolve(iterations, numOfSuspects, waste);
-			if (waste == 0)
+			if (!initialized)
 			{
-				waste = result;
+				initialized = true;
 			}
 			else
 			{
@@ -57,13 +53,17 @@ public class Evolution implements Runnable
 
 			progress = (int) (((double) i / (double) grandIterations) * 100);
 			pFrame.updateProgress(progress);
+			System.out.println(waste);
+			
+			if(waste == 0)
+			{
+				break;
+			}
 
 		}
-		System.out.println();
 		for (Pair<Integer, Suspect[]> item : sol)
 		{
 			item = EvoHelper.clearSuspect(item);
-			EvoHelper.displayArray(item.getValue());
 		}
 
 		this.waste = waste;
@@ -97,6 +97,7 @@ public class Evolution implements Runnable
 							{
 								return actualWaste;
 							}
+
 							source = EvoHelper.removeSuspect(source, spcts[j]);
 							break suspectsLoop;
 						}

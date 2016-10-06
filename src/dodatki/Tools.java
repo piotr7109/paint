@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -216,5 +216,9 @@ public class Tools
 	public static String getFormattedDate()
 	{
 		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+	}
+	
+	public static int randInt(int min, int max) {
+		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 }

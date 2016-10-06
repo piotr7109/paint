@@ -44,8 +44,8 @@ public class MathHelper
 
 		return dlugosc;
 	}
-	
-	private static ArrayList<Czesc> cloneCzesci(int index)
+
+	public static ArrayList<Czesc> cloneCzesci(int index)
 	{
 		ArrayList<Czesc> czesci = new ArrayList<Czesc>();
 		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();

@@ -95,7 +95,7 @@ public class FocusListeners
 			}
 		};
 	}
-	
+
 	public static void initSrednicaSworzen(final int index, final JTextField srednica_text, final JTextField sworzen_text)
 	{
 		int srednica = Integer.parseInt(srednica_text.getText());
@@ -113,7 +113,7 @@ public class FocusListeners
 			waga = 0.222;
 		}
 
-		sworzen_text.setText(sworzen + "");
+		sworzen_text.setText(Integer.toString(sworzen));
 		ZamowienieDane.figury.get(index).sworzen = sworzen;
 		ZamowienieDane.figury.get(index).waga = waga;
 	}

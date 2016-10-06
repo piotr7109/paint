@@ -34,7 +34,7 @@ public abstract class AbstractDodajNowy extends JPanel
 		this.setPreferredSize(Tools.getDimension(400, 100));
 		this.setLayout(null);
 		this.kod = kod;
-		this.kod_label.setText(kod + "");
+		this.kod_label.setText(Integer.toString(kod));
 		this.id_parent = id_parent;
 		this.frame = frame;
 		this.form = form;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import dodatki.Tools;
 import javafx.util.Pair;
 
 public class EvoHelper
@@ -71,33 +72,38 @@ public class EvoHelper
 
 		for (int i = 0; i < numOfSuspects; i++)
 		{
-			suspects[i] = createSuspect(source);
+			suspects[i] = createSuspect(source, max);
 			while (arrayValue(suspects[i]) > max)
 			{
-				suspects[i] = createSuspect(source);
+				suspects[i] = createSuspect(source, max);
 			}
 		}
 		return suspects;
 	}
 
-	public static Suspect[] createSuspect(Suspect[] source)
+	public static Suspect[] createSuspect(Suspect[] source, int max)
 	{
 		int size = source.length;
+		int random;
 		Suspect[] out = new Suspect[size];
+		int numOfSynapses = (int) (1.5 * Math.random() * (double) max / averageValue(source));
 		for (int i = 0; i < size; i++)
 		{
-			double random = Math.random();
-			if (random < 0.5)
-			{
-				out[i] = new Suspect(0, 0);
-			}
-			else
-			{
-				out[i] = new Suspect(source[i]);
-			}
+			out[i] = new Suspect(0, 0);
+		}
+
+		for (int i = 0; i < numOfSynapses; i++)
+		{
+			random = Tools.randInt(0, size - 1);
+			out[random] = new Suspect(source[random]);
 		}
 
 		return out;
+	}
+
+	private static double averageValue(Suspect[] array)
+	{
+		return (double) arrayValue(array) / (double) array.length;
 	}
 
 	public static int arraySize(Suspect[] array)
@@ -121,6 +127,7 @@ public class EvoHelper
 		{
 			value += item.value;
 		}
+
 		return value;
 	}
 

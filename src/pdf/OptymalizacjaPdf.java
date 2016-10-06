@@ -54,12 +54,21 @@ public class OptymalizacjaPdf extends PdfCreator
 		{
 			cArray.add(figZam.get(sus.index), sus.value);
 		}
-		
-		for(pdf.optymalizacja.Pair figs : cArray.array)
+		int waste = pair.getKey();
+		for (pdf.optymalizacja.Pair figs : cArray.array)
 		{
-			row = new Row("1", String.valueOf(figs.value), String.valueOf(figs.count), "2D", DrawFigura.rysuj(figs.fig.figura), figs.fig.pozycja, figs.fig.uwagi);
+
+			row = new Row("1", String.valueOf(figs.value), String.valueOf(figs.count), "2D", getImage(figs.fig.figura), figs.fig.pozycja, figs.fig.uwagi);
+			waste -= figs.value * figs.count;
 			html += getCell(row, "row");
 		}
+
+		if (waste > 0)
+		{
+			row = new Row("Odpad", String.valueOf(waste));
+			html += getCell(row, "row");
+		}
+
 		return html;
 	}
 

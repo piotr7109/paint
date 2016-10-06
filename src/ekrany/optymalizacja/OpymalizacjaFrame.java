@@ -29,6 +29,9 @@ import pdf.OptymalizacjaPdf;
 public class OpymalizacjaFrame extends JPanel
 {
 	private static final long serialVersionUID = 6507901662599568412L;
+	
+	private final int defaultValue = 20;
+	
 	private Element element;
 	public JSlider grandIterations = new JSlider();
 	public JSlider iterations = new JSlider();
@@ -36,9 +39,9 @@ public class OpymalizacjaFrame extends JPanel
 	public JTextField grandIterationsLabel = new JTextField("Ilość prób (duży wpływ na jakość)");
 	public JTextField iterationsLabel = new JTextField("Wewnętrzna lość iteracji (średni wpływ na jakość)");
 	public JTextField numOfSuspectsLabel = new JTextField("Ilość osobników (duży wpływ na jakość)");
-	public JTextField grandIterationsValue = new JTextField(grandIterations.getValue() + "");
-	public JTextField iterationsValue = new JTextField(iterations.getValue() + "");
-	public JTextField numOfSuspectsValue = new JTextField(numOfSuspects.getValue() + "");
+	public JTextField grandIterationsValue = new JTextField(Integer.toString(defaultValue));
+	public JTextField iterationsValue = new JTextField(Integer.toString(defaultValue));
+	public JTextField numOfSuspectsValue = new JTextField(Integer.toString(defaultValue));
 	private HashMap<Integer, ArrayList<FiguraZamowienie>> figury;
 	private TreeSet<Integer> srednice = new TreeSet<Integer>();
 
@@ -108,9 +111,9 @@ public class OpymalizacjaFrame extends JPanel
 
 	private void setJSlider(JSlider slider, JTextField field)
 	{
-		slider.setMaximum(500);
+		slider.setMaximum(100);
 		slider.setMinimum(1);
-		slider.setValue(50);
+		slider.setValue(defaultValue);
 
 		slider.addChangeListener(new ChangeListener()
 		{
@@ -118,7 +121,7 @@ public class OpymalizacjaFrame extends JPanel
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				field.setText(slider.getValue() + "");
+				field.setText(Integer.toString(slider.getValue()));
 
 			}
 		});
@@ -321,31 +324,35 @@ public class OpymalizacjaFrame extends JPanel
 		numOfSuspectsValue.setLocation(Tools.getPoint(x - 30, y));
 		numOfSuspectsLabel.setLocation(Tools.getPoint(x, y += 25));
 	}
-	
+
 	private void optymalizuj()
 	{
 		ProgressFrame pFrame = null;
 		for (int sr : srednice)
 		{
+			
 			Evolution evo = new Evolution(getDlugosci(figury.get(sr), sr), getMax());
 			pFrame = new ProgressFrame();
 			evo.setParameters(grandIterations.getValue(), iterations.getValue(), numOfSuspects.getValue(), pFrame);
 			evo.run();
 			pFrame.dispose();
-			System.out.println("Średnica:" + sr + ", odpad:" + evo.waste);
-			new OptymalizacjaPdf(new Date().getTime()+"", sr, evo.sol, figury.get(sr) ).drukuj();
+			//System.out.println("Średnica:" + sr + ", odpad:" + evo.waste);
+			new OptymalizacjaPdf(Long.toString(new Date().getTime()), sr, evo.sol, figury.get(sr)).drukuj();
+			
 		}
+		
+		this.figury = getFilteredFigury(getFigury());
 	}
 
 	private int[] getDlugosci(ArrayList<FiguraZamowienie> fig_zam, int srednica)
 	{
 		ArrayList<FiguraZamowienie> newFigZam = new ArrayList<FiguraZamowienie>();
-		
+
 		ArrayList<Integer> _dlugosci = new ArrayList<Integer>();
 		for (FiguraZamowienie _figZam : fig_zam)
 		{
 			int dlugosc = (int) Math.ceil(MathHelper.obliczDlugoscRzeczywista(_figZam));
-			for(int j = 0; j < _figZam.ilosc_sztuk; j++) 
+			for (int j = 0; j < _figZam.ilosc_sztuk; j++)
 			{
 				_dlugosci.add(dlugosc);
 				newFigZam.add(_figZam);
@@ -353,11 +360,11 @@ public class OpymalizacjaFrame extends JPanel
 		}
 		int size = _dlugosci.size();
 		int[] dlugosci = new int[size];
-		for(int i = 0; i < size; i++) 
+		for (int i = 0; i < size; i++)
 		{
 			dlugosci[i] = _dlugosci.get(i);
 		}
-		
+
 		figury.put(srednica, newFigZam);
 
 		return dlugosci;

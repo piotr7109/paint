@@ -49,7 +49,7 @@ public class ListaProdukcyjnaPdf extends PdfCreator
 					}
 					int dlugosc = (int) Obliczenia.obliczDlugoscRzeczywista(i);
 					int waga = (int) (fig.ilosc_sztuk * dlugosc * FocusListeners.sred_waga.get(fig.srednica));
-					String obrazek = DrawFigura.rysuj(fig.figura);
+					String obrazek = getImage(fig.figura);
 					String cell_html = String.format(cell, fig.pozycja, fig.uwagi, dlugosc, waga, fig.ilosc_sztuk, fig.srednica, obrazek);
 					cells += "<tr>" + cell_html + "</tr>";
 					index++;

@@ -37,7 +37,7 @@ public class ListaWysylkowaPdf extends PdfCreator
 			}
 			int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
 			int waga = fig.ilosc_sztuk * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica));
-			String obrazek = DrawFigura.rysuj(fig.figura);
+			String obrazek = getImage(fig.figura);
 			String cell_html = String.format(cell, fig.pozycja, fig.uwagi, dlugosc, waga, fig.ilosc_sztuk, fig.srednica, obrazek);
 			if (i % 2 == 0)
 			{

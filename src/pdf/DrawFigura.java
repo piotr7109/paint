@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import dodatki.Tools;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
-import modules.figury.FiguraFactory;
 
 public class DrawFigura
 {
@@ -24,12 +23,9 @@ public class DrawFigura
 	private static int width = 320;
 	private static int height = 120;
 
-	public static String rysuj(Figura figura)
+	public static String rysuj(Figura figura, Figura figura_atrapa)
 	{
 		String filename = "rbs" + (int) (Math.random() * 100000);
-		FiguraFactory f_factory = new FiguraFactory();
-		Figura figura_atrapa = f_factory.getFiguraByKod(figura.getKod());
-		figura_atrapa.setCzesciAtrapy();
 		try
 		{
 

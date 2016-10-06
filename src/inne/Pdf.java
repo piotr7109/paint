@@ -38,7 +38,7 @@ public class Pdf
 	public static void main(String[] args) throws Exception
 	{
 		Pdf pdf = new Pdf();
-		String yourXhtmlContentAsString =pdf.getHtmlSkroty();
+		String yourXhtmlContentAsString = pdf.getHtmlSkroty();
 		System.out.println(yourXhtmlContentAsString);
 		Document document = XMLResource.load(new ByteArrayInputStream(yourXhtmlContentAsString.getBytes())).getDocument();
 		ITextRenderer renderer = new ITextRenderer();
@@ -75,11 +75,11 @@ public class Pdf
 
 			if (i % 2 == 0)
 			{
-				cells += "<tr>" + String.format(cell, i,i+"",1+"",2+"",3+"",4+"");
+				cells += "<tr>" + String.format(cell, i, Integer.toString(i), "1", "2", "3", "4");
 			}
 			else
 			{
-				cells += String.format(cell, i,i+"",1+"",2+"",3+"",4+"") + "</tr>";
+				cells += String.format(cell, i, Integer.toString(i), "1", "2", "3", "4") + "</tr>";
 			}
 
 		}
@@ -93,6 +93,7 @@ public class Pdf
 		return html;
 
 	}
+
 	protected String getHtmlFile(String katalog, String url)
 	{
 
@@ -114,7 +115,4 @@ public class Pdf
 		return content;
 	}
 
-	
-
-	
 }

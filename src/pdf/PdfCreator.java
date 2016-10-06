@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
@@ -16,12 +17,17 @@ import org.xhtmlrenderer.resource.XMLResource;
 import com.lowagie.text.pdf.BaseFont;
 
 import dane.ZamowienieDane;
+import modules.figury.Figura;
+import modules.figury.FiguraFactory;
 
 abstract public class PdfCreator implements PdfCreatorInterface
 {
 	protected String RESULT_DIRECTORY = "wydruki/"+ZamowienieDane.odbiorca.getNazwa()+"/"+ZamowienieDane.budowa.getNazwa()+"/"+ZamowienieDane.obiekt.getNazwa()+"/"+ZamowienieDane.element.getNazwa()+"/";
 	protected String FILENAME;
 	protected String HTML_SOURCE;
+
+	protected HashMap<Integer, Figura> figury_atrapy = new HashMap<Integer, Figura>();
+	protected HashMap<Figura, String> images = new HashMap<Figura, String>();
 
 	public void drukuj()
 	{
@@ -61,6 +67,29 @@ abstract public class PdfCreator implements PdfCreatorInterface
 				e.printStackTrace();
 			}; 
 		}
+	}
+	
+	private Figura getFigAtrapa(int kod)
+	{
+		FiguraFactory f_factory = new FiguraFactory();
+		if(!figury_atrapy.containsKey(kod))
+		{
+			figury_atrapy.put(kod, f_factory.getFiguraByKod(kod));
+			figury_atrapy.get(kod).setCzesciAtrapy();
+		}
+		
+		return figury_atrapy.get(kod);
+	}
+	
+	protected String getImage(Figura figura)
+	{
+
+		if(!images.containsKey(figura))
+		{
+			images.put(figura, DrawFigura.rysuj(figura, getFigAtrapa(figura.getKod())));
+		}
+		
+		return images.get(figura);
 	}
 
 	protected String getHtmlFile(String katalog, String url)

@@ -20,4 +20,9 @@ public class Row
 	{
 		this(ilosc, "", "", "", "", "", "");
 	}
+	
+	public Row(String ilosc, String dlugosc)
+	{
+		this(ilosc, dlugosc, "", "", "", "", "");
+	}
 }

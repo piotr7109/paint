@@ -74,7 +74,7 @@ public class ListaMetkiPdf extends PdfCreator
 		
 		int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
 		int waga = fig.ilosc_sztuk/fig.ilosc_paczek * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica));
-		String obrazek = DrawFigura.rysuj(fig.figura);
+		String obrazek = getImage(fig.figura);
 		html = String.format(cell,
 				ZamowienieDane.odbiorca.getNazwa(),
 				ZamowienieDane.budowa.getNazwa(),

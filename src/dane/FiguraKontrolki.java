@@ -26,13 +26,13 @@ public class FiguraKontrolki
 	public void updateFromFiguraZamowienie()
 	{
 		FiguraZamowienie f_zam = ZamowienieDane.figury.get(index);
-		pozycja.setText("" + f_zam.pozycja);
-		ilosc_sztuk.setText("" + f_zam.ilosc_sztuk);
-		srednica.setText("" + f_zam.srednica);
-		fig.setText("" + f_zam.fig);
-		ilosc_paczek.setText("" + f_zam.ilosc_paczek);
-		maszyna.setText("" + f_zam.maszyna);
+		pozycja.setText(f_zam.pozycja);
+		ilosc_sztuk.setText(Integer.toString(f_zam.ilosc_sztuk));
+		srednica.setText(Integer.toString(f_zam.srednica));
+		fig.setText(Integer.toString(f_zam.fig));
+		ilosc_paczek.setText(Integer.toString(f_zam.ilosc_paczek));
+		maszyna.setText(Integer.toString( f_zam.maszyna));
 		// ma??.setText(""+f_zam.ma??);
-		sworzen.setText("" + f_zam.sworzen);
+		sworzen.setText(Integer.toString(f_zam.sworzen));
 	}
 }

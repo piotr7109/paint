@@ -50,7 +50,7 @@ public abstract class AbstractEdytujNowy extends JPanel
 		kod_label.setBounds(Tools.rescale(x += 100), y, size.width, size.height);
 		ok.setBounds(Tools.rescale(x += 100), y, size.width, size.height);
 
-		kod_label.setText(item.getKod() + "");
+		kod_label.setText(Integer.toString(item.getKod()));
 		nazwa.setText(item.getNazwa());
 		
 		nazwa.setFont(new Font("",0,Tools.rescale(12)));

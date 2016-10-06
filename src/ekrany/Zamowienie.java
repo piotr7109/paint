@@ -52,14 +52,14 @@ public class Zamowienie extends JPanel implements KeyListener
 
 		RamkaWymiarCM.init(this);
 
-		RamkaUwagi ramka_uwagi = new RamkaUwagi(this);
-		RamkaDaneKlienta ramka_dane_klienta = new RamkaDaneKlienta(this);
-		RamkaCzesci ramka_czesci = new RamkaCzesci(this);
-		RamkaWymiarMM ramka_wymiar_mm = new RamkaWymiarMM(this);
-		RamkaWymiarCM ramka_wymiar_cm = new RamkaWymiarCM(this);
-		RamkaFigura ramka_figura = new RamkaFigura(this);
-		// RamkaIlosc ramka_ilosc = new RamkaIlosc(this);
-		RamkaFiguraAtrapa ramka_figura_atrapa = new RamkaFiguraAtrapa(this);
+		new RamkaUwagi(this);
+		new RamkaDaneKlienta(this);
+		new RamkaCzesci(this);
+		new RamkaWymiarMM(this);
+		new RamkaWymiarCM(this);
+		new RamkaFigura(this);
+		//new RamkaIlosc(this);
+		new RamkaFiguraAtrapa(this);
 
 		addMouseListeners();
 
