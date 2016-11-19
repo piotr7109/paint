@@ -11,6 +11,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -220,5 +221,10 @@ public class Tools
 	
 	public static int randInt(int min, int max) {
 		return ThreadLocalRandom.current().nextInt(min, max + 1);
+	}
+
+	public static boolean jestKodemSterujacym(int key)
+	{
+		return IntStream.of(Keys.navKeys).anyMatch(x -> x == key);
 	}
 }

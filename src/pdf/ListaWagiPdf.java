@@ -114,7 +114,7 @@ public class ListaWagiPdf extends PdfCreator
 				if (fig.srednica == sr)
 				{
 					int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
-					int waga = fig.ilosc_sztuk * (int) (dlugosc * FocusListeners.sred_waga.get(sr));
+					int waga = fig.ilosc_sztuk * (int) (dlugosc * FocusListeners.sred_waga.get(sr)) / 100;
 					wh.dodajWage(fig, waga, dlugosc);
 					wagi_suma.dodajWage(fig, waga, dlugosc);
 				}

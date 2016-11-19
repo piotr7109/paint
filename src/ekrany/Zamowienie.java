@@ -55,10 +55,10 @@ public class Zamowienie extends JPanel implements KeyListener
 		new RamkaUwagi(this);
 		new RamkaDaneKlienta(this);
 		new RamkaCzesci(this);
-		new RamkaWymiarMM(this);
+		new RamkaPola(this);
 		new RamkaWymiarCM(this);
 		new RamkaFigura(this);
-		//new RamkaIlosc(this);
+		// new RamkaIlosc(this);
 		new RamkaFiguraAtrapa(this);
 
 		addMouseListeners();
@@ -146,7 +146,7 @@ public class Zamowienie extends JPanel implements KeyListener
 	{
 
 		RamkaDaneKlienta.ramkaDaneKlienta(g, this);
-		RamkaWymiarMM.ramkaWymiarMM(g);
+		RamkaPola.ramkaWymiarMM(g);
 		// RamkaIlosc.ramkaIlosc(g, this);
 		RamkaCzesci.ramkaCzesci(g);
 		RamkaFigura.ramkaFigura(g, this);
@@ -175,7 +175,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		}
 		g.fillRect(WIDTH - 25, 50, 25, 25);
 
-		RamkaWymiarMM.rescale();
+		RamkaPola.rescale();
 
 	}
 
@@ -264,7 +264,7 @@ public class Zamowienie extends JPanel implements KeyListener
 				}
 				if (tryb.equals("figury"))
 				{
-					RamkaWymiarMM.przewinElementy(this, ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y]);
+					RamkaPola.przewinElementy(this, ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y]);
 					ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
 					if (e.getKeyCode() == Keys.F1) // F1
 					{
@@ -407,7 +407,7 @@ public class Zamowienie extends JPanel implements KeyListener
 
 			// czyszczenie pól jak Excelu - wchodząc w pole i wpisując kasujesz
 			// poprzednią zawartość
-			if (Tools.jestKodemCyfry(e.getKeyCode()))
+			if (!Tools.jestKodemSterujacym(e.getKeyCode()))
 			{
 				JTextField current_text_field = (JTextField) KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 				if (poprzedni_text_field != current_text_field)

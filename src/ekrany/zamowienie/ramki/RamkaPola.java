@@ -12,10 +12,10 @@ import dane.ZamowienieDane;
 import dodatki.Tools;
 import ekrany.Zamowienie;
 
-public class RamkaWymiarMM
+public class RamkaPola
 {
 
-	public RamkaWymiarMM(Zamowienie panel)
+	public RamkaPola(Zamowienie panel)
 	{
 		initKontrolki(panel);
 	}

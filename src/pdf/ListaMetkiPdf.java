@@ -42,7 +42,7 @@ public class ListaMetkiPdf extends PdfCreator
 			if (i % 10 == 0 && i != 0)
 			{
 				cells += "</table>";
-				cells += "<table style='border-collapse: collapse; page-break-after: always;'>";
+				cells += getTableHtml(i == size);
 			}
 			
 			String cell_html = getCellHtml(cell, fig);
@@ -73,7 +73,7 @@ public class ListaMetkiPdf extends PdfCreator
 		String html = "";
 		
 		int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
-		int waga = fig.ilosc_sztuk/fig.ilosc_paczek * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica));
+		int waga = fig.ilosc_sztuk / fig.ilosc_paczek * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica)) / 100;
 		String obrazek = getImage(fig.figura);
 		html = String.format(cell,
 				ZamowienieDane.odbiorca.getNazwa(),

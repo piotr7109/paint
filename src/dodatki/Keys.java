@@ -20,5 +20,8 @@ public class Keys
 	public final static int F11= 122;
 	public final static int F12 = 123;
 	public final static int R = 82;
+	
+	public static int[] navKeys = {ARROW_UP, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ENTER,
+			F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12};
 
 }

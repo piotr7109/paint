@@ -23,7 +23,6 @@ public class EventLoaderWydruki
 	private static void initDane()
 	{
 		DBConnector.odczytajDane();
-		FocusListeners.setSredSworzen();
 	}
 
 	public static ActionListener drukujListeProdukcyjna()

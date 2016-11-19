@@ -163,7 +163,6 @@ public class EventLoaderJComboBox
 
 	private static void wczytajWage(final Formularz form)
 	{
-		FocusListeners.setSredSworzen();
 		double waga = 0;
 
 		Element el = (Element) form.elementy_combo.getSelectedItem();

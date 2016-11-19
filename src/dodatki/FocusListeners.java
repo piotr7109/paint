@@ -15,7 +15,7 @@ public class FocusListeners
 	public static HashMap<Integer, String> maszyny = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> maszyny_kodowo = new HashMap<Integer, String>();
 
-	public static void setSredSworzen()
+	static
 	{
 		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 
@@ -77,7 +77,6 @@ public class FocusListeners
 
 	public static FocusListener srednicaFocusListener(final int index, final JTextField srednica_text, final JTextField sworzen_text)
 	{
-		setSredSworzen();
 		return new FocusListener()
 		{
 

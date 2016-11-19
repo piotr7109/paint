@@ -16,30 +16,32 @@ public class DBConnector
 		int id_elementu = ZamowienieDane.element.getId();
 
 		ZamowienieDane.element.update();
-		
+
 		FiguraFactory.usunWszystkie(id_elementu);
 		int fig_size = ZamowienieDane.figury.size();
 		for (int i = 0; i < fig_size; i++)
 		{
 			FiguraZamowienie fig_zam = ZamowienieDane.figury.get(i);
-			modules.figury.Figura fig_temp = fig_zam.figura;
+			if (fig_zam.ilosc_sztuk > 0)
+			{
+				modules.figury.Figura fig_temp = fig_zam.figura;
 
-			Figura fig = new Figura();
+				Figura fig = new Figura();
 
-			fig.setIdElementu(id_elementu);
-			fig.setKod(fig_temp.getKod());
-			fig.setPozycja(fig_zam.pozycja);
-			fig.setSztuk(fig_zam.ilosc_sztuk);
-			fig.setSrednica(fig_zam.srednica);
-			fig.setIloscPaczek(fig_zam.ilosc_paczek);
-			fig.setMaszyna(fig_zam.maszyna);
-			fig.setSworzen(fig_zam.sworzen);
-			fig.setUwagi(fig_zam.uwagi);
-			fig.setPoziomSkoku(fig_temp.getPoziomSkoku());
-			fig.setIloscSkokow(fig_temp.getIloscSkokow());
-			fig.insert();
-			fig.insertCzesci(fig_temp);
-
+				fig.setIdElementu(id_elementu);
+				fig.setKod(fig_temp.getKod());
+				fig.setPozycja(fig_zam.pozycja);
+				fig.setSztuk(fig_zam.ilosc_sztuk);
+				fig.setSrednica(fig_zam.srednica);
+				fig.setIloscPaczek(fig_zam.ilosc_paczek);
+				fig.setMaszyna(fig_zam.maszyna);
+				fig.setSworzen(fig_zam.sworzen);
+				fig.setUwagi(fig_zam.uwagi);
+				fig.setPoziomSkoku(fig_temp.getPoziomSkoku());
+				fig.setIloscSkokow(fig_temp.getIloscSkokow());
+				fig.insert();
+				fig.insertCzesci(fig_temp);
+			}
 		}
 	}
 
@@ -61,7 +63,7 @@ public class DBConnector
 
 			fig.setKod(fig_temp.getKod());
 
-			for (Czesc czesc_temp: fig_temp.getCzesci())
+			for (Czesc czesc_temp : fig_temp.getCzesci())
 			{
 				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
 				czesc.setDlugosc(czesc_temp.getDlugosc());
@@ -69,16 +71,15 @@ public class DBConnector
 				czesc.setTyp(czesc_temp.getTyp());
 				fig.addCzesc(czesc);
 			}
-			
-			for (Czesc czesc_temp: fig_temp.getCzesciAtrapy())
+
+			for (Czesc czesc_temp : fig_temp.getCzesciAtrapy())
 			{
 				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
 				czesc.setDlugosc(czesc_temp.getDlugosc());
 				czesc.setKat(czesc_temp.getKat());
 				czesc.setTyp(czesc_temp.getTyp());
 				fig.addCzescAtrapy(czesc);
-				
-				
+
 			}
 
 			fig_zam.figura = fig;

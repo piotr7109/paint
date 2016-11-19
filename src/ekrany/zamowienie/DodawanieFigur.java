@@ -11,9 +11,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-
-import org.apache.commons.lang.NumberUtils;
-
 import dane.FiguraKontrolki;
 import dane.FiguraZamowienie;
 import dane.ZamowienieDane;
@@ -21,10 +18,10 @@ import dodatki.Tools;
 import dodatki.FocusListeners;
 import ekrany.Zamowienie;
 import ekrany.zamowienie.ramki.*;
+import ekrany.zamowienie.walidacje.WalidacjaJTextField;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 
-@SuppressWarnings("deprecation")
 public class DodawanieFigur
 {
 	private static Figura default_figura;
@@ -111,32 +108,16 @@ public class DodawanieFigur
 
 		fig.getDocument().addDocumentListener(zmianaFigury(index, panel));
 
-		pozycja.addFocusListener(wyborFigury(index, panel, pozycja));
-		ilosc_sztuk.addFocusListener(wyborFigury(index, panel, ilosc_sztuk));
-		srednica.addFocusListener(wyborFigury(index, panel, srednica));
-		fig.addFocusListener(wyborFigury(index, panel, fig));
-		ilosc_paczek.addFocusListener(wyborFigury(index, panel, ilosc_paczek));
-		maszyna.addFocusListener(wyborFigury(index, panel, maszyna));
-		// mat??.addFocusListener(wyborFigury(index, panel, mat??));
-		sworzen.addFocusListener(wyborFigury(index, panel, sworzen));
+		ustawKontrolkeTekstowa(pozycja, panel, index);
+		ustawKontrolkeLiczbowa(ilosc_sztuk, panel, index);
+		ustawKontrolkeLiczbowa(srednica, panel, index);
+		ustawKontrolkeLiczbowa(fig, panel, index);
+		ustawKontrolkeLiczbowa(ilosc_paczek, panel, index);
+		ustawKontrolkeLiczbowa(maszyna, panel, index);
+		ustawKontrolkeLiczbowa(sworzen, panel, index);
 
-		pozycja.addKeyListener(panel);
-		ilosc_sztuk.addKeyListener(panel);
-		srednica.addKeyListener(panel);
-		fig.addKeyListener(panel);
-		ilosc_paczek.addKeyListener(panel);
-		maszyna.addKeyListener(panel);
-		// mat??.addKeyListener(panel);
-		sworzen.addKeyListener(panel);
-
-		Tools.setKoloryNieaktywny(pozycja);
-		Tools.setKoloryNieaktywny(ilosc_sztuk);
-		Tools.setKoloryNieaktywny(srednica);
-		Tools.setKoloryNieaktywny(fig);
-		Tools.setKoloryNieaktywny(ilosc_paczek);
-		Tools.setKoloryNieaktywny(maszyna);
 		// CONST.setKolory(mat??);
-		Tools.setKoloryNieaktywny(sworzen);
+
 		liczba.setBackground(Color.BLACK);
 		liczba.setForeground(Color.GREEN);
 		liczba.setBorder(BorderFactory.createEmptyBorder());
@@ -176,8 +157,24 @@ public class DodawanieFigur
 
 		ZamowienieDane.f_kontrolki.add(f_kontrolki);
 		ZamowienieDane.f_kontrolki.get(index).setKontrolki();
-		RamkaWymiarMM.przewinElementy(panel, liczba);
+		RamkaPola.przewinElementy(panel, liczba);
 
+	}
+
+	private static void ustawKontrolkeLiczbowa(JTextField textField, Zamowienie panel, int index)
+	{
+		textField.addFocusListener(wyborFigury(index, panel, textField));
+		textField.addKeyListener(panel);
+		textField.addKeyListener(WalidacjaJTextField.walidacjaPolaLiczbowego(textField));
+		Tools.setKoloryNieaktywny(textField);
+	}
+
+	private static void ustawKontrolkeTekstowa(JTextField textField, Zamowienie panel, int index)
+	{
+		textField.addFocusListener(wyborFigury(index, panel, textField));
+		textField.addKeyListener(panel);
+		// textField.addKeyListener(WalidacjaJTextField.walidacjaPolaLiczbowego(textField));
+		Tools.setKoloryNieaktywny(textField);
 	}
 
 	public static void aktualizujDane(final int index, final Zamowienie panel)
@@ -277,10 +274,6 @@ public class DodawanieFigur
 			public void focusLost(FocusEvent e)
 			{
 				panel.poprzedni_text_field = text_field;
-				if (!NumberUtils.isNumber(text_field.getText()))
-				{
-					text_field.setText(0 + "");
-				}
 
 				aktualizujDane(index, panel);
 				Tools.setKoloryNieaktywny(text_field);
@@ -330,7 +323,7 @@ public class DodawanieFigur
 					e1.printStackTrace();
 				}
 				FiguraZamowienie f_zamowienie = ZamowienieDane.figury.get(index);
-				if (f_zamowienie.figura == null || 	Integer.parseInt(kod) != f_zamowienie.figura.getKod())
+				if (f_zamowienie.figura == null || Integer.parseInt(kod) != f_zamowienie.figura.getKod())
 				{
 
 					FiguraFactory f_factory = new FiguraFactory();

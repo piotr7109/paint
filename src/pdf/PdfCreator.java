@@ -22,7 +22,8 @@ import modules.figury.FiguraFactory;
 
 abstract public class PdfCreator implements PdfCreatorInterface
 {
-	protected String RESULT_DIRECTORY = "wydruki/"+ZamowienieDane.odbiorca.getNazwa()+"/"+ZamowienieDane.budowa.getNazwa()+"/"+ZamowienieDane.obiekt.getNazwa()+"/"+ZamowienieDane.element.getNazwa()+"/";
+	protected String RESULT_DIRECTORY = "wydruki/" + ZamowienieDane.odbiorca.getNazwa() + "/" + ZamowienieDane.budowa.getNazwa() + "/" + ZamowienieDane.obiekt.getNazwa() + "/"
+			+ ZamowienieDane.element.getNazwa() + "/";
 	protected String FILENAME;
 	protected String HTML_SOURCE;
 
@@ -65,31 +66,37 @@ abstract public class PdfCreator implements PdfCreatorInterface
 			catch (Exception e)
 			{
 				e.printStackTrace();
-			}; 
+			}
 		}
 	}
-	
+
 	private Figura getFigAtrapa(int kod)
 	{
 		FiguraFactory f_factory = new FiguraFactory();
-		if(!figury_atrapy.containsKey(kod))
+		if (!figury_atrapy.containsKey(kod))
 		{
 			figury_atrapy.put(kod, f_factory.getFiguraByKod(kod));
 			figury_atrapy.get(kod).setCzesciAtrapy();
 		}
-		
+
 		return figury_atrapy.get(kod);
 	}
-	
+
 	protected String getImage(Figura figura)
 	{
 
-		if(!images.containsKey(figura))
+		if (!images.containsKey(figura))
 		{
 			images.put(figura, DrawFigura.rysuj(figura, getFigAtrapa(figura.getKod())));
 		}
-		
+
 		return images.get(figura);
+	}
+
+	public String getTableHtml(boolean withBreak)
+	{
+		return withBreak ? "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>" : "<table style='border-collapse: collapse; width: 735px;'>";
+
 	}
 
 	protected String getHtmlFile(String katalog, String url)
@@ -108,8 +115,8 @@ abstract public class PdfCreator implements PdfCreatorInterface
 		}
 		catch (IOException e)
 		{
+			e.printStackTrace();
 		}
-		String content = contentBuilder.toString();
-		return content;
+		return contentBuilder.toString();
 	}
 }

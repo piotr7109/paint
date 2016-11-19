@@ -32,11 +32,16 @@ public class ListaWysylkowaPdf extends PdfCreator
 			if (i % 22 == 0 && i != 0)
 			{
 				cells += "</table>";
-				cells += header;
-				cells += "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>";
+				cells += getTableHtml(size - i > 22);
 			}
+			if (cells.equals("") && i == 0)
+			{
+				cells += getTableHtml(size - i > 22);
+			}
+			
+
 			int dlugosc = Obliczenia.obliczDlugosc(fig.figura);
-			int waga = fig.ilosc_sztuk * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica));
+			int waga = fig.ilosc_sztuk * (int) (Obliczenia.obliczDlugosc(fig.figura) * FocusListeners.sred_waga.get(fig.srednica)) / 100;
 			String obrazek = getImage(fig.figura);
 			String cell_html = String.format(cell, fig.pozycja, fig.uwagi, dlugosc, waga, fig.ilosc_sztuk, fig.srednica, obrazek);
 			if (i % 2 == 0)
@@ -53,7 +58,7 @@ public class ListaWysylkowaPdf extends PdfCreator
 		{
 			cells += "</tr>";
 		}
-		content += String.format(getHtmlFile(HTML_SOURCE, "content.html"), cells);
+		content += cells + "</table>";
 		html += String.format(getHtmlFile(HTML_SOURCE, "template.html"), header, content);
 
 		return html;

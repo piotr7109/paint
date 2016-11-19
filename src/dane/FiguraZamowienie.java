@@ -24,7 +24,7 @@ public class FiguraZamowienie
 		ilosc_sztuk = 0;
 		srednica = 0;
 		fig = 1;
-		ilosc_paczek = 0;
+		ilosc_paczek = 1;
 		maszyna = 0;
 		sworzen = 0;
 		waga = 0;
