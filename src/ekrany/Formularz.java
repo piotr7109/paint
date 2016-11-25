@@ -1,5 +1,6 @@
 package ekrany;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -256,7 +257,14 @@ public class Formularz extends JPanel
 					ZamowienieDane.budowa = (Budowa) budowy_combo.getSelectedItem();
 					ZamowienieDane.obiekt = (Obiekt) obiekty_combo.getSelectedItem();
 					ZamowienieDane.element = (Element) elementy_combo.getSelectedItem();
-					frame.add(new Zamowienie(frame));
+					try
+					{
+						frame.add(new Zamowienie(frame));
+					}
+					catch (AWTException e)
+					{
+						e.printStackTrace();
+					}
 
 					frame.pack();
 				}

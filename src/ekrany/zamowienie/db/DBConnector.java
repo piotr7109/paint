@@ -9,27 +9,23 @@ import modules.zamowienie.elementy.figury.FiguraFactory;
 import modules.zamowienie.elementy.figury.FiguraLista;
 import modules.zamowienie.elementy.figury.czesci.Czesc;
 
-public class DBConnector
-{
-	public static void zapiszDane()
-	{
+public class DBConnector {
+	public static void zapiszDane() {
 		int id_elementu = ZamowienieDane.element.getId();
 
 		ZamowienieDane.element.update();
 
 		FiguraFactory.usunWszystkie(id_elementu);
 		int fig_size = ZamowienieDane.figury.size();
-		for (int i = 0; i < fig_size; i++)
-		{
+		for (int i = 0; i < fig_size; i++) {
 			FiguraZamowienie fig_zam = ZamowienieDane.figury.get(i);
-			if (fig_zam.ilosc_sztuk > 0)
-			{
+
+			if (fig_zam.ilosc_sztuk > 0) {
 				modules.figury.Figura fig_temp = fig_zam.figura;
 
 				Figura fig = new Figura();
 
 				fig.setIdElementu(id_elementu);
-				fig.setKod(fig_temp.getKod());
 				fig.setPozycja(fig_zam.pozycja);
 				fig.setSztuk(fig_zam.ilosc_sztuk);
 				fig.setSrednica(fig_zam.srednica);
@@ -37,23 +33,25 @@ public class DBConnector
 				fig.setMaszyna(fig_zam.maszyna);
 				fig.setSworzen(fig_zam.sworzen);
 				fig.setUwagi(fig_zam.uwagi);
-				fig.setPoziomSkoku(fig_temp.getPoziomSkoku());
-				fig.setIloscSkokow(fig_temp.getIloscSkokow());
+				fig.setKod(fig_temp != null ? fig_temp.getKod() : 0);
+				fig.setPoziomSkoku(fig_temp != null ? fig_temp.getPoziomSkoku() : 0);
+				fig.setIloscSkokow(fig_temp != null ? fig_temp.getIloscSkokow() : 0);
 				fig.insert();
-				fig.insertCzesci(fig_temp);
+
+				if (fig_temp != null) {
+					fig.insertCzesci(fig_temp);
+				}
 			}
 		}
 	}
 
-	public static void odczytajDane()
-	{
+	public static void odczytajDane() {
 		ZamowienieDane.figury.clear();
 		FiguraLista figury_lista = new FiguraLista(ZamowienieDane.element.getId());
 
 		ArrayList<Object> objects_figury = figury_lista.getList();
 		int fig_size = objects_figury.size();
-		for (int i = 0; i < fig_size; i++)
-		{
+		for (int i = 0; i < fig_size; i++) {
 			Figura fig_temp = (Figura) objects_figury.get(i);
 			fig_temp.setCzesci();
 			fig_temp.setCzesciAtrapy();
@@ -63,8 +61,7 @@ public class DBConnector
 
 			fig.setKod(fig_temp.getKod());
 
-			for (Czesc czesc_temp : fig_temp.getCzesci())
-			{
+			for (Czesc czesc_temp : fig_temp.getCzesci()) {
 				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
 				czesc.setDlugosc(czesc_temp.getDlugosc());
 				czesc.setKat(czesc_temp.getKat());
@@ -72,8 +69,7 @@ public class DBConnector
 				fig.addCzesc(czesc);
 			}
 
-			for (Czesc czesc_temp : fig_temp.getCzesciAtrapy())
-			{
+			for (Czesc czesc_temp : fig_temp.getCzesciAtrapy()) {
 				modules.czesci.Czesc czesc = new modules.czesci.Czesc();
 				czesc.setDlugosc(czesc_temp.getDlugosc());
 				czesc.setKat(czesc_temp.getKat());

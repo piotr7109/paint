@@ -142,7 +142,6 @@ public class Figura
 
 	public ArrayList<Czesc> getCzesci()
 	{
-
 		return this.czesci;
 	}
 

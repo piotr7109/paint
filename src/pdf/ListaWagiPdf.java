@@ -124,6 +124,10 @@ public class ListaWagiPdf extends PdfCreator
 		}
 		maszyna_cells += String.format(getHtmlFile(HTML_SOURCE, "cell_maszyna.html"), "OGÓŁEM", wagi_suma.form12, wagi_suma.form16, wagi_suma.msyn, wagi_suma.sflex, wagi_suma.cs40, wagi_suma.mag,
 				wagi_suma.nrec, wagi_suma.grec, wagi_suma.ogolem);
+		
+		if(wagi_suma.ogolem == 0) {
+			throw new NullPointerException();
+		}
 		return maszyna_cells;
 	}
 

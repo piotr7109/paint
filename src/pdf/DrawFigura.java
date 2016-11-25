@@ -23,7 +23,7 @@ public class DrawFigura
 	private static int width = 320;
 	private static int height = 120;
 
-	public static String rysuj(Figura figura, Figura figura_atrapa)
+	public static String rysuj(Figura figura, Figura figura_atrapa) throws NullPointerException
 	{
 		String filename = "rbs" + (int) (Math.random() * 100000);
 		try

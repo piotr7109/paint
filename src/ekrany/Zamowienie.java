@@ -3,6 +3,7 @@ package ekrany;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import javax.swing.*;
 
@@ -16,9 +17,6 @@ import modules.figury.Figura;
 
 public class Zamowienie extends JPanel implements KeyListener
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1651641468298004106L;
 	private int WIDTH = (int) (Tools.WIDTH * Tools.scale);
 	private int HEIGHT = (int) (Tools.HEIGHT * Tools.scale);
@@ -29,7 +27,7 @@ public class Zamowienie extends JPanel implements KeyListener
 
 	private JFrame frame;
 
-	public Zamowienie(JFrame frame)
+	public Zamowienie(JFrame frame) throws AWTException
 	{
 
 		this.setLayout(null);
@@ -40,10 +38,9 @@ public class Zamowienie extends JPanel implements KeyListener
 		this.addKeyListener(this);
 
 		init();
-
 	}
 
-	private void init()
+	private void init() throws AWTException
 	{
 		resetDefaults();
 		initZapiszButton();
@@ -64,6 +61,45 @@ public class Zamowienie extends JPanel implements KeyListener
 		addMouseListeners();
 
 		frame.addWindowListener(this.actionOnClose());
+
+		postProcess();
+
+	}
+
+	private void postProcess() throws AWTException
+	{
+
+		int size = ZamowienieDane.f_kontrolki.size();
+		for (int i = 0; i < size - 10; i++)
+		{
+			RamkaPola.przewinElementy(this, ZamowienieDane.f_kontrolki.get(0).liczba);
+		}
+
+		java.util.Timer timer = new java.util.Timer();
+		Robot robot = new Robot();
+		TimerTask timerTask = new TimerTask()
+		{
+			int peroid = 0;
+
+			@Override
+			public void run()
+			{
+
+				robot.keyPress(KeyEvent.VK_TAB);
+				robot.keyRelease(KeyEvent.VK_TAB);
+				peroid++;
+
+				if (peroid > 2)
+				{
+					z_x = 0;
+
+					timer.cancel();
+					timer.purge();
+				}
+			}
+		};
+		timer.scheduleAtFixedRate(timerTask, 100, 100);
+
 	}
 
 	protected void initZapiszButton()
@@ -210,15 +246,15 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						RamkaFigura.skalaReset();
 						break;
-					case Keys.ARROW_UP: // GÓRA
+					case Keys.ARROW_UP:
 						if (z_x > 0)
 						{
 							z_x--;
 						}
 						RamkaFigura.skalaReset();
 						break;
-					case Keys.ARROW_RIGHT: // PRAWO
-					case Keys.ENTER: // ENTER
+					case Keys.ARROW_RIGHT:
+					case Keys.ENTER:
 						if (!czy_aktywna_ilosc_paczek_sworzen && (z_y == 4 || z_y == 6))
 						{
 							z_y += 3;
@@ -243,7 +279,7 @@ public class Zamowienie extends JPanel implements KeyListener
 						}
 						break;
 
-					case Keys.ARROW_LEFT: // LEWO
+					case Keys.ARROW_LEFT:
 						if (!czy_aktywna_ilosc_paczek_sworzen && (z_y == 6))
 						{
 							z_y--;
@@ -266,7 +302,7 @@ public class Zamowienie extends JPanel implements KeyListener
 				{
 					RamkaPola.przewinElementy(this, ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y]);
 					ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
-					if (e.getKeyCode() == Keys.F1) // F1
+					if (e.getKeyCode() == Keys.F1)
 					{
 						tryb = "czesci_figury";
 						ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
@@ -310,7 +346,7 @@ public class Zamowienie extends JPanel implements KeyListener
 					break;
 			}
 			ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
-			if (e.getKeyCode() == Keys.F1) // F1
+			if (e.getKeyCode() == Keys.F1)
 			{
 				tryb = "figury";
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
@@ -350,7 +386,7 @@ public class Zamowienie extends JPanel implements KeyListener
 					break;
 			}
 			ZamowienieDane.czesc_kontrolki_figura.get(f_x).bok.grabFocus();
-			if (e.getKeyCode() == Keys.F1) // F1
+			if (e.getKeyCode() == Keys.F1)
 			{
 				tryb = "czesci";
 				ZamowienieDane.czesc_kontrolki.get(c_x).kontrolki[c_y].grabFocus();
@@ -359,7 +395,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		}
 		if (tryb.equals("uwagi"))
 		{
-			if (e.getKeyCode() == Keys.F9) // F9
+			if (e.getKeyCode() == Keys.F9)
 			{
 				tryb = "figury";
 				ZamowienieDane.f_kontrolki.get(z_x).kontrolki[z_y].grabFocus();
@@ -369,7 +405,7 @@ public class Zamowienie extends JPanel implements KeyListener
 		{
 			switch (e.getKeyCode())
 			{
-				case Keys.F2: // F2
+				case Keys.F2:
 					if (tryb_rzeczywisty)
 					{
 						tryb_rzeczywisty = false;
@@ -382,24 +418,24 @@ public class Zamowienie extends JPanel implements KeyListener
 					repaint();
 					break;
 
-				case Keys.R: // r
+				case Keys.R:
 					DodawanieFigur.usunFigure(z_x, this);
 					break;
 
-				case Keys.F6: // F6 - zapisz w pamięci
+				case Keys.F6: // zapisz w pamięci
 					f_zamowienie_temp = ZamowienieDane.figury.get(z_x);
 					break;
 
-				case Keys.F7: // F7 - skopiuj
+				case Keys.F7: // skopiuj
 					ZamowienieDane.figury.set(z_x, new FiguraZamowienie(f_zamowienie_temp));
 					ZamowienieDane.f_kontrolki.get(z_x).updateFromFiguraZamowienie();
 
 					break;
-				case Keys.F9: // F9
+				case Keys.F9:
 					tryb = "uwagi";
 					RamkaUwagi.uwagi.grabFocus();
 					break;
-				case Keys.F12: // F12
+				case Keys.F12:
 					czy_aktywna_ilosc_paczek_sworzen = !czy_aktywna_ilosc_paczek_sworzen;
 					repaint();
 					break;
@@ -418,8 +454,6 @@ public class Zamowienie extends JPanel implements KeyListener
 
 			}
 		}
-		// System.out.println("KEY: " + e.getKeyCode());
-
 	}
 
 	@Override

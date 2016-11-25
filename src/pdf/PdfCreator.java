@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -17,11 +19,11 @@ import org.xhtmlrenderer.resource.XMLResource;
 import com.lowagie.text.pdf.BaseFont;
 
 import dane.ZamowienieDane;
+import dodatki.Tools;
 import modules.figury.Figura;
 import modules.figury.FiguraFactory;
 
-abstract public class PdfCreator implements PdfCreatorInterface
-{
+abstract public class PdfCreator implements PdfCreatorInterface {
 	protected String RESULT_DIRECTORY = "wydruki/" + ZamowienieDane.odbiorca.getNazwa() + "/" + ZamowienieDane.budowa.getNazwa() + "/" + ZamowienieDane.obiekt.getNazwa() + "/"
 			+ ZamowienieDane.element.getNazwa() + "/";
 	protected String FILENAME;
@@ -30,51 +32,41 @@ abstract public class PdfCreator implements PdfCreatorInterface
 	protected HashMap<Integer, Figura> figury_atrapy = new HashMap<Integer, Figura>();
 	protected HashMap<Figura, String> images = new HashMap<Figura, String>();
 
-	public void drukuj()
-	{
+	public void drukuj() {
 		String contentHtml = getHtml();
 		byte[] byteContentHtml = null;
-		try
-		{
+		try {
 			byteContentHtml = contentHtml.getBytes("UTF-8");
 		}
-		catch (UnsupportedEncodingException e1)
-		{
+		catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
 		Document document = XMLResource.load(new ByteArrayInputStream(byteContentHtml)).getDocument();
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.setDocument(document, null);
-		try
-		{
+		try {
 			renderer.getFontResolver().addFont("files/font/arialuni.ttf", "UTF-8", BaseFont.NOT_EMBEDDED);
 			renderer.layout();
 			FileOutputStream fos = new FileOutputStream(RESULT_DIRECTORY + FILENAME);
 			renderer.createPDF(fos);
 			fos.close();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			System.err.println(e);
 		}
-		finally
-		{
-			try
-			{
+		finally {
+			try {
 				FileUtils.cleanDirectory(new File("temp_img/"));
 			}
-			catch (Exception e)
-			{
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private Figura getFigAtrapa(int kod)
-	{
+	private Figura getFigAtrapa(int kod) throws NullPointerException {
 		FiguraFactory f_factory = new FiguraFactory();
-		if (!figury_atrapy.containsKey(kod))
-		{
+		if (!figury_atrapy.containsKey(kod)) {
 			figury_atrapy.put(kod, f_factory.getFiguraByKod(kod));
 			figury_atrapy.get(kod).setCzesciAtrapy();
 		}
@@ -82,39 +74,32 @@ abstract public class PdfCreator implements PdfCreatorInterface
 		return figury_atrapy.get(kod);
 	}
 
-	protected String getImage(Figura figura)
-	{
+	protected String getImage(Figura figura) {
 
-		if (!images.containsKey(figura))
-		{
+		if (!images.containsKey(figura)) {
 			images.put(figura, DrawFigura.rysuj(figura, getFigAtrapa(figura.getKod())));
 		}
 
 		return images.get(figura);
 	}
 
-	public String getTableHtml(boolean withBreak)
-	{
+	public String getTableHtml(boolean withBreak) {
 		return withBreak ? "<table style='border-collapse: collapse; width: 735px;page-break-after: always;'>" : "<table style='border-collapse: collapse; width: 735px;'>";
 
 	}
 
-	protected String getHtmlFile(String katalog, String url)
-	{
+	protected String getHtmlFile(String katalog, String url) {
 
 		StringBuilder contentBuilder = new StringBuilder();
-		try
-		{
+		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/" + katalog + url)));
 			String str;
-			while ((str = in.readLine()) != null)
-			{
+			while ((str = in.readLine()) != null) {
 				contentBuilder.append(str);
 			}
 			in.close();
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		return contentBuilder.toString();
