@@ -15,8 +15,7 @@ import dodatki.Tools;
 import ekrany.Formularz;
 import modules.zamowienie.ZamowienieCoreFactory;
 
-public abstract class AbstractDodajNowy extends JPanel
-{
+public abstract class AbstractDodajNowy extends JPanel {
 	/**
 	 * 
 	 */
@@ -29,8 +28,7 @@ public abstract class AbstractDodajNowy extends JPanel
 	protected JFrame frame;
 	protected Formularz form;
 
-	public AbstractDodajNowy(int kod, JFrame frame, int id_parent, Formularz form)
-	{
+	public AbstractDodajNowy(int kod, JFrame frame, int id_parent, Formularz form) {
 		this.setPreferredSize(Tools.getDimension(400, 100));
 		this.setLayout(null);
 		this.kod = kod;
@@ -42,8 +40,7 @@ public abstract class AbstractDodajNowy extends JPanel
 		this.dodajKontrolki();
 	}
 
-	protected void dodajKontrolki()
-	{
+	protected void dodajKontrolki() {
 		int x = 25;
 		int y = Tools.rescale(25);
 		Dimension size = Tools.getDimension(100, 25);
@@ -62,24 +59,19 @@ public abstract class AbstractDodajNowy extends JPanel
 		add(ok);
 	}
 
-	protected ActionListener onClose()
-	{
-		return new ActionListener()
-		{
+	protected ActionListener onClose() {
+		return new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				if (czyIstnieje())
-				{
-					showErrorMessage("Ta nazwa została już użyta!");
+			public void actionPerformed(ActionEvent arg0) {
+				if (czyIstnieje()) {
+					showErrorMessage("Nazwa lub kod zajęte!");
 				}
-				else if (nazwa.getText().equals(""))
-				{
+				else if (nazwa.getText().equals("")) {
 					showErrorMessage("Nazwa nie może być pusta!");
 				}
-				else
-				{
+				else {
+					JOptionPane.showConfirmDialog(null, "Zapisano!", "UWAGA", JOptionPane.DEFAULT_OPTION);
 					zapiszDane();
 					frame.dispose();
 				}
@@ -87,41 +79,35 @@ public abstract class AbstractDodajNowy extends JPanel
 		};
 	}
 
-	protected boolean czyIstnieje()
-	{
+	protected boolean czyIstnieje() {
 		ZamowienieCoreFactory zc_factory = new ZamowienieCoreFactory();
 		String nazwa_text = nazwa.getText();
+		Integer kod = Tools.parseInt(kod_label.getText());
 
-		if (this.getClass() == NowyOdbiorca.class)
-		{
-			return zc_factory.czyIstniejeOdbiorca(nazwa_text);
+		if (this.getClass() == NowyOdbiorca.class) {
+			return zc_factory.czyIstniejeOdbiorca(nazwa_text, kod);
 		}
 
-		if (this.getClass() == NowyBudowa.class)
-		{
-			return zc_factory.czyIstniejeBudowa(nazwa_text, id_parent);
+		if (this.getClass() == NowyBudowa.class) {
+			return zc_factory.czyIstniejeBudowa(nazwa_text, kod, id_parent);
 		}
 
-		if (this.getClass() == NowyElement.class)
-		{
-			return zc_factory.czyIstniejeElement(nazwa_text, id_parent);
+		if (this.getClass() == NowyElement.class) {
+			return zc_factory.czyIstniejeElement(nazwa_text, kod, id_parent);
 		}
 
-		if (this.getClass() == NowyObiekt.class)
-		{
-			return zc_factory.czyIstniejeObiekt(nazwa_text, id_parent);
+		if (this.getClass() == NowyObiekt.class) {
+			return zc_factory.czyIstniejeObiekt(nazwa_text, kod, id_parent);
 		}
 
 		return true;
 	}
 
-	protected void showErrorMessage(String message)
-	{
+	protected void showErrorMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "UWAGA", JOptionPane.ERROR_MESSAGE);
 	}
 
-	protected void zapiszDane()
-	{
+	protected void zapiszDane() {
 
 	}
 }

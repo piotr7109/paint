@@ -16,21 +16,18 @@ import dodatki.Tools;
 import ekrany.Zamowienie;
 import modules.czesci.Czesc;
 
-public class RamkaFiguraAtrapa
-{
+public class RamkaFiguraAtrapa {
 	private static int width = rescale(250);
 	private static int height = rescale(350);
 	private static int x, y;
 
-	public RamkaFiguraAtrapa(Zamowienie panel)
-	{
+	public RamkaFiguraAtrapa(Zamowienie panel) {
 		x = 520;
 		y = 120;
 		panel.add(Tools.getTytul(rescale(x), rescale(y), "Atrapa", Color.WHITE, Tools.scale));
 	}
 
-	public static void ramkaFiguraAtrapa(Graphics g, Zamowienie panel)
-	{
+	public static void ramkaFiguraAtrapa(Graphics g, Zamowienie panel) {
 		// ramka figura
 		width = rescale(250);
 		height = rescale(250);
@@ -39,31 +36,27 @@ public class RamkaFiguraAtrapa
 		g.setColor(Color.BLUE);
 		g.drawRect(rescale(x), rescale(y), width, height);
 
-		_x = x + 50;
-		_y = y + 150;
+		_x = x + 15;
+		_y = y + 75;
 		last_kat = 0;
 
 		rysujFigury(g, panel);
 
 	}
 
-	public static void rysujKontrolki(Zamowienie panel, int index)
-	{
+	public static void rysujKontrolki(Zamowienie panel, int index) {
 		int x_bok = 450;
 		int y = 520;
 
-		for (CzescKontolki c_kontrolki : ZamowienieDane.czesc_kontrolki_figura)
-		{
+		for (CzescKontolki c_kontrolki : ZamowienieDane.czesc_kontrolki_figura) {
 			panel.remove(c_kontrolki.bok);
 		}
 
 		ZamowienieDane.czesc_kontrolki_figura.clear();
 		panel.f_x = 0;
-		if (panel.figura != null)
-		{
+		if (panel.figura != null) {
 			int index_czesc = 0;
-			for (Czesc czesc : panel.figura.getCzesci())
-			{
+			for (Czesc czesc : panel.figura.getCzesci()) {
 				y += 25;
 				JTextField bok_text = new JTextField(czesc.getDlugosc() + "");
 
@@ -88,16 +81,12 @@ public class RamkaFiguraAtrapa
 		panel.repaint();
 	}
 
-	private static FocusListener zapiszBok(final int index, final int index_czesc, final Zamowienie panel, final JTextField text_field)
-	{
-		return new FocusListener()
-		{
+	private static FocusListener zapiszBok(final int index, final int index_czesc, final Zamowienie panel, final JTextField text_field) {
+		return new FocusListener() {
 
 			@Override
-			public void focusLost(FocusEvent arg0)
-			{
-				if (text_field.getText().equals(""))
-				{
+			public void focusLost(FocusEvent arg0) {
+				if (text_field.getText().equals("")) {
 					text_field.setText("0");
 				}
 				Tools.setKoloryNieaktywny2(text_field);
@@ -107,8 +96,7 @@ public class RamkaFiguraAtrapa
 			}
 
 			@Override
-			public void focusGained(FocusEvent arg0)
-			{
+			public void focusGained(FocusEvent arg0) {
 				Tools.setKoloryAktywny2(text_field);
 				panel.repaint();
 
@@ -119,30 +107,24 @@ public class RamkaFiguraAtrapa
 	private static int last_kat;
 	private static int _x, _y;
 
-	private static void rysujFigury(Graphics g, Zamowienie panel)
-	{
-		if (panel.figura != null)
-		{
+	private static void rysujFigury(Graphics g, Zamowienie panel) {
+		if (panel.figura != null) {
 			int index = 0;
-			for (CzescKontolki czesc_text : ZamowienieDane.czesc_kontrolki)
-			{
+			for (CzescKontolki czesc_text : ZamowienieDane.czesc_kontrolki) {
 				Czesc czesc_atrapa = new Czesc(panel.figura.getCzesciAtrapy().get(index));
 				Czesc c_r = new Czesc(panel.figura.getCzesci().get(index));
 
 				CzescKontolki czesc_figury = ZamowienieDane.czesc_kontrolki_figura.get(index);
-				if (czesc_text.bok.hasFocus() || czesc_text.kat.hasFocus() || czesc_figury.bok.hasFocus())
-				{
+				if (czesc_text.bok.hasFocus() || czesc_text.kat.hasFocus() || czesc_figury.bok.hasFocus()) {
 					g.setColor(Color.RED);
 				}
-				else
-				{
+				else {
 					g.setColor(Color.YELLOW);
 				}
 				int start_x = _x;
 				int start_y = _y;
 
-				switch (czesc_atrapa.getTyp())
-				{
+				switch (czesc_atrapa.getTyp()) {
 					case "linia":
 
 						rysujLinie(g, czesc_atrapa, last_kat, c_r);
@@ -150,12 +132,10 @@ public class RamkaFiguraAtrapa
 						break;
 
 					case "okrag":
-						if (index > 0)
-						{
+						if (index > 0) {
 							rysujOkregi(g, czesc_atrapa, -(90 + last_kat));
 						}
-						else
-						{
+						else {
 							rysujOkregi(g, czesc_atrapa, last_kat);
 						}
 						break;
@@ -167,10 +147,11 @@ public class RamkaFiguraAtrapa
 		}
 	}
 
-	private static void rysujOkregi(Graphics g, Czesc c, int poprz_kat)
-	{
+	static double scale = 1.2;
 
-		int rozmiar = (int) ((c.getDlugosc() * 360) / (c.getKat() * Math.PI));// (int)(2*(c.getDlugosc()*180)/(c.getKat()*Math.PI));
+	private static void rysujOkregi(Graphics g, Czesc c, int poprz_kat) {
+
+		int rozmiar = (int) ((c.getDlugosc() * 360 * scale) / (c.getKat() * Math.PI));// (int)(2*(c.getDlugosc()*180)/(c.getKat()*Math.PI));
 
 		Point p = new Point(_x, _y);
 
@@ -198,13 +179,11 @@ public class RamkaFiguraAtrapa
 
 		g.drawArc(rescale(p.x), rescale(p.y), rescale(rozmiar), rescale(rozmiar), (poprz_kat), (c.getKat()));
 
-		if (last_kat < 0)
-		{
+		if (last_kat < 0) {
 			while (last_kat < -360)
 				last_kat += 360;
 		}
-		else
-		{
+		else {
 			while (last_kat > 360)
 				last_kat -= 360;
 		}
@@ -215,17 +194,18 @@ public class RamkaFiguraAtrapa
 
 	}
 
-	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat, Czesc c_r)
-	{
-		int x = (int) (Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
-		int y = (int) (Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc());
+	private static void rysujLinie(Graphics g, Czesc c, int poprz_kat, Czesc c_r) {
+		int x = (int) (Math.cos(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc() * scale);
+		int y = (int) (Math.sin(Tools.radians(c.getKat() + poprz_kat)) * c.getDlugosc() * scale);
 		last_kat = c.getKat() + poprz_kat;
 
 		g.drawLine(rescale(_x), rescale(_y), rescale(x + _x), rescale(y + _y));
 		g.fillOval(rescale(_x) - 1, rescale(y + _y) - 1, 2, 2);
+
+		int x_c_r = (int) (Math.cos(Tools.radians(c_r.getKat() + poprz_kat)) * c_r.getDlugosc());
+		int y_c_r = (int) (Math.sin(Tools.radians(c_r.getKat() + poprz_kat)) * c_r.getDlugosc());
 		
-		int x_c_r = (int) (Math.cos(Tools.radians(c_r.getKat() + poprz_kat)) * c_r.getDlugosc() );
-		int y_c_r = (int) (Math.sin(Tools.radians(c_r.getKat() + poprz_kat)) * c_r.getDlugosc() );
+		g.setFont(new Font("", 0, (int)(14.0 * scale)));
 		g.drawString((int) Math.abs(x_c_r) + "", (rescale(_x) + rescale(x + _x)) / 2, rescale(y + _y));
 		g.drawString((int) Math.abs(y_c_r) + "", rescale(_x), (rescale(_y) + rescale(y + _y)) / 2);
 
@@ -234,15 +214,12 @@ public class RamkaFiguraAtrapa
 
 	}
 
-	private static int rescale(int number)
-	{
+	private static int rescale(int number) {
 		return (int) (number * Tools.scale);
 	}
 
-	public static void rescale(double scale)
-	{
-		for (CzescKontolki czesc : ZamowienieDane.czesc_kontrolki_figura)
-		{
+	public static void rescale(double scale) {
+		for (CzescKontolki czesc : ZamowienieDane.czesc_kontrolki_figura) {
 			czesc.bok.setFont(new Font("", 0, rescale(12)));
 		}
 	}

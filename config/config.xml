@@ -2,6 +2,6 @@
 <config>
 	<host>localhost:3306</host>
 	<database>rbs_stal</database>
-	<user>user</user>
-	<password>123</password>
+	<user>rbs</user>
+	<password>rbs</password>
 </config>

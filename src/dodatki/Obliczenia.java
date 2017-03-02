@@ -7,14 +7,10 @@ import dane.ZamowienieDane;
 import modules.czesci.Czesc;
 import modules.figury.Figura;
 
-public class Obliczenia
-{
+public class Obliczenia {
 
-	public static int getDlugosc(Point a, Point b)
-	{
-		double dl = 0.0;
-		dl = Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
-		return (int) dl;
+	public static int getDlugosc(Point a, Point b) {
+		return (int) Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
 	}
 
 	/**
@@ -28,10 +24,9 @@ public class Obliczenia
 	 *            - punkt koniec
 	 * @return k�t
 	 */
-	public static int getKat(Point a, Point b, Point c)
-	{
-		double kat1 = Math.atan2(c.getY() - b.getY(), c.getX() - b.getX());
-		double kat2 = Math.atan2(a.getY() - b.getY(), a.getX() - b.getX());
+	public static int getKat(Point a, Point b, Point c) {
+		double kat1 = Math.atan2(c.y - b.y, c.x - b.x);
+		double kat2 = Math.atan2(a.y - b.y, a.x - b.x);
 
 		double kat;
 		kat = Math.toDegrees(kat1 - kat2);
@@ -40,37 +35,31 @@ public class Obliczenia
 		return (int) (kat);
 	}
 
-	public static int obliczDlugosc(Figura fig)
-	{
-		if(fig == null)
-		{
+	public static int obliczDlugosc(Figura fig) {
+		if (fig == null) {
 			return 0;
 		}
-		
-		int dlugosc = 0;
-		
-		for (Czesc czesc : fig.getCzesci())
-		{
-			dlugosc += czesc.getDlugosc();
-		}
 
-		return dlugosc;
-	}
-	
-	public static int obliczDlugosc(modules.zamowienie.elementy.figury.Figura fig)
-	{
 		int dlugosc = 0;
 
-		for (modules.zamowienie.elementy.figury.czesci.Czesc czesc : fig.getCzesci())
-		{
+		for (Czesc czesc : fig.getCzesci()) {
 			dlugosc += czesc.getDlugosc();
 		}
 
 		return dlugosc;
 	}
 
-	public static double obliczDlugoscRzeczywista(int index)
-	{
+	public static int obliczDlugosc(modules.zamowienie.elementy.figury.Figura fig) {
+		int dlugosc = 0;
+
+		for (modules.zamowienie.elementy.figury.czesci.Czesc czesc : fig.getCzesci()) {
+			dlugosc += czesc.getDlugosc();
+		}
+
+		return dlugosc;
+	}
+
+	public static double obliczDlugoscRzeczywista(int index) {
 		double dlugosc = 0;
 
 		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();
@@ -78,18 +67,15 @@ public class Obliczenia
 		int srednica = ZamowienieDane.figury.get(index).srednica;
 
 		ArrayList<Czesc> czesci = cloneCzesci(index);
-		for (int i = 0; i < size - 1; i++)
-		{
+		for (int i = 0; i < size - 1; i++) {
 			Czesc czesc = czesci.get(i);
 			Czesc czesc_n = czesci.get(i + 1);
 
-			if (czesc.getTyp().equals("okrag") || czesc_n.getTyp().equals("okrag"))
-			{
+			if (czesc.getTyp().equals("okrag") || czesc_n.getTyp().equals("okrag")) {
 				dlugosc += czesc.getDlugosc();
 
 			}
-			else
-			{
+			else {
 				int kat = czesc_n.getKat();
 				kat = Math.abs(kat);
 
@@ -106,13 +92,11 @@ public class Obliczenia
 		return dlugosc;
 	}
 
-	private static ArrayList<Czesc> cloneCzesci(int index)
-	{
+	private static ArrayList<Czesc> cloneCzesci(int index) {
 		ArrayList<Czesc> czesci = new ArrayList<Czesc>();
 		int size = ZamowienieDane.figury.get(index).figura.getCzesci().size();
 
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			Czesc c = new Czesc(ZamowienieDane.figury.get(index).figura.getCzesci().get(i));
 			czesci.add(c);
 		}

@@ -53,7 +53,10 @@ public class DodawanieFigur
 			ZamowienieDane.figury.add(getDefaultFiguraZamowienie());
 			if (f_kontrolki.index > 0)
 			{
-				ZamowienieDane.figury.get(f_kontrolki.index).uwagi = ZamowienieDane.figury.get(f_kontrolki.index - 1).uwagi;
+				FiguraZamowienie figZamDest = ZamowienieDane.figury.get(f_kontrolki.index);
+				FiguraZamowienie figZamPrev = ZamowienieDane.figury.get(f_kontrolki.index - 1);
+				figZamDest.uwagi = figZamPrev.uwagi;
+				figZamDest.pozycja = Integer.toString(Tools.parseInt(figZamPrev.pozycja) + 1);
 			}
 		}
 
@@ -183,13 +186,13 @@ public class DodawanieFigur
 
 		FiguraZamowienie f_zam = ZamowienieDane.figury.get(index);
 
-		f_zam.fig = Integer.parseInt(f_kontrolki.fig.getText());
-		f_zam.ilosc_sztuk = Integer.parseInt(f_kontrolki.ilosc_sztuk.getText());
-		f_zam.ilosc_paczek = Integer.parseInt(f_kontrolki.ilosc_paczek.getText());
-		f_zam.maszyna = Integer.parseInt(f_kontrolki.maszyna.getText());
+		f_zam.fig = Tools.parseInt(f_kontrolki.fig.getText());
+		f_zam.ilosc_sztuk = Tools.parseInt(f_kontrolki.ilosc_sztuk.getText());
+		f_zam.ilosc_paczek = Tools.parseInt(f_kontrolki.ilosc_paczek.getText());
+		f_zam.maszyna = Tools.parseInt(f_kontrolki.maszyna.getText());
 		f_zam.pozycja = f_kontrolki.pozycja.getText();
-		f_zam.srednica = Integer.parseInt(f_kontrolki.srednica.getText());
-		f_zam.sworzen = Integer.parseInt(f_kontrolki.sworzen.getText());
+		f_zam.srednica = Tools.parseInt(f_kontrolki.srednica.getText());
+		f_zam.sworzen = Tools.parseInt(f_kontrolki.sworzen.getText());
 		RamkaUwagi.ramkaUwagiUpdate(panel);
 		RamkaIlosc.update(panel);
 

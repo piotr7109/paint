@@ -227,4 +227,13 @@ public class Tools
 	{
 		return IntStream.of(Keys.navKeys).anyMatch(x -> x == key);
 	}
+	
+	public static int parseInt(String inputString) {
+		try {
+			return Integer.parseInt(inputString);
+		}
+		catch(Exception e) {
+			return 0;
+		}
+	}
 }

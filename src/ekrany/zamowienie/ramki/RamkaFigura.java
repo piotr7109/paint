@@ -35,8 +35,8 @@ public class RamkaFigura
 		g.setColor(Color.BLUE);
 		g.drawRect(rescale(x), rescale(y), width, height);
 
-		_x = x + 50;
-		_y = y + 150;
+		_x = x + 15;
+		_y = y + 75;
 		last_kat = 0;
 
 		rysujFigury(g, panel);
